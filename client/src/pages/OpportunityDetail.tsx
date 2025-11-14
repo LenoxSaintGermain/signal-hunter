@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useRoute, Link } from "wouter";
-import { ArrowLeft, Download, Mail, ExternalLink } from "lucide-react";
+import { ArrowLeft, Download, Mail, ExternalLink, Lightbulb, AlertTriangle, TrendingUp, Shield } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -222,6 +222,222 @@ export default function OpportunityDetail() {
                   <li>Key person dependency during transition</li>
                   <li>Economic sensitivity to construction cycles</li>
                 </ul>
+              </CardContent>
+            </Card>
+
+            {/* AI Strategic Recommendations */}
+            <Card className="border-blue-500/20 bg-blue-500/5">
+              <CardHeader>
+                <div className="flex items-center gap-2">
+                  <Lightbulb className="w-5 h-5 text-blue-500" />
+                  <CardTitle>AI Strategic Recommendations</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-3">
+                  <div className="flex gap-3">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-500 font-bold text-sm">
+                      1
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-foreground mb-1">Immediate: Secure Government Contracts</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Leverage SDVOSB certification to pursue federal HVAC maintenance contracts. Target military bases 
+                        and federal buildings in the Atlanta metro area. Estimated contract value: $500K-$1M annually.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-500 font-bold text-sm">
+                      2
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-foreground mb-1">Month 1-3: Deploy AI-Powered CRM</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Implement automated lead capture and routing system. Use predictive analytics to identify 
+                        high-value maintenance contracts. Expected ROI: 3-5x within first year.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-500 font-bold text-sm">
+                      3
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-foreground mb-1">Month 4-6: Optimize Pricing Strategy</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Implement dynamic pricing algorithms based on demand, seasonality, and customer lifetime value. 
+                        Target 5-10% margin improvement without customer loss.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-500 font-bold text-sm">
+                      4
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-foreground mb-1">Month 7-12: Geographic Expansion</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Expand into adjacent counties leveraging World Cup 2026 construction boom. Focus on commercial 
+                        HVAC for new hotels, venues, and infrastructure projects.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-500 font-bold text-sm">
+                      5
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-foreground mb-1">Year 2: Add Preventive Maintenance Contracts</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Launch IoT-enabled predictive maintenance service. Use sensors to monitor HVAC systems and 
+                        prevent failures. Target 30% of customer base for recurring contracts.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t border-border">
+                  <div className="flex items-center gap-2 text-sm">
+                    <TrendingUp className="w-4 h-4 text-green-500" />
+                    <span className="text-muted-foreground">
+                      <span className="font-semibold text-green-500">Expected Impact:</span> 35-50% revenue increase, 
+                      20-30% margin expansion within 24 months
+                    </span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Potential Risks Analysis */}
+            <Card className="border-orange-500/20 bg-orange-500/5">
+              <CardHeader>
+                <div className="flex items-center gap-2">
+                  <AlertTriangle className="w-5 h-5 text-orange-500" />
+                  <CardTitle>Potential Risks & Mitigation</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-4">
+                  <div className="p-4 rounded-lg border border-orange-500/20 bg-background">
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="font-semibold text-foreground">Key Person Dependency</h4>
+                      <Badge variant="destructive" className="bg-orange-500">High Risk</Badge>
+                    </div>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      Current owner handles major client relationships and technical oversight. Loss of owner 
+                      knowledge could impact service quality and customer retention.
+                    </p>
+                    <div className="space-y-2">
+                      <div className="flex items-start gap-2">
+                        <Shield className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                        <p className="text-sm text-muted-foreground">
+                          <span className="font-medium text-foreground">Mitigation:</span> Negotiate 12-month 
+                          transition period with owner as consultant. Document all processes and client relationships. 
+                          Hire experienced HVAC operations manager before closing.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-4 rounded-lg border border-orange-500/20 bg-background">
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="font-semibold text-foreground">Market Competition</h4>
+                      <Badge variant="outline" className="border-yellow-500 text-yellow-500">Medium Risk</Badge>
+                    </div>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      Atlanta HVAC market is competitive with national chains and local operators. Price pressure 
+                      could erode margins if not differentiated.
+                    </p>
+                    <div className="space-y-2">
+                      <div className="flex items-start gap-2">
+                        <Shield className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                        <p className="text-sm text-muted-foreground">
+                          <span className="font-medium text-foreground">Mitigation:</span> Focus on government 
+                          contracts where SDVOSB certification provides competitive advantage. Differentiate with 
+                          AI-powered predictive maintenance. Build premium service brand.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-4 rounded-lg border border-orange-500/20 bg-background">
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="font-semibold text-foreground">Economic Sensitivity</h4>
+                      <Badge variant="outline" className="border-yellow-500 text-yellow-500">Medium Risk</Badge>
+                    </div>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      HVAC services tied to construction and real estate cycles. Economic downturn could reduce 
+                      new installation revenue.
+                    </p>
+                    <div className="space-y-2">
+                      <div className="flex items-start gap-2">
+                        <Shield className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                        <p className="text-sm text-muted-foreground">
+                          <span className="font-medium text-foreground">Mitigation:</span> Shift revenue mix toward 
+                          recurring maintenance contracts (60%+ of revenue). Government contracts provide stable base. 
+                          Maintenance and repair services are counter-cyclical.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-4 rounded-lg border border-orange-500/20 bg-background">
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="font-semibold text-foreground">Technology Integration</h4>
+                      <Badge variant="outline" className="border-blue-500 text-blue-500">Low Risk</Badge>
+                    </div>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      AI and automation implementation may face resistance from existing technicians. Integration 
+                      costs and learning curve could delay ROI.
+                    </p>
+                    <div className="space-y-2">
+                      <div className="flex items-start gap-2">
+                        <Shield className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                        <p className="text-sm text-muted-foreground">
+                          <span className="font-medium text-foreground">Mitigation:</span> Phase AI implementation 
+                          over 18 months. Start with back-office automation (scheduling, invoicing) before field 
+                          operations. Provide training and incentives for technology adoption.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-4 rounded-lg border border-orange-500/20 bg-background">
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="font-semibold text-foreground">Regulatory Compliance</h4>
+                      <Badge variant="outline" className="border-blue-500 text-blue-500">Low Risk</Badge>
+                    </div>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      HVAC industry subject to licensing, EPA refrigerant regulations, and safety standards. 
+                      Non-compliance could result in fines or license suspension.
+                    </p>
+                    <div className="space-y-2">
+                      <div className="flex items-start gap-2">
+                        <Shield className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                        <p className="text-sm text-muted-foreground">
+                          <span className="font-medium text-foreground">Mitigation:</span> Conduct thorough 
+                          compliance audit during due diligence. Ensure all technicians properly licensed. 
+                          Implement compliance management system. Maintain insurance coverage.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t border-border">
+                  <div className="flex items-center gap-2 text-sm">
+                    <Shield className="w-4 h-4 text-green-500" />
+                    <span className="text-muted-foreground">
+                      <span className="font-semibold text-green-500">Overall Risk Assessment:</span> Moderate risk 
+                      profile with clear mitigation strategies. Risks are manageable with proper planning.
+                    </span>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </div>

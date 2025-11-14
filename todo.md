@@ -48,3 +48,11 @@
 - [ ] Email integration for outreach
 - [ ] Automated daily reports
 - [ ] Alert system for high-scoring opportunities
+
+
+## Enhancement Requests
+
+- [x] Add AI-generated strategic recommendations section to opportunity detail page
+- [x] Add potential risks analysis section to opportunity detail page
+- [x] Integrate AI recommendations with scoring components
+- [x] Display actionable insights for decision-making
