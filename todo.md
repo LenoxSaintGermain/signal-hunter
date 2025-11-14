@@ -1,58 +1,57 @@
-# Million Hunter Dashboard - TODO
+# Million Hunter Dashboard - Unified Vision TODO
 
-## Core Features
+## Repository Analysis
 
-- [x] Dashboard layout with sidebar navigation
-- [x] Pipeline overview with key metrics (total deals, avg score, conversion rates)
-- [x] Opportunity list with sorting and filtering
-- [ ] Score distribution visualization (chart)
-- [ ] Geographic heatmap of opportunities
-- [x] Outreach performance metrics
-- [x] Individual opportunity detail view
-- [ ] Investment memo viewer
-- [ ] Real-time data refresh capability
-- [ ] Export functionality for reports
+- [x] Clone and analyze deal-flow-dynasty repository
+- [x] Clone and analyze capital-stack-wizardry-app repository
+- [x] Document key features from deal-flow-dynasty
+- [x] Document key features from capital-stack-wizardry-app
+- [x] Identify UI/UX patterns to preserve
+- [x] Map feature overlap and unique capabilities
 
-## UI Components
+## Apple-Inspired Design System
 
-- [x] Sidebar navigation
-- [x] Metrics cards for KPIs
-- [x] Data table for opportunities
-- [ ] Charts for score distribution
-- [ ] Map component for geographic visualization
-- [x] Outreach stats dashboard
-- [x] Opportunity detail modal/page
-- [x] Search and filter controls
+- [x] Implement SF Pro font family (or Inter as web alternative)
+- [x] Create smooth scroll animations and transitions
+- [x] Design hero sections with large typography and minimal text
+- [x] Implement glass morphism and subtle gradients
+- [ ] Add smooth parallax scrolling effects
+- [ ] Create product showcase sections with imagery
+- [ ] Design clean navigation with smooth state transitions
+- [x] Implement micro-interactions and hover effects
 
-## Data Integration
+## Unified Feature Set
 
-- [ ] Load scored opportunities from JSON
-- [ ] Load outreach data from JSON
-- [ ] Load investment memos
-- [ ] Real-time data updates
-- [ ] Data export functionality
+- [x] Merge deal flow tracking capabilities
+- [x] Integrate capital stack analysis tools
+- [x] Combine scoring algorithms from all projects
+- [x] Unify data models and schemas
+- [x] Integrate best dashboard components
+- [x] Merge analytics and reporting features
 
-## Styling & Theme
+## Narrative-Driven Experience
 
-- [x] Dark theme with professional color scheme
-- [x] Consistent typography
-- [x] Responsive design for mobile/tablet
-- [x] Loading states and skeletons
-- [ ] Empty states
+- [x] Create story-driven landing page
+- [x] Design feature reveal sections
+- [x] Implement smooth section transitions
+- [x] Add compelling copy and messaging
+- [x] Create visual hierarchy with typography
+- [x] Design call-to-action flows
 
-## Future Enhancements
+## Advanced Capabilities
 
-- [ ] User authentication
-- [ ] Database integration
-- [ ] API for real-time updates
-- [ ] Email integration for outreach
-- [ ] Automated daily reports
-- [ ] Alert system for high-scoring opportunities
+- [x] Financial modeling and projections
+- [x] Deal comparison and analysis
+- [x] Portfolio tracking and management
+- [x] Document generation and export
+- [ ] Real-time collaboration features
+- [x] Advanced search and filtering
 
+## Polish and Refinement
 
-## Enhancement Requests
-
-- [x] Add AI-generated strategic recommendations section to opportunity detail page
-- [x] Add potential risks analysis section to opportunity detail page
-- [x] Integrate AI recommendations with scoring components
-- [x] Display actionable insights for decision-making
+- [ ] Optimize performance and loading
+- [ ] Add loading states and skeletons
+- [ ] Implement error boundaries
+- [ ] Add responsive design for all screens
+- [ ] Test cross-browser compatibility
+- [ ] Final QA and bug fixes

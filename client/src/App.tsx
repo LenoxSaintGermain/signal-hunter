@@ -7,12 +7,14 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import OpportunityDetail from "./pages/OpportunityDetail";
+import UnifiedDashboard from "./pages/UnifiedDashboard";
 
 function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
-      <Route path={"/dashboard"} component={Dashboard} />
+      <Route path={"/dashboard"} component={UnifiedDashboard} />
+      <Route path={"/pipeline"} component={Dashboard} />
       <Route path={"/opportunity/:id"} component={OpportunityDetail} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
