@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -60,9 +61,11 @@ export default function PropertyAnalysis() {
               Explore Scenarios
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8">
-              View Full Report
-            </Button>
+            <Link href="/property/514-whitehall/report">
+              <Button size="lg" variant="outline" className="text-lg px-8">
+                View Full Report
+              </Button>
+            </Link>
           </div>
         </div>
         

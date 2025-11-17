@@ -505,3 +505,24 @@ Create a Salesforce-caliber acquisition command center with Apple-level UX servi
 - [ ] Timeline: Visual project phases
 - [ ] Risks: Honest assessment with mitigation
 - [ ] Action: Clear next steps with CTAs
+
+
+### Long-Form Investment Report (NYT/Apple Blog Style)
+- [x] Create dedicated report page route (/property/514-whitehall/report)
+- [x] Design magazine-style layout with large hero image
+- [x] Implement scroll-triggered section reveals
+- [x] Add pull quotes with beautiful typography
+- [ ] Create interactive table of contents with smooth scroll
+- [x] Embed Google Maps screenshots showing location, stadium, Forge development
+- [x] Design data visualization sections with charts (Recharts)
+- [x] Add photo gallery with lightbox for property area images
+- [ ] Implement reading progress indicator
+- [ ] Create print-friendly CSS for PDF export
+- [x] Add social sharing buttons
+- [x] Design executive summary section at top
+- [x] Create financial tables with hover interactions
+- [x] Add comparison charts (scenarios side-by-side)
+- [x] Implement sticky navigation for long content
+- [ ] Add footnotes and citations section
+- [x] Create appendix with detailed calculations
+- [x] Design mobile-optimized reading experience
