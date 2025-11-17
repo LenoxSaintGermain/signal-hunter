@@ -8,15 +8,15 @@ import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import OpportunityDetail from "./pages/OpportunityDetail";
 import UnifiedDashboard from "./pages/UnifiedDashboard";
+import PropertyAnalysis from "./pages/PropertyAnalysis";
 
 function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
-      <Route path={"/dashboard"} component={UnifiedDashboard} />
-      <Route path={"/pipeline"} component={Dashboard} />
-      <Route path={"/opportunity/:id"} component={OpportunityDetail} />
-      <Route path={"/404"} component={NotFound} />
+      <Route path={"/dashboard"} component={UnifiedDashboard} />      <Route path="/dashboard" component={UnifiedDashboard} />
+      <Route path="/opportunity/:id" component={OpportunityDetail} />
+      <Route path="/property/514-whitehall" component={PropertyAnalysis} />    <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>
