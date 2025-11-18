@@ -582,3 +582,71 @@ Create a Salesforce-caliber acquisition command center with Apple-level UX servi
 - [ ] Risk/reward profile comparison
 - [ ] Timeline comparison (FIFA vs long-term)
 - [ ] Capital requirements comparison
+
+
+---
+
+## 🚀 PRIORITY ENHANCEMENTS (User Requested)
+
+### Rebuild 514 Whitehall Product Page
+- [x] Create Property514Whitehall.tsx with Apple-inspired design
+- [x] Add interactive ROI calculator with sliders
+- [x] Include Flex-Stack scenario breakdown (parking + event + Airbnb)
+- [x] Add Opportunity Zone tax savings calculator
+- [x] Create 10-year financial projections with charts
+- [x] Include risk analysis and mitigation strategies
+- [x] Add FIFA 2026 revenue potential section
+- [ ] Create full report page (PropertyReport.tsx) with NYT-style layout
+- [x] Add routes to App.tsx for both pages
+
+### Google Maps Integration
+- [ ] Install @googlemaps/js-api-loader package
+- [ ] Create MapView component with Manus proxy authentication
+- [ ] Add 514 Whitehall lot boundary visualization
+- [ ] Add Whitehall Assemblage boundary visualization (2.31 acres)
+- [ ] Show Mercedes-Benz Stadium with distance markers
+- [ ] Add walking radius overlay (0.5 mi, 1.0 mi circles)
+- [ ] Mark Forge Atlanta development location
+- [ ] Add Centennial Yards and other nearby developments
+- [ ] Create clickable markers with property details
+- [ ] Add Street View integration for both properties
+- [ ] Implement smooth zoom and pan animations
+
+### Property Comparison Tool
+- [ ] Create PropertyComparison.tsx page
+- [ ] Build side-by-side layout with synchronized scrolling
+- [ ] Compare capital requirements (514: $200K vs Assemblage: $5.5M)
+- [ ] Compare land area and price per acre
+- [ ] Compare FIFA revenue potential
+- [ ] Compare annual parking revenue
+- [ ] Compare development potential and exit values
+- [ ] Compare ROI and IRR projections
+- [ ] Highlight key differences with visual indicators
+- [ ] Add "winner" badges for best-in-class metrics
+- [ ] Create interactive toggle to switch comparison views
+- [ ] Add export comparison as PDF feature
+
+### PDF Pro Forma Generator
+- [ ] Install jsPDF and html2canvas packages
+- [ ] Create PDF generation utility function
+- [ ] Capture user's calculator inputs (price, financing, hold period, etc.)
+- [ ] Generate executive summary section
+- [ ] Include all financial projections and charts as images
+- [ ] Add property details and location maps
+- [ ] Include scenario comparison tables
+- [ ] Add Opportunity Zone tax savings breakdown
+- [ ] Include risk analysis section
+- [ ] Add professional cover page with branding
+- [ ] Create "Download PDF" button on each property page
+- [ ] Add email capture form before download (optional)
+- [ ] Implement PDF preview before download
+
+### Integration & Polish
+- [ ] Add navigation between 514 Whitehall and Assemblage pages
+- [ ] Create property selection landing page
+- [ ] Add breadcrumb navigation
+- [ ] Ensure consistent design language across all pages
+- [ ] Test all interactive features on mobile
+- [ ] Optimize chart rendering performance
+- [ ] Add loading states for map and PDF generation
+- [ ] Implement error handling for all features

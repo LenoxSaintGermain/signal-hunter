@@ -19,6 +19,7 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { PropertyMap } from "@/components/PropertyMap";
 
 export default function WhitehallAssemblage() {
   // FIFA Countdown Timer
@@ -507,6 +508,21 @@ export default function WhitehallAssemblage() {
                 </TabsContent>
               </Tabs>
             </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Location & Proximity */}
+      <section className="py-24 bg-gray-900/50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-4xl font-bold text-white mb-6 text-center">
+              Prime Stadium Location
+            </h2>
+            <p className="text-xl text-gray-300 text-center mb-12">
+              2.31 acres just 0.6 miles from Mercedes-Benz Stadium with 600 feet of Whitehall Street frontage
+            </p>
+            <PropertyMap property="assemblage" />
           </div>
         </div>
       </section>
