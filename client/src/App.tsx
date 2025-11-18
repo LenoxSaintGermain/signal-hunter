@@ -7,7 +7,8 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import OpportunityDetail from "./pages/OpportunityDetail";
-import WhitehallAssemblage from "./pages/WhitehallAssemblage";
+import WhitehallAssemblage from "@/pages/WhitehallAssemblage";
+import PropertyComparison from "@/pages/PropertyComparison";
 import Property514Whitehall from "./pages/Property514Whitehall";
 
 function Router() {
@@ -17,8 +18,9 @@ function Router() {
 
       <Route path={"/pipeline"} component={Dashboard} />
        <Route path={"opportunity/:id"} component={OpportunityDetail} />
-      <Route path={"property/514-whitehall"} component={Property514Whitehall} />
-      <Route path={"property/whitehall-assemblage"} component={WhitehallAssemblage} />
+      <Route path="/property/514-whitehall" component={Property514Whitehall} />
+      <Route path="/property/whitehall-assemblage" component={WhitehallAssemblage} />
+      <Route path="/property/comparison" component={PropertyComparison} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

@@ -18,6 +18,8 @@ import {
 } from "lucide-react";
 import { Link } from "wouter";
 import { PropertyMap } from "@/components/PropertyMap";
+import AIAssistant from "@/components/AIAssistant";
+import { generatePropertyPDF, PropertyData } from "@/utils/pdfGenerator";
 import {
   LineChart,
   Line,
@@ -92,10 +94,36 @@ export default function Property514Whitehall() {
     { name: "Airbnb", value: airbnbRevenue, color: "#ec4899" },
   ] : [
     { name: "Parking", value: parkingRevenue, color: "#3b82f6" },
-  ];
+  ];  const handleDownloadPDF = async () => {
+    const propertyData: PropertyData = {
+      name: "514 Whitehall St SW",
+      price: purchasePrice,
+      size: 11500,
+      acres: 0.26,
+      distance: 1.0,
+      parkingSpaces: scenario === "flexstack" ? 50 : 50,
+      totalInvestment: scenario === "flexstack" ? 2000000 : purchasePrice + 50000,
+      downPayment: downPaymentAmount,
+      loanAmount,
+      interestRate,
+      year1Revenue: scenario === "flexstack" ? 620000 : 298000,
+      year1Expenses: scenario === "flexstack" ? 186000 : 89400,
+      year1NOI: scenario === "flexstack" ? 434000 : 208600,
+      annualDebtService: monthlyPayment * 12,
+      year1CashFlow: (scenario === "flexstack" ? 434000 : 208600) - monthlyPayment * 12,
+      cashOnCashReturn: scenario === "flexstack" ? 95.5 : 59.7,
+      irr: scenario === "flexstack" ? 42.7 : 28.3,
+      exitValue: scenario === "flexstack" ? 8680000 : 3130000,
+      ozTaxSavings: scenario === "flexstack" ? 543000 : 260000,
+      fifaRevenue: scenario === "flexstack" ? 156000 : 78000,
+    };
+    
+    await generatePropertyPDF(propertyData);
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-black text-white">
+    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
+      <AIAssistant propertyContext={{ name: "514 Whitehall St SW", price: purchasePrice, location: "Atlanta, GA - 1.0 mile from Mercedes-Benz Stadium" }} />
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/10 to-transparent" />
@@ -612,6 +640,82 @@ export default function Property514Whitehall() {
         </div>
       </div>
 
+      {/* 3D Renderings Gallery */}
+      <div className="container mx-auto px-4 py-20 bg-gradient-to-b from-transparent via-purple-950/20 to-transparent">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl font-bold mb-8 text-center">Architectural Visualizations</h2>
+          <p className="text-center text-gray-300 mb-12 max-w-2xl mx-auto">
+            Explore photorealistic renderings of the Flex-Stack building design
+          </p>
+          
+          <div className="grid md:grid-cols-2 gap-8">
+            <Card className="bg-white/5 backdrop-blur-sm border-white/10 overflow-hidden group">
+              <div className="relative aspect-video overflow-hidden">
+                <img 
+                  src="/renderings/514-whitehall-flex-stack-exterior.png" 
+                  alt="Flex-Stack Building Exterior" 
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold mb-2">Exterior View</h3>
+                <p className="text-gray-300">
+                  Three-story Flex-Stack building with ground-level parking, mezzanine event space, and rooftop Airbnb unit
+                </p>
+              </div>
+            </Card>
+
+            <Card className="bg-white/5 backdrop-blur-sm border-white/10 overflow-hidden group">
+              <div className="relative aspect-video overflow-hidden">
+                <img 
+                  src="/renderings/514-whitehall-event-space-interior.png" 
+                  alt="Event Space Interior" 
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold mb-2">Event Space Interior</h3>
+                <p className="text-gray-300">
+                  7,500 sq ft open floor plan with floor-to-ceiling windows and Mercedes-Benz Stadium views
+                </p>
+              </div>
+            </Card>
+
+            <Card className="bg-white/5 backdrop-blur-sm border-white/10 overflow-hidden group">
+              <div className="relative aspect-video overflow-hidden">
+                <img 
+                  src="/renderings/514-whitehall-rooftop-airbnb.png" 
+                  alt="Rooftop Airbnb Unit" 
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold mb-2">Luxury Rooftop Airbnb</h3>
+                <p className="text-gray-300">
+                  2BR/2BA condo with private terrace, hot tub, and panoramic stadium views
+                </p>
+              </div>
+            </Card>
+
+            <Card className="bg-white/5 backdrop-blur-sm border-white/10 overflow-hidden group">
+              <div className="relative aspect-video overflow-hidden">
+                <img 
+                  src="/renderings/assemblage-fifa-fan-zone.png" 
+                  alt="FIFA Fan Zone Concept" 
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold mb-2">FIFA 2026 Fan Zone</h3>
+                <p className="text-gray-300">
+                  Temporary event venue concept for World Cup with massive LED screens and festival seating
+                </p>
+              </div>
+            </Card>
+          </div>
+        </div>
+      </div>
+
       {/* CTA Section */}
       <div className="container mx-auto px-4 py-20">
         <div className="max-w-4xl mx-auto text-center space-y-8">
@@ -623,7 +727,7 @@ export default function Property514Whitehall() {
             to discuss financing options.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
+            <Button size="lg" className="bg-blue-600 hover:bg-blue-700" onClick={handleDownloadPDF}>
               <Download className="w-5 h-5 mr-2" />
               Download Full Analysis
             </Button>

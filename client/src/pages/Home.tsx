@@ -14,11 +14,28 @@ export default function Home() {
               <img src={APP_LOGO} alt={APP_TITLE} className="w-8 h-8" />
               <span className="font-semibold text-lg">{APP_TITLE}</span>
             </div>
-            <Link href="/dashboard">
-              <Button className="btn-apple">
-                Open Dashboard <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
-            </Link>
+            <div className="flex items-center gap-4">
+              <Link href="/property/514-whitehall">
+                <Button variant="ghost" className="text-sm">
+                  514 Whitehall
+                </Button>
+              </Link>
+              <Link href="/property/whitehall-assemblage">
+                <Button variant="ghost" className="text-sm">
+                  Assemblage
+                </Button>
+              </Link>
+              <Link href="/property/comparison">
+                <Button variant="ghost" className="text-sm">
+                  Compare
+                </Button>
+              </Link>
+              <Link href="/pipeline">
+                <Button className="btn-apple">
+                  Open Dashboard <ArrowRight className="ml-2 w-4 h-4" />
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </nav>
@@ -45,9 +62,14 @@ export default function Home() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-400">
-              <Link href="/dashboard">
+              <Link href="/property/514-whitehall">
                 <Button size="lg" className="btn-apple text-lg px-8 py-6">
-                  View Pipeline <ArrowRight className="ml-2 w-5 h-5" />
+                  View 514 Whitehall <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+              </Link>
+              <Link href="/property/whitehall-assemblage">
+                <Button size="lg" className="btn-apple text-lg px-8 py-6">
+                  View Assemblage <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </Link>
               <Button size="lg" variant="outline" className="btn-apple text-lg px-8 py-6">
