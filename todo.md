@@ -442,87 +442,143 @@ Create a Salesforce-caliber acquisition command center with Apple-level UX servi
 
 ---
 
-## 🏗️ PROPERTY ANALYSIS WEB APP (514 Whitehall)
+## 🏟️ WHITEHALL ASSEMBLAGE ANALYSIS ($5M, 1.37 ACRES)
 
-### Research & Analysis
-- [x] Research Atlanta Opportunity Zone designations for Mechanicsville area
-- [x] Investigate mixed-use zoning for parking + event space + residential
-- [x] Analyze Airbnb market data for downtown Atlanta condos ($2,147-$3,500/month)
-- [x] Research event space rental rates near Mercedes-Benz Stadium ($125-$400/hour)
-- [x] Calculate Opportunity Zone tax benefits ($386K-$978K savings over 10 years)
-- [x] Explore creative building designs (Flex-Stack: parking + event + Airbnb)
-- [x] Research modular/shipping container construction (20-30% cost savings)
-- [x] Calculate enhanced mixed-use scenario (91% cash-on-cash return)
+### Property Research
+- [ ] Analyze LoopNet listing details (1.37 acres, $5M asking price)
+- [ ] Research exact parcel composition and addresses
+- [ ] Verify zoning and development rights
+- [ ] Research existing structures and condition
+- [ ] Analyze comparable sales in area
+- [ ] Research seller motivation and negotiation leverage
+- [ ] Calculate price per square foot and compare to comps
 
-### Apple-Inspired Design System
-- [x] Create hero section with stunning property visualization
-- [x] Design smooth scroll-triggered animations
-- [x] Implement glass morphism cards for scenario options
-- [ ] Build interactive 3D property model or renders
-- [x] Design micro-interactions for engagement
-- [ ] Create seamless mobile-to-desktop responsive experience
+### FIFA World Cup 2026 Opportunity Analysis
+- [ ] Research FIFA World Cup 2026 Atlanta schedule and venues
+- [ ] Analyze expected visitor numbers and economic impact
+- [ ] Research hotel occupancy and pricing during FIFA events
+- [ ] Calculate potential parking revenue during World Cup matches
+- [ ] Research temporary event space rental opportunities
+- [ ] Analyze post-FIFA long-term value appreciation
+- [ ] Research other cities' FIFA development strategies
 
-### Rory Sutherland-Style Narrative
-- [x] Rewrite analysis with psychological hooks and storytelling
-- [x] Add behavioral economics insights (parking psychology, framing effects)
-- [x] Include surprising counterintuitive insights (event space paradox)
-- [x] Use vivid analogies and memorable examples
-- [x] Structure as journey/discovery rather than report
-- [ ] Add more humor and personality to dry financial content
-- [ ] Complete Medium-style formatting with pull quotes
+### Creative Financing Strategies
+- [ ] Calculate home equity line of credit (HELOC) potential
+- [ ] Design investor syndication structure (LLC, LP, etc.)
+- [ ] Model hard money bridge loan scenarios
+- [ ] Research seller financing possibilities
+- [ ] Analyze EB-5 visa investor program eligibility
+- [ ] Explore opportunity fund structures
+- [ ] Calculate blended cost of capital for mixed financing
+- [ ] Design waterfall distribution model for investors
 
-### Gamified Scenario Comparison
-- [ ] Build interactive sliders for profit/risk/cost levers
-- [ ] Create real-time ROI calculator with visual feedback
-- [ ] Design comparison matrix with drag-and-drop scenarios
-- [ ] Implement "what-if" scenario builder
-- [ ] Add visual indicators (color coding, icons, progress bars)
-- [ ] Build timeline visualization showing cash flow over time
-- [ ] Create risk/reward scatter plot with interactive points
+### Development Scenarios
+- [ ] Scenario 1: Temporary FIFA parking + event space (2025-2026)
+- [ ] Scenario 2: Phased development (parking first, then build)
+- [ ] Scenario 3: Full mixed-use development (hotel + parking + retail)
+- [ ] Scenario 4: Land banking and flip to developer
+- [ ] Scenario 5: Joint venture with hotel operator
+- [ ] Calculate ROI for each scenario
+- [ ] Identify optimal exit strategies
 
-### Enhanced Development Scenarios
-- [x] Add "Flex-Stack" scenario (parking + events + Airbnb)
-- [x] Calculate event space rental revenue potential ($141K/year net)
-- [x] Model Airbnb condo income ($17K/year net)
-- [x] Research modular/kit building options (50% faster, 20-30% cheaper)
-- [x] Explore shipping container or prefab construction
-- [x] Calculate Opportunity Zone tax savings impact ($386K-$978K)
+### Comparative Analysis: 514 Whitehall vs Assemblage
+- [ ] Create side-by-side comparison table
+- [ ] Compare acquisition costs and financing requirements
+- [ ] Compare revenue potential and ROI
+- [ ] Compare risk profiles
+- [ ] Analyze portfolio strategy (buy both? prioritize one?)
+- [ ] Calculate combined synergies if both acquired
+
+### AI Image Generation
+- [ ] Generate 3D rendering of 514 Whitehall Flex-Stack building
+- [ ] Generate aerial view showing stadium proximity
+- [ ] Generate Whitehall Assemblage development concepts
+- [ ] Generate FIFA event crowd visualizations
+- [ ] Create before/after transformation images
+
+
+---
+
+## 🏟️ WHITEHALL ASSEMBLAGE PRODUCT PAGE (AAA-GRADE INVESTOR PRESENTATION)
+
+### Interactive Calculators & Tools
+- [x] Real-time ROI calculator with adjustable variables (price, financing, hold period)
+- [x] FIFA 2026 revenue simulator (parking, fan zone, hospitality scenarios)
+- [x] Opportunity Zone tax savings calculator with 10-year projection
+- [x] Financing strategy comparison tool (HELOC vs syndication vs hard money)
+- [x] Cash flow timeline visualizer with interactive phases
+- [ ] Break-even analysis calculator
+- [ ] Exit strategy comparison tool (hold vs flip vs develop)
+
+### Opportunity Zone Visualization & Education
+- [ ] Interactive map showing OZ designation
+- [x] Animated tax savings breakdown (10% year 5, 15% year 7, 100% year 10+)
+- [x] Side-by-side comparison: with OZ vs without OZ
+- [x] Capital gains deferral timeline visualization
+- [x] Step-up basis explainer with examples
+- [ ] Qualified Opportunity Fund (QOF) structure diagram
+- [x] Real dollar impact calculator based on investor's capital gains
+
+### Narrative Sections (Apple-Style Storytelling)
+- [x] Hero section with FIFA countdown timer
+- [x] "The Opportunity" - Executive summary with key metrics
+- [x] "Once in a Lifetime" - FIFA 2026 deep-dive with semifinal emphasis
+- [ ] "Beyond the Cup" - Long-term value proposition
+- [x] "The Tax Advantage" - OZ benefits explained beautifully
+- [ ] "Smart Money Moves" - Creative financing strategies
+- [x] "Know the Risks" - Transparent risk analysis with mitigation
+- [ ] "Two Paths Forward" - Comparison with 514 Whitehall
+
+### Data Visualizations & Charts
+- [ ] Interactive map with stadium proximity and walking radius
+- [x] Revenue breakdown pie charts (FIFA vs annual vs development)
+- [x] 10-year cash flow projection line chart
+- [x] Scenario comparison bar charts (conservative/moderate/aggressive)
+- [x] Tax savings waterfall chart
+- [ ] Financing cost comparison chart
+- [ ] Market comparables scatter plot
+- [ ] Development timeline Gantt chart
+
+### Financial Models & Projections
+- [ ] Complete pro forma for all scenarios
+- [ ] Sensitivity analysis tables
+- [ ] IRR and cash-on-cash return calculations
+- [ ] Debt service coverage ratio (DSCR) analysis
+- [ ] Exit value projections with multiple scenarios
+- [ ] Investor return waterfall models
+- [ ] Tax impact analysis (federal + state + OZ)
+
+### Visual Assets & Media
+- [ ] Aerial drone-style view showing assemblage boundary
+- [ ] Stadium proximity visualization
+- [ ] Before/after development concept renders
+- [ ] FIFA crowd and event visualizations
+- [ ] Building condition photo gallery
+- [ ] Neighborhood transformation timeline
+- [ ] Comparable properties photo comparison
 
 ### Interactive Features
-- [ ] Build financing calculator with multiple options
-- [ ] Create cash flow timeline visualization
-- [ ] Implement scenario save/share functionality
-- [ ] Add email report generation
-- [ ] Build mobile-optimized touch interactions
-- [ ] Create animated infographics for key insights
+- [ ] Smooth scroll animations and reveals
+- [ ] Hover interactions on data points
+- [ ] Expandable sections for detailed information
+- [ ] Sticky navigation with progress indicator
+- [ ] Print-to-PDF functionality for investor packages
+- [ ] Share functionality with custom URLs
+- [ ] Save/bookmark calculator scenarios
+- [ ] Email capture for detailed pro forma
 
-### Content Sections
-- [ ] Hero: Property overview with stunning visuals
-- [ ] Story: Engaging narrative about the opportunity
-- [ ] Location: Interactive map with stadium/Forge proximity
-- [ ] Scenarios: Gamified comparison tool
-- [ ] Financing: Interactive calculator
-- [ ] Timeline: Visual project phases
-- [ ] Risks: Honest assessment with mitigation
-- [ ] Action: Clear next steps with CTAs
+### Mobile Optimization
+- [ ] Touch-friendly calculator controls
+- [ ] Responsive chart layouts
+- [ ] Swipe gestures for scenario switching
+- [ ] Collapsible sections for easier reading
+- [ ] Floating action button for key metrics
+- [ ] Progressive disclosure of complex data
 
-
-### Long-Form Investment Report (NYT/Apple Blog Style)
-- [x] Create dedicated report page route (/property/514-whitehall/report)
-- [x] Design magazine-style layout with large hero image
-- [x] Implement scroll-triggered section reveals
-- [x] Add pull quotes with beautiful typography
-- [ ] Create interactive table of contents with smooth scroll
-- [x] Embed Google Maps screenshots showing location, stadium, Forge development
-- [x] Design data visualization sections with charts (Recharts)
-- [x] Add photo gallery with lightbox for property area images
-- [ ] Implement reading progress indicator
-- [ ] Create print-friendly CSS for PDF export
-- [x] Add social sharing buttons
-- [x] Design executive summary section at top
-- [x] Create financial tables with hover interactions
-- [x] Add comparison charts (scenarios side-by-side)
-- [x] Implement sticky navigation for long content
-- [ ] Add footnotes and citations section
-- [x] Create appendix with detailed calculations
-- [x] Design mobile-optimized reading experience
+### Comparison Tools
+- [ ] Side-by-side: 514 Whitehall vs Assemblage
+- [ ] Financing options comparison matrix
+- [ ] Scenario outcomes comparison table
+- [ ] Risk/reward profile comparison
+- [ ] Timeline comparison (FIFA vs long-term)
+- [ ] Capital requirements comparison
