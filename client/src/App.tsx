@@ -13,6 +13,7 @@ import PropertyComparison from "@/pages/PropertyComparison";
 import Property514Whitehall from "./pages/Property514Whitehall";
 
 function Router() {
+  // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
       <Route path={"/"} component={Home} />

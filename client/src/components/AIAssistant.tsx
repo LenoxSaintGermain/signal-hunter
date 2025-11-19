@@ -1,8 +1,9 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Bot, Send, X, Minimize2, Maximize2, Loader2 } from "lucide-react";
+import { trpc } from "@/lib/trpc";
 
 interface Message {
   role: "user" | "assistant";
@@ -24,15 +25,15 @@ export default function AIAssistant({ propertyContext }: AIAssistantProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: propertyContext
-        ? `Hello! I'm your AI investment advisor. I can help you analyze ${propertyContext.name}, validate the information presented, conduct deeper research, or answer any questions about this opportunity. What would you like to know?`
-        : "Hello! I'm your AI investment advisor. I can help you analyze properties, validate information, conduct research, and answer questions about real estate investments. How can I assist you today?",
+      content: "Hello! I'm your AI investment advisor. I can help you analyze properties, validate information, conduct research, and answer questions about real estate investments. How can I assist you today?",
       timestamp: new Date(),
     },
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const chatMutation = trpc.ai.chat.useMutation();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -43,7 +44,11 @@ export default function AIAssistant({ propertyContext }: AIAssistantProps) {
   }, [messages]);
 
   const handleSend = async () => {
-    if (!input.trim() || isLoading) return;
+    console.log("[AIAssistant] handleSend called", { input, isLoading });
+    if (!input.trim() || isLoading) {
+      console.log("[AIAssistant] Skipping - empty input or loading");
+      return;
+    }
 
     const userMessage: Message = {
       role: "user",
@@ -52,64 +57,29 @@ export default function AIAssistant({ propertyContext }: AIAssistantProps) {
     };
 
     setMessages((prev) => [...prev, userMessage]);
+    const currentInput = input;
     setInput("");
     setIsLoading(true);
 
     try {
-      // Call Gemini 3 Pro API with HIGH thinking mode for complex analysis
-      const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-thinking-exp-01-21:generateContent?key=" + (import.meta.env.VITE_GEMINI_API_KEY || ""), {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          contents: [
-            {
-              parts: [
-                {
-                  text: `You are an expert real estate investment advisor specializing in commercial properties, stadium-adjacent developments, and Opportunity Zone investments. 
-
-${propertyContext ? `Current Property Context:
-- Name: ${propertyContext.name}
-- Price: $${(propertyContext.price / 1000).toFixed(0)}K
-- Location: ${propertyContext.location}
-` : ""}
-
-User Question: ${input}
-
-Provide detailed, actionable advice. If asked to validate information, explain how to verify it. If asked about research, provide specific sources and methodologies. Be professional, concise, and focused on helping the investor make informed decisions.`,
-                },
-              ],
-            },
-          ],
-          generationConfig: {
-            temperature: 0.7,
-            topK: 40,
-            topP: 0.95,
-            maxOutputTokens: 8192,
-            thinkingConfig: {
-              mode: "HIGH" // Use HIGH thinking mode for complex investment analysis
-            }
-          },
-        }),
+      console.log("[AIAssistant] Calling chatMutation.mutateAsync", { currentInput, propertyContext });
+      // Call tRPC AI chat mutation (Gemini 3 Pro with HIGH thinking mode)
+      const data = await chatMutation.mutateAsync({
+        message: currentInput,
+        propertyContext: propertyContext,
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to get response from AI");
-      }
-
-      const data = await response.json();
-      const aiResponse = data.candidates[0].content.parts[0].text;
+      console.log("[AIAssistant] Mutation success", { data });
 
       const assistantMessage: Message = {
         role: "assistant",
-        content: aiResponse,
+        content: data.response,
         timestamp: new Date(),
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
-      console.error("Error calling AI:", error);
+      console.error("[AIAssistant] Error calling AI:", error);
       const errorMessage: Message = {
         role: "assistant",
         content: "I apologize, but I'm having trouble connecting right now. Please try again in a moment.",
@@ -133,44 +103,41 @@ Provide detailed, actionable advice. If asked to validate information, explain h
       <Button
         onClick={() => setIsOpen(true)}
         className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg bg-blue-600 hover:bg-blue-700 z-50"
-        size="icon"
       >
-        <Bot className="h-6 w-6" />
+        <Bot className="h-6 w-6 text-white" />
       </Button>
     );
   }
 
   return (
-    <Card
-      className={`fixed bottom-6 right-6 z-50 shadow-2xl border-blue-200 bg-white/95 backdrop-blur-sm transition-all duration-300 ${
-        isMinimized ? "w-80 h-16" : "w-96 h-[600px]"
-      }`}
-    >
+    <Card className="fixed bottom-6 right-6 w-96 h-[600px] shadow-2xl flex flex-col z-50 border-2 border-blue-500/20">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-blue-100 bg-gradient-to-r from-blue-600 to-blue-700">
-        <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-full bg-white/20 flex items-center justify-center">
-            <Bot className="h-6 w-6 text-white" />
-          </div>
+      <div className="flex items-center justify-between p-4 border-b bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-t-lg">
+        <div className="flex items-center gap-2">
+          <Bot className="h-5 w-5" />
           <div>
-            <h3 className="font-semibold text-white">AI Investment Advisor</h3>
-            <p className="text-xs text-blue-100">Powered by Gemini</p>
+            <h3 className="font-semibold">AI Investment Advisor</h3>
+            <p className="text-xs opacity-90">Powered by Gemini</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
           <Button
             variant="ghost"
-            size="icon"
+            size="sm"
             onClick={() => setIsMinimized(!isMinimized)}
-            className="h-8 w-8 text-white hover:bg-white/20"
+            className="h-8 w-8 p-0 hover:bg-white/20"
           >
-            {isMinimized ? <Maximize2 className="h-4 w-4" /> : <Minimize2 className="h-4 w-4" />}
+            {isMinimized ? (
+              <Maximize2 className="h-4 w-4" />
+            ) : (
+              <Minimize2 className="h-4 w-4" />
+            )}
           </Button>
           <Button
             variant="ghost"
-            size="icon"
+            size="sm"
             onClick={() => setIsOpen(false)}
-            className="h-8 w-8 text-white hover:bg-white/20"
+            className="h-8 w-8 p-0 hover:bg-white/20"
           >
             <X className="h-4 w-4" />
           </Button>
@@ -180,23 +147,25 @@ Provide detailed, actionable advice. If asked to validate information, explain h
       {!isMinimized && (
         <>
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 h-[calc(600px-140px)]">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
+                className={`flex ${
+                  message.role === "user" ? "justify-end" : "justify-start"
+                }`}
               >
                 <div
                   className={`max-w-[80%] rounded-lg p-3 ${
                     message.role === "user"
                       ? "bg-blue-600 text-white"
-                      : "bg-slate-100 text-slate-900"
+                      : "bg-white border border-gray-200"
                   }`}
                 >
                   <p className="text-sm whitespace-pre-wrap">{message.content}</p>
                   <p
                     className={`text-xs mt-1 ${
-                      message.role === "user" ? "text-blue-100" : "text-slate-500"
+                      message.role === "user" ? "text-blue-100" : "text-gray-500"
                     }`}
                   >
                     {message.timestamp.toLocaleTimeString([], {
@@ -209,8 +178,8 @@ Provide detailed, actionable advice. If asked to validate information, explain h
             ))}
             {isLoading && (
               <div className="flex justify-start">
-                <div className="bg-slate-100 rounded-lg p-3">
-                  <Loader2 className="h-5 w-5 animate-spin text-blue-600" />
+                <div className="bg-white border border-gray-200 rounded-lg p-3">
+                  <Loader2 className="h-4 w-4 animate-spin text-blue-600" />
                 </div>
               </div>
             )}
@@ -218,7 +187,7 @@ Provide detailed, actionable advice. If asked to validate information, explain h
           </div>
 
           {/* Input */}
-          <div className="p-4 border-t border-slate-200">
+          <div className="p-4 border-t bg-white rounded-b-lg">
             <div className="flex gap-2">
               <Input
                 value={input}
@@ -230,14 +199,13 @@ Provide detailed, actionable advice. If asked to validate information, explain h
               />
               <Button
                 onClick={handleSend}
-                disabled={!input.trim() || isLoading}
-                size="icon"
+                disabled={isLoading || !input.trim()}
                 className="bg-blue-600 hover:bg-blue-700"
               >
                 <Send className="h-4 w-4" />
               </Button>
             </div>
-            <p className="text-xs text-slate-500 mt-2">
+            <p className="text-xs text-gray-500 mt-2">
               I can help analyze properties, validate data, or answer investment questions.
             </p>
           </div>

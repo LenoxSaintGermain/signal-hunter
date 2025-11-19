@@ -2,6 +2,7 @@ import express from "express";
 import { createServer } from "http";
 import path from "path";
 import { fileURLToPath } from "url";
+import aiRouter from "./routes/ai.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -9,6 +10,12 @@ const __dirname = path.dirname(__filename);
 async function startServer() {
   const app = express();
   const server = createServer(app);
+
+  // Parse JSON bodies
+  app.use(express.json());
+
+  // API routes
+  app.use("/api/ai", aiRouter);
 
   // Serve static files from dist/public in production
   const staticPath =
@@ -18,8 +25,12 @@ async function startServer() {
 
   app.use(express.static(staticPath));
 
-  // Handle client-side routing - serve index.html for all routes
-  app.get("*", (_req, res) => {
+  // Handle client-side routing - serve index.html for all non-API routes
+  app.get("*", (req, res) => {
+    // Skip API routes
+    if (req.path.startsWith("/api")) {
+      return res.status(404).json({ error: "API endpoint not found" });
+    }
     res.sendFile(path.join(staticPath, "index.html"));
   });
 
