@@ -56,12 +56,11 @@ export default function AIAssistant({ propertyContext }: AIAssistantProps) {
     setIsLoading(true);
 
     try {
-      // Call Gemini API
-      const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent", {
+      // Call Gemini 3 Pro API with HIGH thinking mode for complex analysis
+      const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-thinking-exp-01-21:generateContent?key=" + (import.meta.env.VITE_GEMINI_API_KEY || ""), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-goog-api-key": import.meta.env.VITE_GEMINI_API_KEY || "",
         },
         body: JSON.stringify({
           contents: [
@@ -87,7 +86,10 @@ Provide detailed, actionable advice. If asked to validate information, explain h
             temperature: 0.7,
             topK: 40,
             topP: 0.95,
-            maxOutputTokens: 1024,
+            maxOutputTokens: 8192,
+            thinkingConfig: {
+              mode: "HIGH" // Use HIGH thinking mode for complex investment analysis
+            }
           },
         }),
       });

@@ -94,7 +94,9 @@ export default function Property514Whitehall() {
     { name: "Airbnb", value: airbnbRevenue, color: "#ec4899" },
   ] : [
     { name: "Parking", value: parkingRevenue, color: "#3b82f6" },
-  ];  const handleDownloadPDF = async () => {
+  ];
+
+  const handleDownloadPDF = async () => {
     const propertyData: PropertyData = {
       name: "514 Whitehall St SW",
       price: purchasePrice,
