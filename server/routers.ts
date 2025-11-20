@@ -44,9 +44,9 @@ export const appRouter = router({
           throw new Error("Gemini API key not configured");
         }
 
-        // Call Gemini 3 Pro API with HIGH thinking mode
+        // Call Gemini 3 Pro API (latest model)
         const response = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-thinking-exp-01-21:generateContent?key=${apiKey}`,
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-preview:generateContent?key=${apiKey}`,
           {
             method: "POST",
             headers: {

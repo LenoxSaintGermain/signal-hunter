@@ -846,3 +846,10 @@ Create a Salesforce-caliber acquisition command center with Apple-level UX servi
 - [x] Add proper error handling and user feedback
 - [x] Implement fallback to Gemini 2.0 Flash if 3.0 fails
 - [x] Test AI Assistant in production environment
+
+### Update Gemini Model to Latest Version
+- [x] Research latest available Gemini model
+- [x] Update model name in server/routers.ts AI chat endpoint
+- [x] Test new model for response quality and performance
+- [x] Verify API compatibility and token limits
+- [x] Update any model-specific configurations
