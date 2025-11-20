@@ -15,29 +15,51 @@ interface AIAssistantProps {
   propertyContext?: {
     name: string;
     price: number;
-    location: string;
+    location: string | null;
   };
 }
 
 export default function AIAssistant({ propertyContext }: AIAssistantProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      role: "assistant",
-      content: "Hello! I'm your AI investment advisor. I can help you analyze properties, validate information, conduct research, and answer questions about real estate investments. How can I assist you today?",
-      timestamp: new Date(),
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [historyLoaded, setHistoryLoaded] = useState(false);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const chatMutation = trpc.ai.chat.useMutation();
+  const { data: history } = trpc.ai.getHistory.useQuery(
+    { limit: 50 },
+    { enabled: isOpen && !historyLoaded }
+  );
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+
+  // Load conversation history when opening chat
+  useEffect(() => {
+    if (isOpen && history && !historyLoaded) {
+      const loadedMessages: Message[] = history.map((msg) => ({
+        role: msg.role as "user" | "assistant",
+        content: msg.content,
+        timestamp: new Date(msg.createdAt),
+      }));
+
+      if (loadedMessages.length === 0) {
+        // No history, show welcome message
+        setMessages([{
+          role: "assistant",
+          content: "Hello! I'm your AI investment advisor. I can help you analyze properties, validate information, conduct research, and answer questions about real estate investments. How can I assist you today?",
+          timestamp: new Date(),
+        }]);
+      } else {
+        setMessages(loadedMessages);
+      }
+      setHistoryLoaded(true);
+    }
+  }, [isOpen, history, historyLoaded]);
 
   useEffect(() => {
     scrollToBottom();

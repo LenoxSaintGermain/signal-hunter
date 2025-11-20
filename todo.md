@@ -853,3 +853,33 @@ Create a Salesforce-caliber acquisition command center with Apple-level UX servi
 - [x] Test new model for response quality and performance
 - [x] Verify API compatibility and token limits
 - [x] Update any model-specific configurations
+
+## 🔥 IMMEDIATE PRIORITIES (Current Session)
+
+### AI Enhancements
+- [x] Implement conversation memory (store chat history in database)
+- [x] Add "Ask AI" button on deal cards for instant analysis
+- [ ] Create AI-generated investment memo feature
+
+### Critical Database & CRUD
+- [x] Design and create database schema (deals, contacts, activities, chat_messages)
+- [x] Implement tRPC procedures for deal CRUD operations
+- [x] Connect dashboard to real database data
+- [ ] Fix "View Details" button to navigate to detail page
+- [ ] Build comprehensive deal detail page with all sections
+- [ ] Add deal creation modal with form
+- [ ] Implement deal editing functionality
+- [ ] Add deal deletion with confirmation
+
+### Data Visualization
+- [ ] Install Recharts library
+- [ ] Add score breakdown radar chart to deal cards
+- [ ] Add financial trend charts to deal detail page
+- [ ] Add pipeline funnel visualization
+
+### Quick Wins
+- [ ] Make Email buttons open mailto: links
+- [ ] Make Call buttons open tel: links  
+- [ ] Add drag-and-drop for pipeline stages
+- [ ] Add deal search and filtering
+- [ ] Add deal sorting options

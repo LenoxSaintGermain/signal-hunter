@@ -1,0 +1,20 @@
+{
+  "query": "SELECT id, name, price, location, opportunityZone, sdeMargin, aiPotential, certAdvantage FROM deals WHERE name = 'Stadium Plaza Mixed-Use' LIMIT 1",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3v1wvYFABP51Dvh.3f4911c04924 --database boxxx2H9MLTMPZtbmRJTvV --execute SELECT id, name, price, location, opportunityZone, sdeMargin, aiPotential, certAdvantage FROM deals WHERE name = 'Stadium Plaza Mixed-Use' LIMIT 1",
+  "rows": [
+    {
+      "id": "1",
+      "name": "Stadium Plaza Mixed-Use",
+      "price": "12500000",
+      "location": "Downtown Sports District",
+      "opportunityZone": "0",
+      "sdeMargin": "NULL",
+      "aiPotential": "NULL",
+      "certAdvantage": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tprice\tlocation\topportunityZone\tsdeMargin\taiPotential\tcertAdvantage\n1\tStadium Plaza Mixed-Use\t12500000\tDowntown Sports District\t0\tNULL\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 92
+}
