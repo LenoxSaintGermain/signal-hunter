@@ -14,6 +14,8 @@ import {
   Zap
 } from "lucide-react";
 import { Link } from "wouter";
+import { MapView } from "@/components/Map";
+import { useState } from "react";
 
 export default function PonceProtocol() {
   return (
@@ -48,6 +50,12 @@ export default function PonceProtocol() {
               Make Housing Pay You.
             </span>
           </h1>
+          <p className="text-xl text-slate-300 mb-4">
+            <strong className="text-white">2165 Ponce De Leon Ave NE, Atlanta, GA 30307</strong>
+          </p>
+          <p className="text-lg text-slate-400">
+            Druid Hills • 10 min to Downtown • Film Production Hub
+          </p>
           <p className="text-2xl text-gray-300 mb-8">
             You're About to Buy a Dollar for 80 Cents
           </p>
@@ -80,6 +88,86 @@ export default function PonceProtocol() {
               <h3 className="text-lg font-semibold mb-2">
                 The Market Thinks This Is a Ranch Home. It's Actually a Commercial Hospitality Machine.
               </h3>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Location Map */}
+        <div className="mb-16">
+          <h2 className="text-4xl font-bold mb-6">Prime Location</h2>
+          <Card className="bg-black/40 border-white/10 overflow-hidden">
+            <CardContent className="p-0">
+              <div className="h-[500px] w-full">
+                <MapView
+                  onMapReady={(map) => {
+                    // Property location
+                    const propertyLocation = { lat: 33.7881, lng: -84.3406 };
+                    
+                    // Add property marker
+                    new window.google.maps.Marker({
+                      position: propertyLocation,
+                      map: map,
+                      title: "2165 Ponce De Leon Ave NE",
+                      icon: {
+                        path: window.google.maps.SymbolPath.CIRCLE,
+                        scale: 12,
+                        fillColor: "#10b981",
+                        fillOpacity: 1,
+                        strokeColor: "#ffffff",
+                        strokeWeight: 3,
+                      },
+                    });
+
+                    // Add nearby points of interest
+                    const poi = [
+                      { name: "Mercedes-Benz Stadium", lat: 33.7553, lng: -84.4006, color: "#3b82f6" },
+                      { name: "Emory University", lat: 33.7920, lng: -84.3240, color: "#8b5cf6" },
+                      { name: "CDC Headquarters", lat: 33.7990, lng: -84.3270, color: "#f59e0b" },
+                      { name: "Downtown Atlanta", lat: 33.7490, lng: -84.3880, color: "#ef4444" },
+                    ];
+
+                    poi.forEach(point => {
+                      new window.google.maps.Marker({
+                        position: { lat: point.lat, lng: point.lng },
+                        map: map,
+                        title: point.name,
+                        icon: {
+                          path: window.google.maps.SymbolPath.CIRCLE,
+                          scale: 8,
+                          fillColor: point.color,
+                          fillOpacity: 0.8,
+                          strokeColor: "#ffffff",
+                          strokeWeight: 2,
+                        },
+                      });
+                    });
+
+                    // Center and zoom
+                    map.setCenter(propertyLocation);
+                    map.setZoom(12);
+                  }}
+                />
+              </div>
+              <div className="p-6 bg-gradient-to-r from-slate-800/50 to-slate-900/50">
+                <div className="grid md:grid-cols-4 gap-4">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-blue-400">10 min</div>
+                    <div className="text-sm text-slate-400">to Mercedes-Benz Stadium</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-purple-400">5 min</div>
+                    <div className="text-sm text-slate-400">to Emory University</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-orange-400">7 min</div>
+                    <div className="text-sm text-slate-400">to CDC Headquarters</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-red-400">12 min</div>
+                    <div className="text-sm text-slate-400">to Downtown Atlanta</div>
+                  </div>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </div>
