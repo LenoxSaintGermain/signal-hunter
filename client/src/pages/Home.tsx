@@ -37,6 +37,11 @@ export default function Home() {
                   Compare
                 </Button>
               </Link>
+              <Link href="/property/ponce-protocol">
+                <Button variant="ghost" className="text-sm">
+                  Ponce Protocol
+                </Button>
+              </Link>
               <Link href="/pipeline">
                 <Button className="btn-apple">
                   Open Dashboard <ArrowRight className="ml-2 w-4 h-4" />
