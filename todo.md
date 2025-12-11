@@ -1129,3 +1129,87 @@ Create a Salesforce-caliber acquisition command center with Apple-level UX servi
 - [ ] Apply all upgrades to Ponce Protocol page
 - [ ] Create reusable template for future deals
 - [ ] Test on Stadium Plaza and other deals
+
+---
+
+## 🎨 GLOBAL UI REBUILD - APPLE-STYLE THEME (CURRENT PRIORITY)
+
+### Global Theme System
+- [ ] Replace all color variables with Apple-inspired palette (white, gray, muted gold)
+- [ ] Update index.css with new color system
+- [ ] Remove all blue/multicolor gradients
+- [ ] Implement SF Pro / system-ui typography
+- [ ] Set up consistent spacing rhythm
+
+### Button & CTA Standardization
+- [ ] Create unified button components (primary: black pill, secondary: white bordered)
+- [ ] Update all CTAs across app to use new button styles
+- [ ] Add hover effects (scale 1.02, shadow)
+
+### Pipeline Overview Rebuild
+- [ ] Add page hero (title + subtitle)
+- [ ] Create 5 KPI metric cards (Total, High Score, Average, Outreach Sent, Response Rate)
+- [ ] Build filters & search bar section
+- [ ] Upgrade Top Opportunities list to card-based layout
+- [ ] Add rank, stats, and score pills to each opportunity card
+
+### Navigation Consistency
+- [ ] Update nav bar with Apple-style design
+- [ ] Apply consistent nav across all pages
+- [ ] Add active state indicators
+
+### Property Pages Theme Alignment
+- [ ] Update Ponce Protocol page to match new theme
+- [ ] Update Whitehall Assemblage page to match new theme
+- [ ] Update 514 Whitehall page to match new theme
+- [ ] Standardize stat cards across all property pages
+- [ ] Update Quick Actions panel with new button styles
+
+### Consistency Audit
+- [ ] Verify typography consistency across all pages
+- [ ] Verify color palette usage (no leftover blues)
+- [ ] Verify button styles are unified
+- [ ] Verify spacing rhythm is consistent
+- [ ] Test all pages for visual coherence
+
+---
+
+## 🎨 GLOBAL UI REBUILD - APPLE-STYLE THEME (COMPLETED)
+
+### Global Theme System
+- [x] Replace all color variables with Apple-inspired palette (white, gray, muted gold)
+- [x] Update index.css with new color system
+- [x] Remove all blue/multicolor gradients
+- [x] Implement SF Pro / system-ui typography
+- [x] Set up consistent spacing rhythm
+
+### Button & CTA Standardization
+- [x] Create unified button components (primary: black pill, secondary: white bordered)
+- [x] Update all CTAs across app to use new button styles
+- [x] Add hover effects (scale 1.02, shadow)
+
+### Pipeline Overview Rebuild
+- [x] Add page hero (title + subtitle)
+- [x] Create 5 KPI metric cards (Total, High Score, Average, Outreach Sent, Response Rate)
+- [x] Build filters & search bar section
+- [x] Upgrade Top Opportunities list to card-based layout
+- [x] Add rank, stats, and score pills to each opportunity card
+
+### Navigation Consistency
+- [x] Create Navigation component with Apple-style design
+- [x] Add active state indicators
+- [ ] Apply consistent nav across all property pages
+
+### Property Pages Theme Alignment
+- [x] Update Ponce Protocol page to match new theme
+- [ ] Update Whitehall Assemblage page to match new theme
+- [ ] Update 514 Whitehall page to match new theme
+- [ ] Standardize stat cards across all property pages
+- [ ] Update Quick Actions panel with new button styles
+
+### Consistency Audit
+- [ ] Verify typography consistency across all pages
+- [ ] Verify color palette usage (no leftover blues)
+- [ ] Verify button styles are unified
+- [ ] Verify spacing rhythm is consistent
+- [ ] Test all pages for visual coherence

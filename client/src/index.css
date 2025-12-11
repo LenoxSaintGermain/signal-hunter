@@ -42,75 +42,92 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* Apple-inspired neutral luxury palette */
 :root {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-600);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --radius: 0.65rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.235 0.015 65);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.235 0.015 65);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.235 0.015 65);
-  --secondary: oklch(0.98 0.001 286.375);
-  --secondary-foreground: oklch(0.4 0.015 65);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.141 0.005 285.823);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.623 0.214 259.815);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.235 0.015 65);
-  --sidebar-accent: oklch(0.967 0.001 286.375);
-  --sidebar-accent-foreground: oklch(0.141 0.005 285.823);
-  --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(0.623 0.214 259.815);
+  /* Primary = muted gold accent (used sparingly) */
+  --primary: #D4AF37;
+  --primary-foreground: #FFFFFF;
+  
+  /* Backgrounds */
+  --background: #FFFFFF;
+  --foreground: #1D1D1F;
+  
+  /* Cards & elevated surfaces */
+  --card: #FFFFFF;
+  --card-foreground: #1D1D1F;
+  
+  /* Popovers & dropdowns */
+  --popover: #FFFFFF;
+  --popover-foreground: #1D1D1F;
+  
+  /* Secondary surfaces (light gray) */
+  --secondary: #F5F5F7;
+  --secondary-foreground: #1D1D1F;
+  
+  /* Muted backgrounds & text */
+  --muted: #F5F5F7;
+  --muted-foreground: #6E6E73;
+  
+  /* Accent (gold for highlights) */
+  --accent: #D4AF37;
+  --accent-foreground: #FFFFFF;
+  
+  /* Destructive (red for errors) */
+  --destructive: #FF3B30;
+  --destructive-foreground: #FFFFFF;
+  
+  /* Borders & dividers */
+  --border: #D2D2D7;
+  --input: #D2D2D7;
+  --ring: #D4AF37;
+  
+  /* Charts - grayscale with gold accent */
+  --chart-1: #1D1D1F;
+  --chart-2: #6E6E73;
+  --chart-3: #D2D2D7;
+  --chart-4: #D4AF37;
+  --chart-5: #F5F5F7;
+  
+  /* Sidebar */
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #1D1D1F;
+  --sidebar-primary: #1D1D1F;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #F5F5F7;
+  --sidebar-accent-foreground: #1D1D1F;
+  --sidebar-border: #D2D2D7;
+  --sidebar-ring: #D4AF37;
+  
+  --radius: 12px;
 }
 
 .dark {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-500);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --background: oklch(0.141 0.005 285.823);
-  --foreground: oklch(0.85 0.005 65);
-  --card: oklch(0.21 0.006 285.885);
-  --card-foreground: oklch(0.85 0.005 65);
-  --popover: oklch(0.21 0.006 285.885);
-  --popover-foreground: oklch(0.85 0.005 65);
-  --secondary: oklch(0.24 0.006 286.033);
-  --secondary-foreground: oklch(0.7 0.005 65);
-  --muted: oklch(0.274 0.006 286.033);
-  --muted-foreground: oklch(0.705 0.015 286.067);
-  --accent: oklch(0.274 0.006 286.033);
-  --accent-foreground:  oklch(0.92 0.005 65);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.488 0.243 264.376);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --sidebar: oklch(0.21 0.006 285.885);
-  --sidebar-foreground: oklch(0.85 0.005 65);
-  --sidebar-accent: oklch(0.274 0.006 286.033);
-  --sidebar-accent-foreground:  oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.488 0.243 264.376);
+  /* Dark mode (optional, keeping minimal for Apple aesthetic) */
+  --background: #1D1D1F;
+  --foreground: #F5F5F7;
+  --card: #2C2C2E;
+  --card-foreground: #F5F5F7;
+  --popover: #2C2C2E;
+  --popover-foreground: #F5F5F7;
+  --secondary: #3A3A3C;
+  --secondary-foreground: #F5F5F7;
+  --muted: #3A3A3C;
+  --muted-foreground: #AEAEB2;
+  --accent: #D4AF37;
+  --accent-foreground: #1D1D1F;
+  --destructive: #FF453A;
+  --destructive-foreground: #FFFFFF;
+  --border: #48484A;
+  --input: #48484A;
+  --ring: #D4AF37;
+  --sidebar: #2C2C2E;
+  --sidebar-foreground: #F5F5F7;
+  --sidebar-primary: #F5F5F7;
+  --sidebar-primary-foreground: #1D1D1F;
+  --sidebar-accent: #3A3A3C;
+  --sidebar-accent-foreground: #F5F5F7;
+  --sidebar-border: #48484A;
+  --sidebar-ring: #D4AF37;
 }
 
 @layer base {
@@ -126,10 +143,11 @@
   
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
     font-feature-settings: 'cv11', 'ss01';
     font-variation-settings: 'opsz' 32;
   }
+  
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
   [type="button"]:not(:disabled),
@@ -146,22 +164,12 @@
 @layer components {
   /**
    * Custom container utility that centers content and adds responsive padding.
-   *
-   * This overrides Tailwind's default container behavior to:
-   * - Auto-center content (mx-auto)
-   * - Add responsive horizontal padding
-   * - Set max-width for large screens
-   *
-   * Usage: <div className="container">...</div>
-   *
-   * For custom widths, use max-w-* utilities directly:
-   * <div className="max-w-6xl mx-auto px-4">...</div>
    */
   .container {
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 1rem; /* 16px - mobile padding */
+    padding-left: 1rem;
     padding-right: 1rem;
   }
 
@@ -172,16 +180,16 @@
 
   @media (min-width: 640px) {
     .container {
-      padding-left: 1.5rem; /* 24px - tablet padding */
+      padding-left: 1.5rem;
       padding-right: 1.5rem;
     }
   }
 
   @media (min-width: 1024px) {
     .container {
-      padding-left: 2rem; /* 32px - desktop padding */
+      padding-left: 2rem;
       padding-right: 2rem;
-      max-width: 1280px; /* Standard content width */
+      max-width: 1280px;
     }
   }
   
@@ -191,6 +199,7 @@
     font-weight: 700;
     line-height: 1.05;
     letter-spacing: -0.02em;
+    color: #1D1D1F;
   }
   
   .text-section {
@@ -198,6 +207,7 @@
     font-weight: 600;
     line-height: 1.1;
     letter-spacing: -0.015em;
+    color: #1D1D1F;
   }
   
   .text-subsection {
@@ -205,6 +215,7 @@
     font-weight: 600;
     line-height: 1.2;
     letter-spacing: -0.01em;
+    color: #1D1D1F;
   }
   
   .text-body-large {
@@ -212,13 +223,14 @@
     font-weight: 400;
     line-height: 1.5;
     letter-spacing: -0.005em;
-    color: hsl(var(--muted-foreground));
+    color: #6E6E73;
   }
   
   .text-body {
     font-size: 1.0625rem;
     font-weight: 400;
     line-height: 1.6;
+    color: #1D1D1F;
   }
   
   .text-caption {
@@ -226,6 +238,7 @@
     font-weight: 400;
     line-height: 1.4;
     letter-spacing: -0.003em;
+    color: #6E6E73;
   }
   
   /* Apple-inspired glass morphism */
@@ -280,7 +293,41 @@
     }
   }
   
-  /* Apple-style button hover */
+  /* Apple-style button - primary (black pill) */
+  .btn-apple-primary {
+    background: #111111;
+    color: #FFFFFF;
+    border-radius: 999px;
+    padding: 12px 24px;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+  
+  .btn-apple-primary:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  }
+  
+  /* Apple-style button - secondary (white bordered pill) */
+  .btn-apple-secondary {
+    background: #FFFFFF;
+    color: #1D1D1F;
+    border: 1px solid #D2D2D7;
+    border-radius: 999px;
+    padding: 12px 24px;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .btn-apple-secondary:hover {
+    background: #F5F5F7;
+    transform: scale(1.02);
+  }
+  
+  /* Legacy btn-apple for backward compatibility */
   .btn-apple {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -288,5 +335,51 @@
   .btn-apple:hover {
     transform: translateY(-1px);
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Apple-style metric card */
+  .metric-card {
+    background: #F5F5F7;
+    border-radius: 12px;
+    padding: 24px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  }
+  
+  /* Apple-style opportunity card */
+  .opportunity-card {
+    background: #FFFFFF;
+    border: 1px solid #D2D2D7;
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .opportunity-card:hover {
+    background: #F5F5F7;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+  }
+  
+  /* Score pill */
+  .score-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 16px;
+    border-radius: 999px;
+    background: #F5F5F7;
+    color: #1D1D1F;
+    font-weight: 600;
+    font-size: 0.875rem;
+  }
+  
+  .score-pill-high {
+    background: #D4AF37;
+    color: #FFFFFF;
   }
 }

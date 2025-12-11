@@ -6,16 +6,24 @@ import {
   Mail, 
   TrendingUp,
   Search,
-  Filter,
-  Download
+  ChevronDown
 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface Opportunity {
   listing_id: string;
   title: string;
+  industry: string;
+  location: string;
+  revenue: string;
   final_score: number;
   rank: number;
   meets_threshold: boolean;
@@ -39,44 +47,61 @@ export default function Dashboard() {
     outreach_replied: 0
   });
   const [searchTerm, setSearchTerm] = useState("");
+  const [scoreFilter, setScoreFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [sortBy, setSortBy] = useState("score");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Simulate loading data
-    // In production, this would fetch from API or load from files
     setTimeout(() => {
       const mockOpportunities: Opportunity[] = [
         {
           listing_id: "1",
           title: "HVAC Service Company - Atlanta Metro",
+          industry: "Home Services",
+          location: "GA",
+          revenue: "$2.5M",
           final_score: 0.89,
           rank: 1,
           meets_threshold: true
         },
         {
           listing_id: "2",
-          title: "Waste Management Route Business - GA",
+          title: "Waste Management Route Business",
+          industry: "Environmental Services",
+          location: "GA",
+          revenue: "$1.8M",
           final_score: 0.85,
           rank: 2,
           meets_threshold: true
         },
         {
           listing_id: "3",
-          title: "Commercial Plumbing Services - FL",
+          title: "Commercial Plumbing Services",
+          industry: "Construction",
+          location: "FL",
+          revenue: "$3.2M",
           final_score: 0.82,
           rank: 3,
           meets_threshold: true
         },
         {
           listing_id: "4",
-          title: "Facilities Maintenance Company - TX",
+          title: "Facilities Maintenance Company",
+          industry: "Facilities Management",
+          location: "TX",
+          revenue: "$4.1M",
           final_score: 0.78,
           rank: 4,
           meets_threshold: true
         },
         {
           listing_id: "5",
-          title: "Home Services Franchise - NC",
+          title: "Home Services Franchise",
+          industry: "Home Services",
+          location: "NC",
+          revenue: "$1.5M",
           final_score: 0.75,
           rank: 5,
           meets_threshold: true
@@ -104,36 +129,40 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-background flex">
       {/* Sidebar */}
-      <aside className="w-64 border-r border-border bg-card">
+      <aside className="w-64 border-r border-border bg-white">
         <div className="p-6">
-          <h1 className="text-2xl font-bold text-foreground">Million Hunter</h1>
-          <p className="text-sm text-muted-foreground mt-1">AI Acquisition Agent</p>
+          <h1 className="text-2xl font-bold" style={{ color: '#1D1D1F' }}>Million Hunter</h1>
+          <p className="text-sm mt-1" style={{ color: '#6E6E73' }}>AI Acquisition Agent</p>
         </div>
         
         <nav className="px-4 space-y-2">
           <Link href="/dashboard">
-            <a className="flex items-center gap-3 px-4 py-3 rounded-lg bg-accent text-accent-foreground">
+            <a className="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors" 
+               style={{ background: '#F5F5F7', color: '#1D1D1F' }}>
               <LayoutDashboard className="w-5 h-5" />
               <span className="font-medium">Dashboard</span>
             </a>
           </Link>
           
           <Link href="/dashboard">
-            <a className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors text-muted-foreground">
+            <a className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-secondary transition-colors"
+               style={{ color: '#6E6E73' }}>
               <Target className="w-5 h-5" />
               <span className="font-medium">Opportunities</span>
             </a>
           </Link>
           
           <Link href="/dashboard">
-            <a className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors text-muted-foreground">
+            <a className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-secondary transition-colors"
+               style={{ color: '#6E6E73' }}>
               <Mail className="w-5 h-5" />
               <span className="font-medium">Outreach</span>
             </a>
           </Link>
           
           <Link href="/dashboard">
-            <a className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors text-muted-foreground">
+            <a className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-secondary transition-colors"
+               style={{ color: '#6E6E73' }}>
               <TrendingUp className="w-5 h-5" />
               <span className="font-medium">Analytics</span>
             </a>
@@ -143,132 +172,210 @@ export default function Dashboard() {
 
       {/* Main Content */}
       <main className="flex-1 overflow-auto">
-        <div className="p-8">
-          {/* Header */}
-          <div className="mb-8">
-            <h2 className="text-3xl font-bold text-foreground">Pipeline Overview</h2>
-            <p className="text-muted-foreground mt-1">
-              Track and manage acquisition opportunities
+        <div className="max-w-7xl mx-auto p-8">
+          {/* Page Hero */}
+          <div className="mb-12">
+            <h2 className="text-section mb-3">Pipeline Overview</h2>
+            <p className="text-body-large">
+              Track and manage acquisition opportunities scored by the AI Acquisition Agent.
             </p>
           </div>
 
-          {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
-                  Total Opportunities
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-3xl font-bold text-foreground">{stats.total_opportunities}</div>
-                <p className="text-xs text-muted-foreground mt-1">Scanned this month</p>
-              </CardContent>
-            </Card>
+          {/* KPI Metric Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-12">
+            {/* Total Opportunities */}
+            <div className="metric-card">
+              <div className="text-xs uppercase tracking-wide font-medium mb-2" style={{ color: '#6E6E73' }}>
+                Total Opportunities
+              </div>
+              <div className="text-4xl font-bold mb-1" style={{ color: '#1D1D1F' }}>
+                {stats.total_opportunities}
+              </div>
+              <div className="text-sm" style={{ color: '#6E6E73' }}>
+                Scanned this month
+              </div>
+            </div>
 
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
-                  High Score (≥0.70)
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-3xl font-bold text-green-500">{stats.high_score_count}</div>
-                <p className="text-xs text-muted-foreground mt-1">Meeting threshold</p>
-              </CardContent>
-            </Card>
+            {/* High Score */}
+            <div className="metric-card">
+              <div className="text-xs uppercase tracking-wide font-medium mb-2" style={{ color: '#6E6E73' }}>
+                High Score (≥ 0.70)
+              </div>
+              <div className="text-4xl font-bold mb-1" style={{ color: '#1D1D1F' }}>
+                {stats.high_score_count}
+              </div>
+              <div className="text-sm" style={{ color: '#6E6E73' }}>
+                Meeting threshold
+              </div>
+            </div>
 
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
-                  Average Score
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-3xl font-bold text-foreground">{stats.avg_score.toFixed(2)}</div>
-                <p className="text-xs text-muted-foreground mt-1">Across all listings</p>
-              </CardContent>
-            </Card>
+            {/* Average Score */}
+            <div className="metric-card">
+              <div className="text-xs uppercase tracking-wide font-medium mb-2" style={{ color: '#6E6E73' }}>
+                Average Score
+              </div>
+              <div className="text-4xl font-bold mb-1" style={{ color: '#1D1D1F' }}>
+                {stats.avg_score.toFixed(2)}
+              </div>
+              <div className="text-sm" style={{ color: '#6E6E73' }}>
+                Across all listings
+              </div>
+            </div>
 
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
-                  Outreach Response
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-3xl font-bold text-blue-500">
-                  {stats.outreach_replied}/{stats.outreach_sent}
-                </div>
-                <p className="text-xs text-muted-foreground mt-1">
-                  {((stats.outreach_replied / stats.outreach_sent) * 100).toFixed(0)}% reply rate
-                </p>
-              </CardContent>
-            </Card>
+            {/* Outreach Sent */}
+            <div className="metric-card">
+              <div className="text-xs uppercase tracking-wide font-medium mb-2" style={{ color: '#6E6E73' }}>
+                Outreach Sent
+              </div>
+              <div className="text-4xl font-bold mb-1" style={{ color: '#1D1D1F' }}>
+                {stats.outreach_sent}
+              </div>
+              <div className="text-sm" style={{ color: '#6E6E73' }}>
+                Emails/messages sent
+              </div>
+            </div>
+
+            {/* Outreach Response */}
+            <div className="metric-card">
+              <div className="text-xs uppercase tracking-wide font-medium mb-2" style={{ color: '#6E6E73' }}>
+                Outreach Response
+              </div>
+              <div className="text-4xl font-bold mb-1" style={{ color: '#1D1D1F' }}>
+                {((stats.outreach_replied / stats.outreach_sent) * 100).toFixed(0)}%
+              </div>
+              <div className="text-sm" style={{ color: '#6E6E73' }}>
+                {stats.outreach_replied}/{stats.outreach_sent} replies
+              </div>
+            </div>
           </div>
 
-          {/* Opportunities Table */}
-          <Card>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle>Top Opportunities</CardTitle>
-                <div className="flex items-center gap-2">
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                    <Input
-                      placeholder="Search opportunities..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-9 w-64"
-                    />
-                  </div>
-                  <Button variant="outline" size="icon">
-                    <Filter className="w-4 h-4" />
-                  </Button>
-                  <Button variant="outline" size="icon">
-                    <Download className="w-4 h-4" />
-                  </Button>
-                </div>
+          {/* Filters & Search */}
+          <div className="metric-card mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              {/* Search */}
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: '#6E6E73' }} />
+                <Input
+                  placeholder="Search by business name, industry, or location…"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-9"
+                  style={{ borderColor: '#D2D2D7' }}
+                />
               </div>
-            </CardHeader>
-            <CardContent>
-              {loading ? (
-                <div className="text-center py-12 text-muted-foreground">
-                  Loading opportunities...
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {filteredOpportunities.map((opp) => (
-                    <Link key={opp.listing_id} href={`/opportunity/${opp.listing_id}`}>
-                      <a className="block p-4 rounded-lg border border-border hover:border-accent hover:bg-accent/5 transition-colors">
-                        <div className="flex items-center justify-between">
-                          <div className="flex-1">
-                            <div className="flex items-center gap-3">
-                              <span className="text-2xl font-bold text-muted-foreground">
-                                #{opp.rank}
-                              </span>
-                              <div>
-                                <h3 className="font-semibold text-foreground">{opp.title}</h3>
-                                <p className="text-sm text-muted-foreground mt-1">
-                                  Click to view full analysis
-                                </p>
-                              </div>
-                            </div>
+
+              {/* Filter by Score */}
+              <Select value={scoreFilter} onValueChange={setScoreFilter}>
+                <SelectTrigger style={{ borderColor: '#D2D2D7' }}>
+                  <SelectValue placeholder="Filter by Score" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Scores</SelectItem>
+                  <SelectItem value="high">≥ 0.8</SelectItem>
+                  <SelectItem value="medium">0.7 - 0.79</SelectItem>
+                  <SelectItem value="low">&lt; 0.7</SelectItem>
+                </SelectContent>
+              </Select>
+
+              {/* Filter by Status */}
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <SelectTrigger style={{ borderColor: '#D2D2D7' }}>
+                  <SelectValue placeholder="Filter by Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Status</SelectItem>
+                  <SelectItem value="new">New</SelectItem>
+                  <SelectItem value="contacted">Contacted</SelectItem>
+                  <SelectItem value="conversation">In Conversation</SelectItem>
+                  <SelectItem value="loi">LOI</SelectItem>
+                  <SelectItem value="closed">Closed</SelectItem>
+                </SelectContent>
+              </Select>
+
+              {/* Sort by */}
+              <Select value={sortBy} onValueChange={setSortBy}>
+                <SelectTrigger style={{ borderColor: '#D2D2D7' }}>
+                  <SelectValue placeholder="Sort by" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="score">Score (high→low)</SelectItem>
+                  <SelectItem value="date">Date Added</SelectItem>
+                  <SelectItem value="response">Response Probability</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          {/* Top Opportunities List */}
+          <div>
+            <h3 className="text-2xl font-semibold mb-6" style={{ color: '#1D1D1F' }}>
+              Top Opportunities
+            </h3>
+            
+            {loading ? (
+              <div className="text-center py-12" style={{ color: '#6E6E73' }}>
+                Loading opportunities...
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {filteredOpportunities.map((opp) => (
+                  <Link key={opp.listing_id} href={`https://capitalsignal.manus.space/opportunity/${opp.listing_id}`}>
+                    <div className="opportunity-card">
+                      <div className="flex items-center justify-between">
+                        {/* Left: Rank + Title */}
+                        <div className="flex items-center gap-4 flex-1">
+                          <div className="text-3xl font-bold" style={{ color: '#D2D2D7' }}>
+                            #{opp.rank}
                           </div>
-                          <div className="text-right">
-                            <div className="text-2xl font-bold text-green-500">
-                              {(opp.final_score * 100).toFixed(0)}
-                            </div>
-                            <p className="text-xs text-muted-foreground">Score</p>
+                          <div className="flex-1">
+                            <h4 className="font-semibold text-lg mb-1" style={{ color: '#1D1D1F' }}>
+                              {opp.title}
+                            </h4>
+                            <p className="text-sm" style={{ color: '#6E6E73' }}>
+                              Click to view full analysis
+                            </p>
                           </div>
                         </div>
-                      </a>
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
+
+                        {/* Middle: Key Stats */}
+                        <div className="flex items-center gap-8 mr-8">
+                          <div>
+                            <div className="text-xs uppercase tracking-wide mb-1" style={{ color: '#6E6E73' }}>
+                              Industry
+                            </div>
+                            <div className="text-sm font-medium" style={{ color: '#1D1D1F' }}>
+                              {opp.industry}
+                            </div>
+                          </div>
+                          <div>
+                            <div className="text-xs uppercase tracking-wide mb-1" style={{ color: '#6E6E73' }}>
+                              Location
+                            </div>
+                            <div className="text-sm font-medium" style={{ color: '#1D1D1F' }}>
+                              {opp.location}
+                            </div>
+                          </div>
+                          <div>
+                            <div className="text-xs uppercase tracking-wide mb-1" style={{ color: '#6E6E73' }}>
+                              Revenue
+                            </div>
+                            <div className="text-sm font-medium" style={{ color: '#1D1D1F' }}>
+                              {opp.revenue}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Right: Score Pill */}
+                        <div className={opp.final_score >= 0.8 ? 'score-pill score-pill-high' : 'score-pill'}>
+                          Score {(opp.final_score * 100).toFixed(0)}
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </main>
     </div>
