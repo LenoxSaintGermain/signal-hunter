@@ -135,19 +135,19 @@ export default function WhitehallAssemblage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950">
+    <div className="min-h-screen bg-white">
       {/* Hero Section with FIFA Countdown */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/api/placeholder/1920/1080')] bg-cover bg-center opacity-20" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-900/50 to-gray-950" />
+        <div className="absolute inset-0 " />
+        <div className="absolute inset-0 " />
         
         <div className="relative z-10 container mx-auto px-4 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 mb-8">
-            <Trophy className="w-4 h-4 text-blue-400" />
-            <span className="text-sm text-blue-400 font-medium">FIFA World Cup 2026 Host City</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary border mb-8">
+            <Trophy className="w-4 h-4 text-foreground" />
+            <span className="text-sm text-foreground font-medium">FIFA World Cup 2026 Host City</span>
           </div>
           
-          <h1 className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
+          <h1 className="text-6xl md:text-8xl font-bold mb-6 text-foreground">
             Whitehall
             <br />
             Assemblage
@@ -156,12 +156,12 @@ export default function WhitehallAssemblage() {
           <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
             2.31 acres of prime stadium-adjacent land. 8 FIFA World Cup matches. 
             <br />
-            <span className="text-blue-400 font-semibold">One extraordinary opportunity.</span>
+            <span className="text-foreground font-semibold">One extraordinary opportunity.</span>
           </p>
 
           {/* FIFA Countdown */}
           <div className="flex items-center justify-center gap-4 mb-12">
-            <Timer className="w-6 h-6 text-blue-400" />
+            <Timer className="w-6 h-6 text-foreground" />
             <div className="flex gap-4">
               {[
                 { label: "Days", value: timeToFIFA.days },
@@ -190,8 +190,8 @@ export default function WhitehallAssemblage() {
               { label: "FIFA Matches", value: "8", icon: Trophy },
               { label: "Stadium Distance", value: "0.6 mi", icon: Building2 },
             ].map((metric) => (
-              <Card key={metric.label} className="p-4 bg-white/5 backdrop-blur-sm border-white/10">
-                <metric.icon className="w-5 h-5 text-blue-400 mb-2" />
+              <Card key={metric.label} className="p-4 bg-secondary backdrop-blur-sm border">
+                <metric.icon className="w-5 h-5 text-foreground mb-2" />
                 <div className="text-2xl font-bold text-white">{metric.value}</div>
                 <div className="text-sm text-gray-400">{metric.label}</div>
               </Card>
@@ -199,11 +199,11 @@ export default function WhitehallAssemblage() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-lg px-8">
+            <Button size="lg" className="btn-apple-primary text-lg px-8">
               View Investment Calculator
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
-            <Button size="lg" variant="outline" className="border-white/20 text-white hover:bg-white/10 text-lg px-8">
+            <Button size="lg" variant="outline" className="border text-white hover:bg-white/10 text-lg px-8">
               Download Pro Forma
             </Button>
           </div>
@@ -211,7 +211,7 @@ export default function WhitehallAssemblage() {
       </section>
 
       {/* Executive Summary */}
-      <section className="py-24 bg-gray-900/50">
+      <section className="py-24 bg-secondary">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-4xl font-bold text-white mb-6 text-center">
@@ -240,10 +240,10 @@ export default function WhitehallAssemblage() {
                   title: "Development Upside",
                   description: "Adjacent to $1.29B Forge Atlanta project. Multiple exit strategies available",
                   icon: TrendingUp,
-                  color: "text-blue-400",
+                  color: "text-foreground",
                 },
               ].map((feature) => (
-                <Card key={feature.title} className="p-6 bg-white/5 backdrop-blur-sm border-white/10">
+                <Card key={feature.title} className="p-6 bg-secondary backdrop-blur-sm border">
                   <feature.icon className={`w-8 h-8 ${feature.color} mb-4`} />
                   <h3 className="text-xl font-semibold text-white mb-2">{feature.title}</h3>
                   <p className="text-gray-400">{feature.description}</p>
@@ -259,7 +259,7 @@ export default function WhitehallAssemblage() {
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
-              <Calculator className="w-12 h-12 text-blue-400 mx-auto mb-4" />
+              <Calculator className="w-12 h-12 text-foreground mx-auto mb-4" />
               <h2 className="text-4xl font-bold text-white mb-4">
                 Investment Calculator
               </h2>
@@ -268,7 +268,7 @@ export default function WhitehallAssemblage() {
               </p>
             </div>
 
-            <Card className="p-8 bg-white/5 backdrop-blur-sm border-white/10">
+            <Card className="p-8 bg-secondary backdrop-blur-sm border">
               <Tabs defaultValue="financing" className="w-full">
                 <TabsList className="grid w-full grid-cols-3 mb-8">
                   <TabsTrigger value="financing">Financing</TabsTrigger>
@@ -333,7 +333,7 @@ export default function WhitehallAssemblage() {
                     />
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4 mt-8 pt-8 border-t border-white/10">
+                  <div className="grid grid-cols-2 gap-4 mt-8 pt-8 border-t border">
                     <div>
                       <div className="text-sm text-gray-400 mb-1">Down Payment</div>
                       <div className="text-2xl font-bold text-white">
@@ -418,7 +418,7 @@ export default function WhitehallAssemblage() {
                     />
                   </div>
 
-                  <div className="mt-8 pt-8 border-t border-white/10">
+                  <div className="mt-8 pt-8 border-t border">
                     <h3 className="text-xl font-semibold text-white mb-4">FIFA 2026 Revenue Breakdown</h3>
                     <div className="h-64 mb-6">
                       <ResponsiveContainer width="100%" height="100%">
@@ -450,7 +450,7 @@ export default function WhitehallAssemblage() {
                       </div>
                       <div>
                         <div className="text-sm text-gray-400 mb-1">Per Match Average</div>
-                        <div className="text-3xl font-bold text-blue-400">
+                        <div className="text-3xl font-bold text-foreground">
                           ${(totalFIFARevenue / fifaMatches / 1000).toFixed(0)}K
                         </div>
                       </div>
@@ -469,7 +469,7 @@ export default function WhitehallAssemblage() {
                     </Card>
 
                     <Card className="p-6 bg-gradient-to-br from-blue-500/10 to-blue-600/5 border-blue-500/20">
-                      <div className="text-sm text-blue-400 mb-2">Year 1 NOI</div>
+                      <div className="text-sm text-foreground mb-2">Year 1 NOI</div>
                       <div className="text-4xl font-bold text-white mb-1">
                         ${(year1NOI / 1000).toFixed(0)}K
                       </div>
@@ -477,7 +477,7 @@ export default function WhitehallAssemblage() {
                     </Card>
 
                     <Card className="p-6 bg-gradient-to-br from-purple-500/10 to-purple-600/5 border-purple-500/20">
-                      <div className="text-sm text-purple-400 mb-2">10-Year Exit Value</div>
+                      <div className="text-sm text-foreground mb-2">10-Year Exit Value</div>
                       <div className="text-4xl font-bold text-white mb-1">
                         ${(exitValue / 1000000).toFixed(1)}M
                       </div>
@@ -513,7 +513,7 @@ export default function WhitehallAssemblage() {
       </section>
 
       {/* Location & Proximity */}
-      <section className="py-24 bg-gray-900/50">
+      <section className="py-24 bg-secondary">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-4xl font-bold text-white mb-6 text-center">
@@ -572,7 +572,7 @@ export default function WhitehallAssemblage() {
               ))}
             </div>
 
-            <Card className="p-8 bg-white/5 backdrop-blur-sm border-white/10">
+            <Card className="p-8 bg-secondary backdrop-blur-sm border">
               <h3 className="text-2xl font-semibold text-white mb-6">Cumulative Tax Savings Over Time</h3>
               <div className="h-80 mb-6">
                 <ResponsiveContainer width="100%" height="100%">
@@ -590,7 +590,7 @@ export default function WhitehallAssemblage() {
                 </ResponsiveContainer>
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-white/10">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border">
                 <div>
                   <div className="text-sm text-gray-400 mb-1">Capital Gain</div>
                   <div className="text-xl font-bold text-white">${(capitalGain / 1000000).toFixed(2)}M</div>
@@ -632,7 +632,7 @@ export default function WhitehallAssemblage() {
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
-              <BarChart3 className="w-12 h-12 text-purple-400 mx-auto mb-4" />
+              <BarChart3 className="w-12 h-12 text-foreground mx-auto mb-4" />
               <h2 className="text-4xl font-bold text-white mb-4">
                 Investment Scenarios
               </h2>
@@ -657,17 +657,17 @@ export default function WhitehallAssemblage() {
 
             <div className="grid md:grid-cols-2 gap-6">
               {scenarioComparisonData.map((scenario) => (
-                <Card key={scenario.scenario} className="p-6 bg-white/5 backdrop-blur-sm border-white/10">
+                <Card key={scenario.scenario} className="p-6 bg-secondary backdrop-blur-sm border">
                   <h3 className="text-xl font-semibold text-white mb-4">{scenario.scenario}</h3>
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
                       <span className="text-gray-400">Year 1 ROI</span>
-                      <span className="text-2xl font-bold text-purple-400">{scenario.roi}%</span>
+                      <span className="text-2xl font-bold text-foreground">{scenario.roi}%</span>
                     </div>
                     {scenario.irr > 0 && (
                       <div className="flex justify-between items-center">
                         <span className="text-gray-400">10-Year IRR</span>
-                        <span className="text-2xl font-bold text-blue-400">{scenario.irr}%</span>
+                        <span className="text-2xl font-bold text-foreground">{scenario.irr}%</span>
                       </div>
                     )}
                     <div className="flex justify-between items-center">
@@ -685,7 +685,7 @@ export default function WhitehallAssemblage() {
       </section>
 
       {/* Risk Analysis */}
-      <section className="py-24 bg-gray-900/50">
+      <section className="py-24 bg-secondary">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
@@ -721,7 +721,7 @@ export default function WhitehallAssemblage() {
                   mitigation: "Buildings built 1940-1959 need inspection. Can be demolished if not viable. Land value alone supports investment.",
                 },
               ].map((item) => (
-                <Card key={item.risk} className="p-6 bg-white/5 backdrop-blur-sm border-white/10">
+                <Card key={item.risk} className="p-6 bg-secondary backdrop-blur-sm border">
                   <div className="flex items-start justify-between mb-3">
                     <h3 className="text-xl font-semibold text-white">{item.risk}</h3>
                     <span
@@ -754,13 +754,13 @@ export default function WhitehallAssemblage() {
             Download the complete pro forma, schedule a site visit, or connect with our investment team to discuss financing options.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-lg px-8">
+            <Button size="lg" className="btn-apple-primary text-lg px-8">
               Download Full Analysis
             </Button>
-            <Button size="lg" variant="outline" className="border-white/20 text-white hover:bg-white/10 text-lg px-8">
+            <Button size="lg" variant="outline" className="border text-white hover:bg-white/10 text-lg px-8">
               Schedule Site Visit
             </Button>
-            <Button size="lg" variant="outline" className="border-white/20 text-white hover:bg-white/10 text-lg px-8">
+            <Button size="lg" variant="outline" className="border text-white hover:bg-white/10 text-lg px-8">
               Contact Investment Team
             </Button>
           </div>

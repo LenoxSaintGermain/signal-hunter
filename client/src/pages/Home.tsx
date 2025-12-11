@@ -118,7 +118,7 @@ export default function Home() {
         <div className="container mx-auto px-6 md:px-12">
           <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 text-xs font-medium mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary text-foreground text-xs font-medium mb-6">
                 <Target className="w-3 h-3" />
                 <span>SMART TARGETING</span>
               </div>
@@ -146,7 +146,7 @@ export default function Home() {
               </ul>
             </div>
             <div className="relative">
-              <div className="aspect-square rounded-2xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-border/50 p-8 flex items-center justify-center">
+              <div className="aspect-square rounded-2xl bg-secondary backdrop-blur-sm border border-border/50 p-8 flex items-center justify-center">
                 <Target className="w-32 h-32 text-primary opacity-20" />
               </div>
             </div>
@@ -159,12 +159,12 @@ export default function Home() {
         <div className="container mx-auto px-6 md:px-12">
           <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
             <div className="order-2 md:order-1 relative">
-              <div className="aspect-square rounded-2xl bg-gradient-to-br from-green-500/20 to-blue-500/20 backdrop-blur-sm border border-border/50 p-8 flex items-center justify-center">
+              <div className="aspect-square rounded-2xl bg-secondary backdrop-blur-sm border border-border/50 p-8 flex items-center justify-center">
                 <Brain className="w-32 h-32 text-green-600 opacity-20" />
               </div>
             </div>
             <div className="order-1 md:order-2">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 text-green-600 text-xs font-medium mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary text-foreground text-xs font-medium mb-6">
                 <Brain className="w-3 h-3" />
                 <span>AI SCORING</span>
               </div>
@@ -198,7 +198,7 @@ export default function Home() {
         <div className="container mx-auto px-6 md:px-12">
           <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 text-purple-600 text-xs font-medium mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary text-foreground text-xs font-medium mb-6">
                 <Zap className="w-3 h-3" />
                 <span>AUTOMATED OUTREACH</span>
               </div>
@@ -231,7 +231,7 @@ export default function Home() {
               </div>
             </div>
             <div className="relative">
-              <div className="aspect-square rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm border border-border/50 p-8 flex items-center justify-center">
+              <div className="aspect-square rounded-2xl bg-secondary backdrop-blur-sm border border-border/50 p-8 flex items-center justify-center">
                 <Zap className="w-32 h-32 text-purple-600 opacity-20" />
               </div>
             </div>
@@ -270,7 +270,7 @@ export default function Home() {
               }
             ].map((advantage, index) => (
               <div key={index} className="p-8 rounded-2xl bg-background border border-border hover:border-primary/50 transition-all duration-300">
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${advantage.color === 'text-blue-600' ? 'from-blue-500/20 to-blue-600/20' : advantage.color === 'text-green-600' ? 'from-green-500/20 to-green-600/20' : 'from-purple-500/20 to-purple-600/20'} flex items-center justify-center mb-6`}>
+                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br from-secondary to-secondary flex items-center justify-center mb-6`}>
                   <advantage.icon className={`w-6 h-6 ${advantage.color}`} />
                 </div>
                 <h3 className="text-xl font-semibold mb-3">{advantage.title}</h3>

@@ -124,14 +124,14 @@ export default function Property514Whitehall() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen bg-white">
       <AIAssistant propertyContext={{ name: "514 Whitehall St SW", price: purchasePrice, location: "Atlanta, GA - 1.0 mile from Mercedes-Benz Stadium" }} />
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/10 to-transparent" />
         <div className="container mx-auto px-4 py-20 relative">
           <div className="max-w-4xl mx-auto text-center space-y-6">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-foreground text-sm">
               <Trophy className="w-4 h-4" />
               Prime Stadium-Adjacent Opportunity
             </div>
@@ -142,31 +142,31 @@ export default function Property514Whitehall() {
             
             <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto">
               11,500 sq ft lot, 1.0 mile from Mercedes-Benz Stadium.
-              <span className="text-blue-400"> Transform into a revenue-generating asset.</span>
+              <span className="text-foreground"> Transform into a revenue-generating asset.</span>
             </p>
 
             {/* Key Metrics */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-8">
               <Card className="bg-white/5 backdrop-blur-sm border-white/10 p-6">
-                <DollarSign className="w-8 h-8 text-blue-400 mb-2" />
+                <DollarSign className="w-8 h-8 text-foreground mb-2" />
                 <div className="text-3xl font-bold">${(purchasePrice / 1000).toFixed(0)}K</div>
                 <div className="text-sm text-gray-400">Asking Price</div>
               </Card>
               
               <Card className="bg-white/5 backdrop-blur-sm border-white/10 p-6">
-                <MapPin className="w-8 h-8 text-purple-400 mb-2" />
+                <MapPin className="w-8 h-8 text-foreground mb-2" />
                 <div className="text-3xl font-bold">11,500</div>
                 <div className="text-sm text-gray-400">Sq Ft Lot</div>
               </Card>
               
               <Card className="bg-white/5 backdrop-blur-sm border-white/10 p-6">
-                <Building2 className="w-8 h-8 text-pink-400 mb-2" />
+                <Building2 className="w-8 h-8 text-foreground mb-2" />
                 <div className="text-3xl font-bold">1.0 mi</div>
                 <div className="text-sm text-gray-400">To Stadium</div>
               </Card>
               
               <Card className="bg-white/5 backdrop-blur-sm border-white/10 p-6">
-                <TrendingUp className="w-8 h-8 text-green-400 mb-2" />
+                <TrendingUp className="w-8 h-8 text-foreground mb-2" />
                 <div className="text-3xl font-bold">{cashOnCashReturn.toFixed(0)}%</div>
                 <div className="text-sm text-gray-400">Cash-on-Cash</div>
               </Card>
@@ -206,7 +206,7 @@ export default function Property514Whitehall() {
             </Card>
 
             <Card className="bg-gradient-to-br from-purple-500/10 to-purple-600/5 border-purple-500/20 p-8">
-              <CheckCircle2 className="w-12 h-12 text-green-400 mb-4" />
+              <CheckCircle2 className="w-12 h-12 text-foreground mb-4" />
               <h3 className="text-2xl font-bold mb-3">Opportunity Zone</h3>
               <p className="text-gray-300">
                 Defer and reduce capital gains taxes. Save ${(ozSavingsWithTAD / 1000).toFixed(0)}K over 10 years with OZ + TAD benefits
@@ -214,7 +214,7 @@ export default function Property514Whitehall() {
             </Card>
 
             <Card className="bg-gradient-to-br from-pink-500/10 to-pink-600/5 border-pink-500/20 p-8">
-              <TrendingUp className="w-12 h-12 text-blue-400 mb-4" />
+              <TrendingUp className="w-12 h-12 text-foreground mb-4" />
               <h3 className="text-2xl font-bold mb-3">Flex-Stack Design</h3>
               <p className="text-gray-300">
                 Triple revenue streams: parking + event space + Airbnb. ${(flexStackRevenue / 1000).toFixed(0)}K annual revenue potential
@@ -245,7 +245,7 @@ export default function Property514Whitehall() {
                   <div>
                     <div className="flex justify-between mb-4">
                       <label className="text-lg font-medium">Purchase Price</label>
-                      <span className="text-xl font-bold text-blue-400">
+                      <span className="text-xl font-bold text-foreground">
                         ${(purchasePrice / 1000).toFixed(0)}K
                       </span>
                     </div>
@@ -262,7 +262,7 @@ export default function Property514Whitehall() {
                   <div>
                     <div className="flex justify-between mb-4">
                       <label className="text-lg font-medium">Down Payment</label>
-                      <span className="text-xl font-bold text-blue-400">{downPayment}%</span>
+                      <span className="text-xl font-bold text-foreground">{downPayment}%</span>
                     </div>
                     <Slider
                       value={[downPayment]}
@@ -277,7 +277,7 @@ export default function Property514Whitehall() {
                   <div>
                     <div className="flex justify-between mb-4">
                       <label className="text-lg font-medium">Interest Rate</label>
-                      <span className="text-xl font-bold text-blue-400">{interestRate}%</span>
+                      <span className="text-xl font-bold text-foreground">{interestRate}%</span>
                     </div>
                     <Slider
                       value={[interestRate]}
@@ -292,7 +292,7 @@ export default function Property514Whitehall() {
                   <div>
                     <div className="flex justify-between mb-4">
                       <label className="text-lg font-medium">Hold Period</label>
-                      <span className="text-xl font-bold text-blue-400">{holdPeriod} years</span>
+                      <span className="text-xl font-bold text-foreground">{holdPeriod} years</span>
                     </div>
                     <Slider
                       value={[holdPeriod]}
@@ -415,28 +415,28 @@ export default function Property514Whitehall() {
               <div className="grid md:grid-cols-4 gap-4">
                 <Card className="bg-gradient-to-br from-blue-500/10 to-blue-600/5 border-blue-500/20 p-6">
                   <div className="text-sm text-gray-400 mb-2">Annual Revenue</div>
-                  <div className="text-3xl font-bold text-blue-400">
+                  <div className="text-3xl font-bold text-foreground">
                     ${(selectedRevenue / 1000).toFixed(0)}K
                   </div>
                 </Card>
                 
                 <Card className="bg-gradient-to-br from-purple-500/10 to-purple-600/5 border-purple-500/20 p-6">
                   <div className="text-sm text-gray-400 mb-2">Net Operating Income</div>
-                  <div className="text-3xl font-bold text-purple-400">
+                  <div className="text-3xl font-bold text-foreground">
                     ${(noi / 1000).toFixed(0)}K
                   </div>
                 </Card>
                 
                 <Card className="bg-gradient-to-br from-pink-500/10 to-pink-600/5 border-pink-500/20 p-6">
                   <div className="text-sm text-gray-400 mb-2">Annual Cash Flow</div>
-                  <div className="text-3xl font-bold text-pink-400">
+                  <div className="text-3xl font-bold text-foreground">
                     ${(cashFlow / 1000).toFixed(0)}K
                   </div>
                 </Card>
                 
                 <Card className="bg-gradient-to-br from-green-500/10 to-green-600/5 border-green-500/20 p-6">
                   <div className="text-sm text-gray-400 mb-2">Cash-on-Cash Return</div>
-                  <div className="text-3xl font-bold text-green-400">
+                  <div className="text-3xl font-bold text-foreground">
                     {cashOnCashReturn.toFixed(1)}%
                   </div>
                 </Card>
@@ -488,32 +488,32 @@ export default function Property514Whitehall() {
 
           <div className="grid md:grid-cols-3 gap-6 mb-12">
             <Card className="bg-gradient-to-br from-blue-500/10 to-blue-600/5 border-blue-500/20 p-8 text-center">
-              <div className="text-sm text-blue-400 font-semibold mb-2">Year 5</div>
+              <div className="text-sm text-foreground font-semibold mb-2">Year 5</div>
               <h3 className="text-2xl font-bold mb-3">10% Basis Step-Up</h3>
               <p className="text-gray-300 mb-4">
                 Reduce taxable gain by 10% of original investment
               </p>
-              <div className="text-4xl font-bold text-blue-400">$38K</div>
+              <div className="text-4xl font-bold text-foreground">$38K</div>
               <div className="text-sm text-gray-400">Tax Savings</div>
             </Card>
 
             <Card className="bg-gradient-to-br from-purple-500/10 to-purple-600/5 border-purple-500/20 p-8 text-center">
-              <div className="text-sm text-purple-400 font-semibold mb-2">Year 7</div>
+              <div className="text-sm text-foreground font-semibold mb-2">Year 7</div>
               <h3 className="text-2xl font-bold mb-3">15% Total Step-Up</h3>
               <p className="text-gray-300 mb-4">
                 Additional 5% step-up for total 15% reduction
               </p>
-              <div className="text-4xl font-bold text-purple-400">$58K</div>
+              <div className="text-4xl font-bold text-foreground">$58K</div>
               <div className="text-sm text-gray-400">Tax Savings</div>
             </Card>
 
             <Card className="bg-gradient-to-br from-pink-500/10 to-pink-600/5 border-pink-500/20 p-8 text-center">
-              <div className="text-sm text-pink-400 font-semibold mb-2">Year 10+</div>
+              <div className="text-sm text-foreground font-semibold mb-2">Year 10+</div>
               <h3 className="text-2xl font-bold mb-3">100% Exclusion</h3>
               <p className="text-gray-300 mb-4">
                 Pay ZERO tax on appreciation after 10 years
               </p>
-              <div className="text-4xl font-bold text-pink-400">${(ozSavingsWithTAD / 1000).toFixed(0)}K</div>
+              <div className="text-4xl font-bold text-foreground">${(ozSavingsWithTAD / 1000).toFixed(0)}K</div>
               <div className="text-sm text-gray-400">Tax Savings</div>
             </Card>
           </div>
@@ -535,12 +535,12 @@ export default function Property514Whitehall() {
               </div>
               <div>
                 <div className="text-sm text-gray-400 mb-1">With OZ (10yr)</div>
-                <div className="text-2xl font-bold text-green-400">$0</div>
+                <div className="text-2xl font-bold text-foreground">$0</div>
               </div>
             </div>
             <p className="text-gray-300">
               By holding this investment in a Qualified Opportunity Fund for 10+ years, you could save{" "}
-              <span className="font-bold text-green-400">${(ozSavingsWithTAD / 1000).toFixed(0)}K</span> in capital gains taxes.
+              <span className="font-bold text-foreground">${(ozSavingsWithTAD / 1000).toFixed(0)}K</span> in capital gains taxes.
               This represents a 100% exclusion of all appreciation from taxation.
             </p>
           </Card>
@@ -605,11 +605,11 @@ export default function Property514Whitehall() {
 
             <Card className="bg-white/5 backdrop-blur-sm border-green-500/20 p-8">
               <div className="flex items-start gap-4">
-                <CheckCircle2 className="w-8 h-8 text-green-400 flex-shrink-0" />
+                <CheckCircle2 className="w-8 h-8 text-foreground flex-shrink-0" />
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <h3 className="text-xl font-bold">Forge Development Uncertainty</h3>
-                    <span className="px-2 py-1 rounded text-xs font-semibold bg-green-500/20 text-green-400">
+                    <span className="px-2 py-1 rounded text-xs font-semibold bg-green-500/20 text-foreground">
                       Low Risk
                     </span>
                   </div>
@@ -623,11 +623,11 @@ export default function Property514Whitehall() {
 
             <Card className="bg-white/5 backdrop-blur-sm border-green-500/20 p-8">
               <div className="flex items-start gap-4">
-                <CheckCircle2 className="w-8 h-8 text-green-400 flex-shrink-0" />
+                <CheckCircle2 className="w-8 h-8 text-foreground flex-shrink-0" />
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <h3 className="text-xl font-bold">Market Demand</h3>
-                    <span className="px-2 py-1 rounded text-xs font-semibold bg-green-500/20 text-green-400">
+                    <span className="px-2 py-1 rounded text-xs font-semibold bg-green-500/20 text-foreground">
                       Low Risk
                     </span>
                   </div>
