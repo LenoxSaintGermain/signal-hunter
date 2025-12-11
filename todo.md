@@ -1221,3 +1221,9 @@ Create a Salesforce-caliber acquisition command center with Apple-level UX servi
 - [x] Replace semantic color classes with explicit dark colors for text
 - [x] Test readability across all pages
 - [x] Verify all icons are visible
+
+## 🐛 BUG FIX - Nested Anchor Tags
+
+- [x] Find nested <a> tags in Navigation component
+- [x] Remove redundant <a> tags inside Link components
+- [x] Test page to ensure no React DOM warnings
