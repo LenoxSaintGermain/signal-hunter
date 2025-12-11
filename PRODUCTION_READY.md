@@ -47,3 +47,11 @@
 ### Phase 7: Production Checkpoint
 - [ ] Save final production-ready checkpoint
 - [ ] Deliver to user for investor presentation
+
+
+## 🐛 CRITICAL NAVIGATION ERRORS
+
+- [ ] Fix hardcoded production URLs (https://capitalsignal.manus.space) causing SecurityError
+- [ ] Replace with relative URLs for dev/prod compatibility
+- [ ] Fix nested anchor tags in Dashboard opportunity cards
+- [ ] Test navigation between Dashboard and property pages

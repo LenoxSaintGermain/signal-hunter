@@ -116,36 +116,28 @@ export default function Dashboard() {
         </div>
         
         <nav className="px-4 space-y-2">
-          <Link href="/dashboard">
-            <a className="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors" 
+          <Link href="/dashboard" className="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors" 
                style={{ background: '#F5F5F7', color: '#1D1D1F' }}>
-              <LayoutDashboard className="w-5 h-5" />
-              <span className="font-medium">Dashboard</span>
-            </a>
+            <LayoutDashboard className="w-5 h-5" />
+            <span className="font-medium">Dashboard</span>
           </Link>
           
-          <Link href="/dashboard">
-            <a className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-secondary transition-colors"
+          <Link href="/dashboard" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-secondary transition-colors"
                style={{ color: '#6E6E73' }}>
-              <Target className="w-5 h-5" />
-              <span className="font-medium">Opportunities</span>
-            </a>
+            <Target className="w-5 h-5" />
+            <span className="font-medium">Opportunities</span>
           </Link>
           
-          <Link href="/dashboard">
-            <a className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-secondary transition-colors"
+          <Link href="/dashboard" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-secondary transition-colors"
                style={{ color: '#6E6E73' }}>
-              <Mail className="w-5 h-5" />
-              <span className="font-medium">Outreach</span>
-            </a>
+            <Mail className="w-5 h-5" />
+            <span className="font-medium">Outreach</span>
           </Link>
           
-          <Link href="/dashboard">
-            <a className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-secondary transition-colors"
+          <Link href="/dashboard" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-secondary transition-colors"
                style={{ color: '#6E6E73' }}>
-              <TrendingUp className="w-5 h-5" />
-              <span className="font-medium">Analytics</span>
-            </a>
+            <TrendingUp className="w-5 h-5" />
+            <span className="font-medium">Analytics</span>
           </Link>
         </nav>
       </aside>
@@ -299,7 +291,7 @@ export default function Dashboard() {
             ) : (
               <div className="space-y-4">
                 {filteredOpportunities.map((opp) => (
-                  <Link key={opp.listing_id} href={`https://capitalsignal.manus.space/opportunity/${opp.listing_id}`}>
+                  <Link key={opp.listing_id} href={`/property/${opp.listing_id}`}>
                     <div className="opportunity-card">
                       <div className="flex items-center justify-between">
                         {/* Left: Rank + Title */}
