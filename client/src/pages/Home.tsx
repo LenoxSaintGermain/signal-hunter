@@ -11,15 +11,15 @@ export default function Home() {
   let { user, loading, error, isAuthenticated, logout } = useAuth();
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       <AIAssistant />
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-border/50">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b" style={{ borderColor: '#D2D2D7' }}>
         <div className="container mx-auto">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-2">
               <img src={APP_LOGO} alt={APP_TITLE} className="w-8 h-8" />
-              <span className="font-semibold text-lg">{APP_TITLE}</span>
+              <span className="font-semibold text-lg" style={{ color: '#1D1D1F' }}>{APP_TITLE}</span>
             </div>
             <div className="flex items-center gap-4">
               <Link href="/property/514-whitehall">
@@ -43,7 +43,7 @@ export default function Home() {
                 </Button>
               </Link>
               <Link href="/pipeline">
-                <Button className="btn-apple">
+                <Button className="btn-apple-primary">
                   Open Dashboard <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
               </Link>
@@ -75,16 +75,16 @@ export default function Home() {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-400">
               <Link href="/property/514-whitehall">
-                <Button size="lg" className="btn-apple text-lg px-8 py-6">
+                <Button size="lg" className="btn-apple-primary text-lg px-8 py-6">
                   View 514 Whitehall <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </Link>
               <Link href="/property/whitehall-assemblage">
-                <Button size="lg" className="btn-apple text-lg px-8 py-6">
+                <Button size="lg" className="btn-apple-primary text-lg px-8 py-6">
                   View Assemblage <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </Link>
-              <Button size="lg" variant="outline" className="btn-apple text-lg px-8 py-6">
+              <Button size="lg" variant="outline" className="btn-apple-secondary text-lg px-8 py-6">
                 Learn More
               </Button>
             </div>

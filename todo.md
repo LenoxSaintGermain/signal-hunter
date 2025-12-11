@@ -1198,7 +1198,7 @@ Create a Salesforce-caliber acquisition command center with Apple-level UX servi
 ### Navigation Consistency
 - [x] Create Navigation component with Apple-style design
 - [x] Add active state indicators
-- [ ] Apply consistent nav across all property pages
+- [x] Apply consistent nav across all property pages
 
 ### Property Pages Theme Alignment
 - [x] Update Ponce Protocol page to match new theme
@@ -1213,3 +1213,11 @@ Create a Salesforce-caliber acquisition command center with Apple-level UX servi
 - [ ] Verify button styles are unified
 - [ ] Verify spacing rhythm is consistent
 - [ ] Test all pages for visual coherence
+
+## 🚨 CRITICAL FIX - TEXT CONTRAST ISSUES
+
+- [x] Fix invisible text in Ponce Protocol stats section (labels and values)
+- [x] Ensure all text has proper contrast against white backgrounds
+- [x] Replace semantic color classes with explicit dark colors for text
+- [x] Test readability across all pages
+- [x] Verify all icons are visible
