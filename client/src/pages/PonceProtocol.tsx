@@ -1,736 +1,791 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { 
-  TrendingUp, 
-  DollarSign, 
-  Home, 
-  Film, 
-  AlertTriangle,
+  Download, 
+  Phone, 
+  Calculator,
   CheckCircle2,
   XCircle,
-  Trophy,
-  Shield,
-  Zap,
+  AlertTriangle,
+  TrendingUp,
+  MapPin,
   Clock,
-  FileText,
-  Download,
-  ExternalLink,
-  Image as ImageIcon,
-  Calculator
+  DollarSign,
+  Home,
+  Film
 } from "lucide-react";
-import { Link } from "wouter";
-import { MapView } from "@/components/Map";
 import { useState } from "react";
 import FinancialCalculator from "@/components/FinancialCalculator";
 
-export default function PonceProtocol() {
+export default function PonceProtocolV2() {
   const [showCalculator, setShowCalculator] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
-      {/* Header */}
-      <div className="border-b border-white/10 bg-black/20 backdrop-blur-sm sticky top-0 z-40">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/">
-              <a className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                Million Hunter
-              </a>
-            </Link>
-            <div className="flex gap-4">
-              <Button 
-                variant="outline"
-                onClick={() => setShowCalculator(!showCalculator)}
-                className="gap-2"
-              >
-                <Calculator className="w-4 h-4" />
-                {showCalculator ? "Hide" : "Show"} Calculator
-              </Button>
-              <Link href="/dashboard">
-                <Button variant="outline">
-                  Back to Dashboard
-                </Button>
-              </Link>
-            </div>
+    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+      {/* Persistent CTA Panel - Right Sticky */}
+      <div className="fixed right-8 top-1/2 -translate-y-1/2 z-50 hidden xl:block">
+        <Card className="bg-slate-900/90 backdrop-blur border-amber-500/20 p-6 space-y-4 w-64">
+          <h3 className="text-lg font-semibold text-amber-400">Quick Actions</h3>
+          <div className="space-y-3">
+            <Button 
+              onClick={() => setShowCalculator(!showCalculator)}
+              className="w-full bg-amber-500 hover:bg-amber-600 text-slate-900"
+            >
+              <Calculator className="w-4 h-4 mr-2" />
+              Run Your Numbers
+            </Button>
+            <Button 
+              variant="outline" 
+              className="w-full border-amber-500/50 hover:bg-amber-500/10"
+              onClick={() => document.getElementById('gallery')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              <Film className="w-4 h-4 mr-2" />
+              View Full Gallery
+            </Button>
+            <Button 
+              variant="outline" 
+              className="w-full border-amber-500/50 hover:bg-amber-500/10"
+              onClick={() => document.getElementById('due-diligence')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              <Download className="w-4 h-4 mr-2" />
+              Download DD
+            </Button>
+            <Button 
+              variant="outline" 
+              className="w-full border-amber-500/50 hover:bg-amber-500/10"
+            >
+              <Phone className="w-4 h-4 mr-2" />
+              Schedule Call
+            </Button>
           </div>
-        </div>
-      </div>
-
-      {/* Urgency Banner */}
-      <div className="bg-gradient-to-r from-red-500/20 to-orange-500/20 border-b border-red-500/30">
-        <div className="container mx-auto px-4 py-3">
-          <div className="flex items-center justify-center gap-3 text-center">
-            <Clock className="w-5 h-5 text-red-400 animate-pulse" />
-            <span className="text-white font-semibold">
-              Property Goes Live Tomorrow • First-Mover Advantage • Speed Wins
-            </span>
-            <Clock className="w-5 h-5 text-red-400 animate-pulse" />
-          </div>
-        </div>
-      </div>
-
-      {/* Hero Section */}
-      <div className="container mx-auto px-4 py-16">
-        <div className="max-w-4xl mx-auto text-center mb-16">
-          <Badge className="mb-4 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 text-yellow-400 border-yellow-500/30">
-            PROJECT PONCE
-          </Badge>
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-            Don't Buy a House.<br />
-            <span className="bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
-              Buy a Business with Real Estate Attached.
-            </span>
-          </h1>
-          <p className="text-xl text-slate-300 mb-4">
-            <strong className="text-white">2165 Ponce De Leon Ave NE, Atlanta, GA 30307</strong>
-          </p>
-          <p className="text-lg text-slate-400 mb-8">
-            Druid Hills • Walking Distance to Decatur • Film Production Hub
-          </p>
-          
-          <div className="grid md:grid-cols-3 gap-4 mb-8">
-            <div className="p-4 bg-gradient-to-br from-green-500/20 to-emerald-500/10 border border-green-500/30 rounded-lg">
-              <div className="text-sm text-slate-400">Verified Revenue</div>
-              <div className="text-3xl font-bold text-green-400">$109K/yr</div>
-              <div className="text-xs text-slate-500">Duplex only, audited</div>
-            </div>
-            <div className="p-4 bg-gradient-to-br from-blue-500/20 to-cyan-500/10 border border-blue-500/30 rounded-lg">
-              <div className="text-sm text-slate-400">Full Potential</div>
-              <div className="text-3xl font-bold text-blue-400">$145K/yr</div>
-              <div className="text-xs text-slate-500">With Coach House online</div>
-            </div>
-            <div className="p-4 bg-gradient-to-br from-purple-500/20 to-pink-500/10 border border-purple-500/30 rounded-lg">
-              <div className="text-sm text-slate-400">Monthly Cash Flow</div>
-              <div className="text-3xl font-bold text-purple-400">$5,600+</div>
-              <div className="text-xs text-slate-500">After all expenses</div>
-            </div>
-          </div>
-
-          <p className="text-2xl text-gray-300">
-            The Market Thinks This Is a Ranch Home.<br />
-            <span className="text-green-400 font-bold">It's Actually a Commercial Hospitality Machine.</span>
-          </p>
-        </div>
-
-        {/* The Billy Reality Check */}
-        <Card className="mb-16 bg-gradient-to-br from-orange-500/10 to-red-500/5 border-orange-500/30">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-orange-400">
-              <Shield className="w-6 h-6" />
-              The "Billy" Reality Check
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <p className="text-lg text-slate-300">
-              Our advisor (Billy) is a builder-investor, not a salesman. His assessment is clear:
-            </p>
-            <blockquote className="border-l-4 border-orange-500 pl-4 py-2 bg-black/20">
-              <p className="text-xl font-semibold text-white mb-2">
-                "This is acquiring a small business with real estate attached."
-              </p>
-              <p className="text-slate-400">
-                We aren't chasing "phantom equity" (buying it for less than it's worth). We are buying it at 
-                <strong className="text-white"> fair market value ($900-$915K)</strong> to secure a{" "}
-                <strong className="text-green-400">cash flow engine</strong> that pays us to own it.
-              </p>
-            </blockquote>
-            <div className="grid md:grid-cols-2 gap-4 mt-6">
-              <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
-                <div className="flex items-center gap-2 mb-2">
-                  <XCircle className="w-5 h-5 text-red-400" />
-                  <div className="font-semibold text-red-400">The Fantasy</div>
-                </div>
-                <p className="text-sm text-slate-400">
-                  "I found a $1.2M property for $850K! Instant equity!"
-                </p>
-              </div>
-              <div className="p-4 bg-green-500/10 border border-green-500/30 rounded-lg">
-                <div className="flex items-center gap-2 mb-2">
-                  <CheckCircle2 className="w-5 h-5 text-green-400" />
-                  <div className="font-semibold text-green-400">The Reality</div>
-                </div>
-                <p className="text-sm text-slate-400">
-                  "I'm buying a verified $109K/yr business with a clear path to $145K/yr."
-                </p>
-              </div>
-            </div>
-          </CardContent>
         </Card>
+      </div>
 
-        {/* Positioning Headlines */}
-        <div className="grid md:grid-cols-3 gap-6 mb-16">
-          <Card className="bg-gradient-to-br from-blue-500/10 to-blue-600/5 border-blue-500/20">
-            <CardContent className="p-6">
-              <Film className="w-8 h-8 text-blue-400 mb-4" />
-              <h3 className="text-lg font-semibold mb-2">
-                The Market Says $900K. The Income Says $1.5M.
-              </h3>
-              <p className="text-sm text-slate-400">
-                Cap rate compression in hospitality assets means this cash flow would command a premium in a normal sale.
-              </p>
-            </CardContent>
-          </Card>
-          <Card className="bg-gradient-to-br from-purple-500/10 to-purple-600/5 border-purple-500/20">
-            <CardContent className="p-6">
-              <DollarSign className="w-8 h-8 text-purple-400 mb-4" />
-              <h3 className="text-lg font-semibold mb-2">
-                Don't Chase Equity. Buy Cash Flow and Build Equity.
-              </h3>
-              <p className="text-sm text-slate-400">
-                The duplex pays the mortgage today. Finishing the Coach House creates pure profit tomorrow.
-              </p>
-            </CardContent>
-          </Card>
-          <Card className="bg-gradient-to-br from-green-500/10 to-green-600/5 border-green-500/20">
-            <CardContent className="p-6">
-              <Home className="w-8 h-8 text-green-400 mb-4" />
-              <h3 className="text-lg font-semibold mb-2">
-                Three Doors. Two EV Chargers. One Massive Opportunity.
-              </h3>
-              <p className="text-sm text-slate-400">
-                A gated, 3-unit compound in Druid Hills positioned perfectly for the 2026 World Cup.
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Property Photos */}
-        <div className="mb-16">
-          <h2 className="text-4xl font-bold mb-6 flex items-center gap-3">
-            <ImageIcon className="w-8 h-8 text-blue-400" />
-            Property Walkthrough
-          </h2>
-          <Card className="bg-black/40 border-white/10">
-            <CardContent className="p-6">
-              <div className="aspect-video w-full bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg overflow-hidden mb-4">
-                <iframe
-                  src="https://photos.google.com/share/AF1QipNWruX3wNfIcE3NzSE970Yl4W4qt4FiKZ1pVEB0OWmXkjmWvg-INWZ__UYyUlnVMA?key=MGVKT29udEItRk83NkxBWFFia19oUHB2SVVPeDhn"
-                  className="w-full h-full"
-                  allow="fullscreen"
-                  title="Property Photos"
-                />
-              </div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-slate-400">December 9, 2025 Walkthrough</p>
-                  <p className="text-xs text-slate-500">Exterior, interior, Coach House, and materials on-site</p>
-                </div>
-                <a
-                  href="https://photos.app.goo.gl/k1unnAfKJ4L1ZYqb7"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/30 rounded-lg text-blue-400 transition-colors"
-                >
-                  <ExternalLink className="w-4 h-4" />
-                  Open Full Gallery
-                </a>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Location Map */}
-        <div className="mb-16">
-          <h2 className="text-4xl font-bold mb-6">Prime Location</h2>
-          <Card className="bg-black/40 border-white/10 overflow-hidden">
-            <CardContent className="p-0">
-              <div className="h-[500px] w-full">
-                <MapView
-                  onMapReady={(map) => {
-                    // Property location
-                    const propertyLocation = { lat: 33.7882, lng: -84.3235 };
-                    
-                    // Add property marker
-                    new window.google.maps.Marker({
-                      position: propertyLocation,
-                      map: map,
-                      title: "2165 Ponce De Leon Ave NE",
-                      icon: {
-                        path: window.google.maps.SymbolPath.CIRCLE,
-                        scale: 12,
-                        fillColor: "#10b981",
-                        fillOpacity: 0.9,
-                        strokeColor: "#ffffff",
-                        strokeWeight: 2,
-                      },
-                    });
-
-                    // Add proximity markers
-                    const markers = [
-                      { lat: 33.7555, lng: -84.4006, name: "Mercedes-Benz Stadium", color: "#3b82f6" },
-                      { lat: 33.7902, lng: -84.3240, name: "Emory University", color: "#a855f7" },
-                      { lat: 33.7989, lng: -84.3277, name: "CDC Headquarters", color: "#f97316" },
-                      { lat: 33.7490, lng: -84.3880, name: "Downtown Atlanta", color: "#ef4444" },
-                    ];
-
-                    markers.forEach((marker) => {
-                      new window.google.maps.Marker({
-                        position: { lat: marker.lat, lng: marker.lng },
-                        map: map,
-                        title: marker.name,
-                        icon: {
-                          path: window.google.maps.SymbolPath.CIRCLE,
-                          scale: 8,
-                          fillColor: marker.color,
-                          fillOpacity: 0.8,
-                          strokeColor: "#ffffff",
-                          strokeWeight: 2,
-                        },
-                      });
-                    });
-
-                    map.setCenter(propertyLocation);
-                    map.setZoom(12);
-                  }}
-                />
-              </div>
-            </CardContent>
-          </Card>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-            <div className="p-4 bg-blue-500/10 border border-blue-500/30 rounded-lg text-center">
-              <div className="text-2xl font-bold text-blue-400">10 min</div>
-              <div className="text-sm text-slate-400">Mercedes-Benz Stadium</div>
-            </div>
-            <div className="p-4 bg-purple-500/10 border border-purple-500/30 rounded-lg text-center">
-              <div className="text-2xl font-bold text-purple-400">5 min</div>
-              <div className="text-sm text-slate-400">Emory University</div>
-            </div>
-            <div className="p-4 bg-orange-500/10 border border-orange-500/30 rounded-lg text-center">
-              <div className="text-2xl font-bold text-orange-400">7 min</div>
-              <div className="text-sm text-slate-400">CDC Headquarters</div>
-            </div>
-            <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-center">
-              <div className="text-2xl font-bold text-red-400">12 min</div>
-              <div className="text-sm text-slate-400">Downtown Atlanta</div>
-            </div>
+      {/* Main Content */}
+      <div className="container max-w-5xl mx-auto px-4 py-12 space-y-16">
+        
+        {/* 1. HERO SNAPSHOT - Executive Summary HUD */}
+        <section className="space-y-6">
+          <div className="flex items-center gap-4 mb-4">
+            <Badge variant="outline" className="border-amber-500 text-amber-400 px-4 py-2 text-sm">
+              PROJECT PONCE
+            </Badge>
+            <Badge variant="outline" className="border-emerald-500 text-emerald-400 px-4 py-2 text-sm">
+              EXECUTIVE SUMMARY
+            </Badge>
           </div>
-        </div>
 
-        {/* Due Diligence Documents */}
-        <div className="mb-16">
-          <h2 className="text-4xl font-bold mb-6 flex items-center gap-3">
-            <FileText className="w-8 h-8 text-purple-400" />
-            Due Diligence Documents
-          </h2>
-          <Card className="bg-black/40 border-white/10">
-            <CardContent className="p-6">
-              <p className="text-slate-300 mb-6">
-                All disclosure documents and verified revenue data available for investor review. Click to download directly from Google Drive.
-              </p>
-              <div className="grid md:grid-cols-2 gap-4">
-                <a
-                  href="https://drive.google.com/file/d/1nvxB7R-CJklGlDDfiLNVOcAvClNf0kpA/view"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-4 p-4 bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/30 rounded-lg hover:bg-blue-500/20 transition-colors group"
-                >
-                  <div className="p-3 bg-blue-500/20 rounded-lg">
-                    <Download className="w-6 h-6 text-blue-400" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-semibold text-white group-hover:text-blue-400 transition-colors">
-                      Seller's Property Disclosure
-                    </div>
-                    <div className="text-sm text-slate-400">SPD-2165PonceDeLeon.pdf • 310 KB</div>
-                  </div>
-                  <ExternalLink className="w-5 h-5 text-slate-400 group-hover:text-blue-400 transition-colors" />
-                </a>
+          <Card className="bg-gradient-to-br from-slate-900 to-slate-800 border-amber-500/30 p-8">
+            <h1 className="text-4xl font-bold text-white mb-6">
+              A hospitality-focused, cash-flowing asset in Druid Hills
+            </h1>
+            <p className="text-xl text-slate-300 mb-8">
+              Verified $109K/yr revenue with a clear path to $145K/yr+. This is not a house purchase — 
+              it's an operational hospitality business with real estate attached.
+            </p>
 
-                <a
-                  href="https://drive.google.com/file/d/1nvxB7R-CJklGlDDfiLNVOcAvClNf0kpA/view"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-4 p-4 bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-lg hover:bg-green-500/20 transition-colors group"
-                >
-                  <div className="p-3 bg-green-500/20 rounded-lg">
-                    <Download className="w-6 h-6 text-green-400" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-semibold text-white group-hover:text-green-400 transition-colors">
-                      Airbnb Revenue Data (Verified)
-                    </div>
-                    <div className="text-sm text-slate-400">airbnb_01_2025-12_2025.csv • 12 KB</div>
-                  </div>
-                  <ExternalLink className="w-5 h-5 text-slate-400 group-hover:text-green-400 transition-colors" />
-                </a>
-              </div>
-              <div className="mt-6 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
+            <div className="grid md:grid-cols-2 gap-6 mb-8">
+              <div className="space-y-4">
                 <div className="flex items-start gap-3">
-                  <Shield className="w-5 h-5 text-yellow-400 mt-1" />
+                  <MapPin className="w-5 h-5 text-amber-400 mt-1 flex-shrink-0" />
                   <div>
-                    <div className="font-semibold text-yellow-400 mb-1">Verified Revenue</div>
-                    <div className="text-sm text-slate-300">
-                      The $109,425 annual revenue figure has been audited from actual Airbnb payouts. 
-                      This is not projected income - it's verified historical performance from 2025.
-                    </div>
+                    <div className="text-sm text-slate-400">Address</div>
+                    <div className="text-white font-medium">2165 Ponce De Leon Ave NE, Atlanta, GA 30307</div>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-3">
+                  <DollarSign className="w-5 h-5 text-emerald-400 mt-1 flex-shrink-0" />
+                  <div>
+                    <div className="text-sm text-slate-400">Verified Revenue (Duplex)</div>
+                    <div className="text-emerald-400 font-bold text-xl">$109,425 / yr</div>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <TrendingUp className="w-5 h-5 text-blue-400 mt-1 flex-shrink-0" />
+                  <div>
+                    <div className="text-sm text-slate-400">Full Potential Revenue</div>
+                    <div className="text-blue-400 font-bold text-xl">~$145,000+ / yr</div>
+                    <div className="text-xs text-slate-500">(Coach House online)</div>
                   </div>
                 </div>
               </div>
-            </CardContent>
+
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <DollarSign className="w-5 h-5 text-purple-400 mt-1 flex-shrink-0" />
+                  <div>
+                    <div className="text-sm text-slate-400">Projected Cash Flow</div>
+                    <div className="text-purple-400 font-bold text-xl">$5,600+ / month</div>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <Home className="w-5 h-5 text-orange-400 mt-1 flex-shrink-0" />
+                  <div>
+                    <div className="text-sm text-slate-400">CapEx Required</div>
+                    <div className="text-orange-400 font-bold text-xl">~$25,000</div>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <AlertTriangle className="w-5 h-5 text-amber-400 mt-1 flex-shrink-0" />
+                  <div>
+                    <div className="text-sm text-slate-400">Why This Deal Exists</div>
+                    <div className="text-white text-sm">Tree damage risk + unfinished coach house repel retail buyers</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-4">
+              <Button 
+                onClick={() => setShowCalculator(!showCalculator)}
+                className="bg-amber-500 hover:bg-amber-600 text-slate-900 font-semibold"
+              >
+                <Calculator className="w-4 h-4 mr-2" />
+                Run Your Numbers
+              </Button>
+              <Button 
+                variant="outline" 
+                className="border-amber-500/50 hover:bg-amber-500/10"
+                onClick={() => document.getElementById('due-diligence')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                <Download className="w-4 h-4 mr-2" />
+                Download Due Diligence
+              </Button>
+              <Button 
+                variant="outline" 
+                className="border-amber-500/50 hover:bg-amber-500/10"
+              >
+                <Phone className="w-4 h-4 mr-2" />
+                Schedule Investor Call
+              </Button>
+            </div>
           </Card>
-        </div>
+        </section>
 
         {/* Financial Calculator */}
         {showCalculator && (
-          <div className="mb-16">
-            <h2 className="text-4xl font-bold mb-6 flex items-center gap-3">
-              <Calculator className="w-8 h-8 text-green-400" />
-              Investment Calculator
-            </h2>
+          <section className="space-y-6">
             <FinancialCalculator />
-          </div>
+          </section>
         )}
 
-        {/* The Value-Add Plan */}
-        <div className="mb-16">
-          <h2 className="text-4xl font-bold mb-6">The Value-Add Plan (CapEx)</h2>
-          <Card className="bg-black/40 border-white/10">
-            <CardContent className="p-6">
-              <p className="text-lg text-slate-300 mb-6">
-                This is not a passive flip. It is a strategic renovation play. We spend money to protect the asset and unlock the third revenue stream.
-              </p>
-              <div className="space-y-4">
-                <div className="flex items-start gap-4 p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
-                  <AlertTriangle className="w-6 h-6 text-red-400 mt-1" />
-                  <div className="flex-1">
-                    <div className="font-semibold text-red-400 mb-1">Immediate: Oak Tree Removal</div>
-                    <p className="text-sm text-slate-400 mb-2">
-                      A massive oak is threatening the roofline. It must go. This scares off retail buyers - that's our advantage.
-                    </p>
-                    <div className="text-lg font-bold text-white">$5,000 - $8,000</div>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4 p-4 bg-blue-500/10 border border-blue-500/30 rounded-lg">
-                  <Shield className="w-6 h-6 text-blue-400 mt-1" />
-                  <div className="flex-1">
-                    <div className="font-semibold text-blue-400 mb-1">Immediate: Vapor Barrier & Gutter Guards</div>
-                    <p className="text-sm text-slate-400 mb-2">
-                      Seal the crawl space and protect the envelope. Unsexy, invisible work that scares amateurs.
-                    </p>
-                    <div className="text-lg font-bold text-white">~$3,000</div>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4 p-4 bg-green-500/10 border border-green-500/30 rounded-lg">
-                  <TrendingUp className="w-6 h-6 text-green-400 mt-1" />
-                  <div className="flex-1">
-                    <div className="font-semibold text-green-400 mb-1">Short-Term: Finish the Coach House</div>
-                    <p className="text-sm text-slate-400 mb-2">
-                      Insulation and drywall are ON SITE. We just need to provide the labor to unlock ~$35K/yr in new revenue.
-                    </p>
-                    <div className="text-lg font-bold text-white">$12,000 - $15,000</div>
-                  </div>
-                </div>
-              </div>
-              <div className="mt-6 p-6 bg-gradient-to-r from-orange-500/20 to-red-500/20 border border-orange-500/30 rounded-lg">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <div className="text-sm text-slate-400">Total CapEx Budget</div>
-                    <div className="text-3xl font-bold text-white">~$25,000</div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-sm text-slate-400">Unlocks Additional Revenue</div>
-                    <div className="text-3xl font-bold text-green-400">$35,000/yr</div>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* World Cup Windfall */}
-        <div className="mb-16">
-          <h2 className="text-4xl font-bold mb-6 flex items-center gap-3">
-            <Trophy className="w-8 h-8 text-yellow-400" />
-            The World Cup Windfall (2026)
-          </h2>
-          <Card className="bg-gradient-to-br from-yellow-500/20 to-orange-500/10 border-yellow-500/30">
-            <CardContent className="p-8">
-              <p className="text-lg text-slate-300 mb-6">
-                Strategic positioning for the 2026 FIFA World Cup in Atlanta. A private, gated 3-unit compound 
-                in Decatur is the ideal Executive Housing solution for corporate sponsors and media teams.
-              </p>
-              <div className="grid md:grid-cols-3 gap-6">
-                <div className="text-center">
-                  <div className="text-4xl font-bold text-yellow-400 mb-2">30 Days</div>
-                  <div className="text-sm text-slate-400">Corporate Buyout Duration</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-4xl font-bold text-green-400 mb-2">$60K-$90K</div>
-                  <div className="text-sm text-slate-400">Projected Revenue</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-4xl font-bold text-purple-400 mb-2">100%</div>
-                  <div className="text-sm text-slate-400">CapEx Recovery</div>
-                </div>
-              </div>
-              <div className="mt-6 p-4 bg-black/20 rounded-lg">
-                <p className="text-sm text-slate-300">
-                  <strong className="text-yellow-400">Impact:</strong> This single event could recover 100% of the CapEx budget 
-                  plus a significant portion of the down payment in Year 2 of ownership.
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Financing Strategy */}
-        <div className="mb-16">
-          <h2 className="text-4xl font-bold mb-6 flex items-center gap-3">
-            <Zap className="w-8 h-8 text-orange-400" />
-            The Financing Strategy: Speed is Currency
-          </h2>
-          <Card className="bg-black/40 border-white/10">
-            <CardContent className="p-6">
-              <div className="grid md:grid-cols-2 gap-6 mb-6">
-                <div className="p-6 bg-red-500/10 border border-red-500/30 rounded-lg">
-                  <div className="flex items-center gap-2 mb-4">
-                    <XCircle className="w-6 h-6 text-red-400" />
-                    <h3 className="text-xl font-bold text-red-400">Why NOT VA Loan</h3>
-                  </div>
-                  <ul className="space-y-2 text-sm text-slate-400">
-                    <li>• Too slow (property goes live tomorrow)</li>
-                    <li>• Too strict (will flag tree, unfinished garage)</li>
-                    <li>• Could kill deal or cause delays</li>
-                    <li>• We lose first-mover advantage</li>
-                  </ul>
-                </div>
-
-                <div className="p-6 bg-green-500/10 border border-green-500/30 rounded-lg">
-                  <div className="flex items-center gap-2 mb-4">
-                    <CheckCircle2 className="w-6 h-6 text-green-400" />
-                    <h3 className="text-xl font-bold text-green-400">The Winning Strategy</h3>
-                  </div>
-                  <ul className="space-y-2 text-sm text-slate-400">
-                    <li>• <strong className="text-white">Hard Money</strong> or <strong className="text-white">Conventional</strong> to close fast (21 days)</li>
-                    <li>• Execute CapEx immediately (Week 1-4)</li>
-                    <li>• Refinance to DSCR loan once stabilized</li>
-                    <li>• Speed wins, we get the deal</li>
-                  </ul>
-                </div>
-              </div>
-
-              <div className="p-6 bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30 rounded-lg">
-                <h3 className="text-xl font-bold text-white mb-4">Investment Structure</h3>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <div className="text-sm text-slate-400 mb-2">Cash Investors</div>
-                    <div className="text-2xl font-bold text-blue-400 mb-1">$50K - $200K</div>
-                    <p className="text-sm text-slate-400">
-                      Equity stake proportionate to investment. Use the calculator above to model your return.
-                    </p>
-                  </div>
-                  <div>
-                    <div className="text-sm text-slate-400 mb-2">Hard Money Gap</div>
-                    <div className="text-2xl font-bold text-purple-400 mb-1">10-12% APR</div>
-                    <p className="text-sm text-slate-400">
-                      Available for gap financing. Fixed return, no equity upside.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Risk & Mitigation */}
-        <div className="mb-16">
-          <h2 className="text-4xl font-bold mb-6 flex items-center gap-3">
-            <AlertTriangle className="w-8 h-8 text-orange-400" />
-            Risk Assessment
-          </h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            <Card className="bg-gradient-to-br from-orange-500/10 to-red-500/5 border-orange-500/30">
-              <CardHeader>
-                <CardTitle className="text-orange-400">Primary Risks</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <div className="font-semibold text-white mb-1">VA Appraisal Risk</div>
-                  <p className="text-sm text-slate-400">
-                    <strong className="text-orange-400">Impact:</strong> Could delay or kill deal
-                  </p>
-                  <p className="text-sm text-green-400 mt-1">
-                    <strong>Mitigation:</strong> Using Hard Money/Conventional eliminates this risk
-                  </p>
-                </div>
-                <div>
-                  <div className="font-semibold text-white mb-1">Tree Removal Mandatory</div>
-                  <p className="text-sm text-slate-400">
-                    <strong className="text-orange-400">Impact:</strong> Safety CapEx required
-                  </p>
-                  <p className="text-sm text-green-400 mt-1">
-                    <strong>Mitigation:</strong> Budgeted at $5-8K, protects foundation long-term
-                  </p>
-                </div>
-                <div>
-                  <div className="font-semibold text-white mb-1">Film Industry Slowdown</div>
-                  <p className="text-sm text-slate-400">
-                    <strong className="text-orange-400">Impact:</strong> Reduced Hollywood demand
-                  </p>
-                  <p className="text-sm text-green-400 mt-1">
-                    <strong>Mitigation:</strong> Emory/CDC professionals provide structural demand
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-gradient-to-br from-green-500/10 to-emerald-500/5 border-green-500/30">
-              <CardHeader>
-                <CardTitle className="text-green-400">Competitive Advantages</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-green-400 mt-1" />
-                  <div>
-                    <div className="font-semibold text-white mb-1">Pre-Market Access</div>
-                    <p className="text-sm text-slate-400">
-                      First-mover advantage before MLS listing goes live
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-green-400 mt-1" />
-                  <div>
-                    <div className="font-semibold text-white mb-1">Verified Revenue</div>
-                    <p className="text-sm text-slate-400">
-                      $109K/yr audited, not projected - eliminates income risk
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-green-400 mt-1" />
-                  <div>
-                    <div className="font-semibold text-white mb-1">Materials On-Site</div>
-                    <p className="text-sm text-slate-400">
-                      Insulation & drywall already purchased, just needs labor
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-green-400 mt-1" />
-                  <div>
-                    <div className="font-semibold text-white mb-1">Recession-Proof Location</div>
-                    <p className="text-sm text-slate-400">
-                      Emory/CDC create structural demand independent of economy
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-
-        {/* Go/No-Go Decision */}
-        <div className="mb-16">
-          <h2 className="text-4xl font-bold mb-6">Execution Matrix</h2>
-          <div className="grid md:grid-cols-2 gap-6 mb-8">
-            <Card className="bg-gradient-to-br from-green-500/10 to-emerald-500/5 border-green-500/30">
-              <CardHeader>
-                <CardTitle className="text-green-400 flex items-center gap-2">
-                  <CheckCircle2 className="w-6 h-6" />
-                  GO Reasons
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-green-400 mt-0.5" />
-                  <span className="text-slate-300">Duplex revenue ($109K) covers debt Day 1</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-green-400 mt-0.5" />
-                  <span className="text-slate-300">Materials on-site to finish Unit C</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-green-400 mt-0.5" />
-                  <span className="text-slate-300">Walking distance to Decatur/Emory</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-green-400 mt-0.5" />
-                  <span className="text-slate-300">2026 World Cup catalyst event</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-green-400 mt-0.5" />
-                  <span className="text-slate-300">Pre-market access (first-mover advantage)</span>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-gradient-to-br from-red-500/10 to-orange-500/5 border-red-500/30">
-              <CardHeader>
-                <CardTitle className="text-red-400 flex items-center gap-2">
-                  <XCircle className="w-6 h-6" />
-                  NO-GO Reasons
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex items-start gap-3">
-                  <XCircle className="w-5 h-5 text-red-400 mt-0.5" />
-                  <span className="text-slate-300">Strict VA appraisal could kill deal speed</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <XCircle className="w-5 h-5 text-red-400 mt-0.5" />
-                  <span className="text-slate-300">Tree removal is mandatory safety CapEx</span>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          <Card className="bg-gradient-to-r from-green-500/20 to-emerald-500/10 border-green-500/40">
-            <CardContent className="p-8">
-              <div className="text-center">
-                <Badge className="mb-4 bg-green-500/30 text-green-300 border-green-500/50 text-lg px-4 py-2">
-                  RECOMMENDATION: GO
-                </Badge>
-                <h3 className="text-3xl font-bold text-white mb-4">
-                  SECURE WITH SPEED (Conv/Hard Money)
-                </h3>
-                <p className="text-lg text-slate-300 max-w-3xl mx-auto">
-                  The risk-reward asymmetry is exceptional. We are buying a verified $109K/yr business 
-                  with a clear path to $145K/yr. The "hair" on the deal (tree, unfinished garage) scares 
-                  off lazy money - that's our advantage. Speed financing eliminates appraisal risk and 
-                  gives us first-mover advantage before the property hits MLS tomorrow.
-                </p>
-                <div className="mt-6 text-sm text-slate-400">
-                  <strong className="text-white">Next Step:</strong> Physical inspection completed Tuesday. 
-                  Fair offer to avoid bidding war. Cash investors get equity stake proportionate to investment.
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* CTA */}
-        <Card className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 border-blue-500/40">
-          <CardContent className="p-12 text-center">
-            <h2 className="text-4xl font-bold mb-4">Ready to Move Forward?</h2>
-            <p className="text-xl text-slate-300 mb-8 max-w-2xl mx-auto">
-              This is operational arbitrage, not price arbitrage. We're buying a business that works today, 
-              fixing the two things that are broken, and turning on the third revenue stream.
+        {/* 2. WHAT YOU'RE ACTUALLY BUYING */}
+        <section className="space-y-6">
+          <div className="border-l-4 border-amber-500 pl-6">
+            <h2 className="text-3xl font-bold text-white mb-4">
+              This Is Not a House. It's a Business With Real Estate Attached.
+            </h2>
+            <p className="text-lg text-slate-300 mb-6">
+              Most buyers see a ranch home. They're wrong. This is a proven hospitality engine with three 
+              revenue streams across a gated, multi-unit compound steps from Decatur and Emory.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          </div>
+
+          <Card className="bg-slate-900/50 border-amber-500/30 p-6">
+            <div className="flex items-start gap-4">
+              <div className="w-1 h-full bg-amber-500 rounded"></div>
+              <div>
+                <div className="text-sm text-amber-400 font-semibold mb-2">INVESTOR INSIGHT</div>
+                <p className="text-lg italic text-slate-200">
+                  "This is acquiring a small business with real estate attached."
+                </p>
+                <p className="text-sm text-slate-400 mt-2">— Billy, Builder/Investor Advisor</p>
+              </div>
+            </div>
+          </Card>
+
+          <p className="text-slate-300">
+            You're not chasing phantom equity. You're buying verified income and unlocking additional upside 
+            through targeted execution.
+          </p>
+        </section>
+
+        {/* 3. WHY THIS ASSET IS MISPRICED */}
+        <section className="space-y-6">
+          <div className="border-l-4 border-emerald-500 pl-6">
+            <h2 className="text-3xl font-bold text-white mb-4">
+              The Market Sees a $900K House. The Income Says $1.5M.
+            </h2>
+          </div>
+
+          <p className="text-slate-300">
+            This deal exists because the property has "hair" that scares off retail buyers:
+          </p>
+
+          <div className="grid md:grid-cols-3 gap-4">
+            <Card className="bg-slate-900/50 border-orange-500/30 p-6">
+              <AlertTriangle className="w-8 h-8 text-orange-400 mb-3" />
+              <h3 className="text-white font-semibold mb-2">Oak Tree Threat</h3>
+              <p className="text-sm text-slate-400">Large oak tree threatening the roofline</p>
+            </Card>
+
+            <Card className="bg-slate-900/50 border-orange-500/30 p-6">
+              <Home className="w-8 h-8 text-orange-400 mb-3" />
+              <h3 className="text-white font-semibold mb-2">Unfinished Unit</h3>
+              <p className="text-sm text-slate-400">Coach house needs completion (materials on site)</p>
+            </Card>
+
+            <Card className="bg-slate-900/50 border-orange-500/30 p-6">
+              <TrendingUp className="w-8 h-8 text-orange-400 mb-3" />
+              <h3 className="text-white font-semibold mb-2">Misclassified</h3>
+              <p className="text-sm text-slate-400">Comps treat it as a standard ranch home</p>
+            </Card>
+          </div>
+
+          <Card className="bg-gradient-to-r from-emerald-900/30 to-blue-900/30 border-emerald-500/30 p-6">
+            <p className="text-lg text-white font-semibold">
+              These factors create <span className="text-emerald-400">pricing asymmetry</span> — a business-level 
+              revenue engine being sold at residential pricing.
+            </p>
+          </Card>
+        </section>
+
+        {/* 4. THE REVENUE ENGINE */}
+        <section className="space-y-6">
+          <div className="border-l-4 border-blue-500 pl-6">
+            <h2 className="text-3xl font-bold text-white mb-4">
+              Three Revenue Streams. One Compound. Day-One Cash Flow.
+            </h2>
+          </div>
+
+          <div className="space-y-4">
+            {/* Stream 1 */}
+            <Card className="bg-gradient-to-r from-emerald-900/30 to-emerald-800/20 border-emerald-500/50 p-6">
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <Badge className="bg-emerald-500 text-white mb-2">TODAY — DUPLEX (IN MARKET)</Badge>
+                  <h3 className="text-2xl font-bold text-emerald-400">$109,425 verified</h3>
+                </div>
+                <CheckCircle2 className="w-8 h-8 text-emerald-400" />
+              </div>
+              <ul className="space-y-2 text-slate-300">
+                <li className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full"></div>
+                  Airbnb revenue (audited payouts, not projections)
+                </li>
+                <li className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full"></div>
+                  Covers debt service immediately
+                </li>
+              </ul>
+            </Card>
+
+            {/* Stream 2 */}
+            <Card className="bg-gradient-to-r from-blue-900/30 to-blue-800/20 border-blue-500/50 p-6">
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <Badge className="bg-blue-500 text-white mb-2">TOMORROW — COACH HOUSE (FINISH WORK NEEDED)</Badge>
+                  <h3 className="text-2xl font-bold text-blue-400">Adds ~$35,000 / yr</h3>
+                </div>
+                <Clock className="w-8 h-8 text-blue-400" />
+              </div>
+              <ul className="space-y-2 text-slate-300">
+                <li className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
+                  Materials on-site: insulation + drywall
+                </li>
+                <li className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
+                  Only requires labor
+                </li>
+              </ul>
+            </Card>
+
+            {/* Stream 3 */}
+            <Card className="bg-gradient-to-r from-amber-900/30 to-amber-800/20 border-amber-500/50 p-6">
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <Badge className="bg-amber-500 text-slate-900 mb-2">CATALYST EVENT — 2026 WORLD CUP</Badge>
+                  <h3 className="text-2xl font-bold text-amber-400">$60,000 – $90,000 projected</h3>
+                </div>
+                <TrendingUp className="w-8 h-8 text-amber-400" />
+              </div>
+              <ul className="space-y-2 text-slate-300">
+                <li className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 bg-amber-400 rounded-full"></div>
+                  30-day corporate buyout
+                </li>
+                <li className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 bg-amber-400 rounded-full"></div>
+                  Recovers 100% of CapEx + part of down payment
+                </li>
+              </ul>
+            </Card>
+          </div>
+        </section>
+
+        {/* 5. EXECUTION TIMELINE */}
+        <section className="space-y-6">
+          <div className="border-l-4 border-purple-500 pl-6">
+            <h2 className="text-3xl font-bold text-white mb-4">
+              Speed = Alpha. Execution = Upside.
+            </h2>
+          </div>
+
+          <div className="relative">
+            {/* Timeline Line */}
+            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-purple-500 via-blue-500 to-emerald-500"></div>
+
+            <div className="space-y-8">
+              {/* Week 1-2 */}
+              <div className="flex gap-6">
+                <div className="flex-shrink-0 w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold border-4 border-slate-900 relative z-10">
+                  W1-2
+                </div>
+                <Card className="flex-1 bg-slate-900/50 border-purple-500/30 p-6">
+                  <h3 className="text-xl font-semibold text-white mb-3">Critical Safety & Protection</h3>
+                  <ul className="space-y-2 text-slate-300">
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-purple-400" />
+                      Tree removal ($5–8K)
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-purple-400" />
+                      Vapor barrier + gutter guards (~$3K)
+                    </li>
+                  </ul>
+                </Card>
+              </div>
+
+              {/* Week 3-4 */}
+              <div className="flex gap-6">
+                <div className="flex-shrink-0 w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold border-4 border-slate-900 relative z-10">
+                  W3-4
+                </div>
+                <Card className="flex-1 bg-slate-900/50 border-blue-500/30 p-6">
+                  <h3 className="text-xl font-semibold text-white mb-3">Revenue Unlock</h3>
+                  <ul className="space-y-2 text-slate-300">
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-blue-400" />
+                      Finish coach house (labor only)
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-blue-400" />
+                      Materials already onsite
+                    </li>
+                  </ul>
+                </Card>
+              </div>
+
+              {/* Month 1 */}
+              <div className="flex gap-6">
+                <div className="flex-shrink-0 w-16 h-16 bg-emerald-500 rounded-full flex items-center justify-center text-white font-bold border-4 border-slate-900 relative z-10">
+                  M1
+                </div>
+                <Card className="flex-1 bg-slate-900/50 border-emerald-500/30 p-6">
+                  <h3 className="text-xl font-semibold text-white mb-3">Full Revenue Stabilization</h3>
+                  <p className="text-slate-300">Coach House live → $145K/yr run rate achieved</p>
+                </Card>
+              </div>
+
+              {/* Month 2+ */}
+              <div className="flex gap-6">
+                <div className="flex-shrink-0 w-16 h-16 bg-amber-500 rounded-full flex items-center justify-center text-white font-bold border-4 border-slate-900 relative z-10">
+                  M2+
+                </div>
+                <Card className="flex-1 bg-slate-900/50 border-amber-500/30 p-6">
+                  <h3 className="text-xl font-semibold text-white mb-3">Debt Optimization</h3>
+                  <p className="text-slate-300">DSCR refinance to lock favorable long-term debt</p>
+                </Card>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 6. FINANCING STRATEGY */}
+        <section className="space-y-6">
+          <div className="border-l-4 border-amber-500 pl-6">
+            <h2 className="text-3xl font-bold text-white mb-4">
+              The Winning Move Is Speed Financing.
+            </h2>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-slate-700">
+                  <th className="text-left p-4 text-slate-300 font-semibold">Option</th>
+                  <th className="text-left p-4 text-slate-300 font-semibold">Pros</th>
+                  <th className="text-left p-4 text-slate-300 font-semibold">Cons</th>
+                  <th className="text-left p-4 text-slate-300 font-semibold">Verdict</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b border-slate-800">
+                  <td className="p-4 text-white font-semibold">VA Loan</td>
+                  <td className="p-4 text-slate-300">Great rate</td>
+                  <td className="p-4 text-slate-300">Slow, appraisal risk, flags "hair"</td>
+                  <td className="p-4">
+                    <Badge variant="destructive" className="bg-red-500/20 text-red-400 border-red-500/50">
+                      Do Not Use
+                    </Badge>
+                  </td>
+                </tr>
+                <tr className="border-b border-slate-800">
+                  <td className="p-4 text-white font-semibold">Hard Money</td>
+                  <td className="p-4 text-slate-300">Fastest close, flexible</td>
+                  <td className="p-4 text-slate-300">Higher interest</td>
+                  <td className="p-4">
+                    <Badge className="bg-emerald-500 text-white">
+                      Primary Strategy
+                    </Badge>
+                  </td>
+                </tr>
+                <tr>
+                  <td className="p-4 text-white font-semibold">Conventional</td>
+                  <td className="p-4 text-slate-300">Lower rate</td>
+                  <td className="p-4 text-slate-300">Slower than HM</td>
+                  <td className="p-4">
+                    <Badge className="bg-blue-500 text-white">
+                      Secondary Strategy
+                    </Badge>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <Card className="bg-amber-900/20 border-amber-500/30 p-6">
+            <p className="text-lg text-slate-200">
+              The property goes live soon. <span className="text-amber-400 font-semibold">Speed is your competitive edge.</span> VA 
+              introduces fatal delays; HM/Conventional secures the asset immediately.
+            </p>
+          </Card>
+        </section>
+
+        {/* 7. RISK & MITIGATION MATRIX */}
+        <section className="space-y-6">
+          <div className="border-l-4 border-orange-500 pl-6">
+            <h2 className="text-3xl font-bold text-white mb-4">
+              Risk & Mitigation Matrix
+            </h2>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-slate-700">
+                  <th className="text-left p-4 text-slate-300 font-semibold">Risk</th>
+                  <th className="text-left p-4 text-slate-300 font-semibold">Impact</th>
+                  <th className="text-left p-4 text-slate-300 font-semibold">Mitigation</th>
+                  <th className="text-left p-4 text-slate-300 font-semibold">Confidence</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b border-slate-800">
+                  <td className="p-4 text-white">VA Appraisal Issues</td>
+                  <td className="p-4">
+                    <Badge variant="destructive" className="bg-red-500/20 text-red-400">High</Badge>
+                  </td>
+                  <td className="p-4 text-slate-300">Use HM/Conventional</td>
+                  <td className="p-4">
+                    <div className="flex items-center gap-2">
+                      <div className="flex-1 bg-slate-800 rounded-full h-2">
+                        <div className="bg-emerald-500 h-2 rounded-full" style={{ width: '90%' }}></div>
+                      </div>
+                      <span className="text-emerald-400 font-semibold">90%</span>
+                    </div>
+                  </td>
+                </tr>
+                <tr className="border-b border-slate-800">
+                  <td className="p-4 text-white">Tree Threat</td>
+                  <td className="p-4">
+                    <Badge className="bg-orange-500/20 text-orange-400">Medium</Badge>
+                  </td>
+                  <td className="p-4 text-slate-300">Remove immediately</td>
+                  <td className="p-4">
+                    <div className="flex items-center gap-2">
+                      <div className="flex-1 bg-slate-800 rounded-full h-2">
+                        <div className="bg-emerald-500 h-2 rounded-full" style={{ width: '95%' }}></div>
+                      </div>
+                      <span className="text-emerald-400 font-semibold">95%</span>
+                    </div>
+                  </td>
+                </tr>
+                <tr className="border-b border-slate-800">
+                  <td className="p-4 text-white">Film Industry Slowdown</td>
+                  <td className="p-4">
+                    <Badge className="bg-orange-500/20 text-orange-400">Medium</Badge>
+                  </td>
+                  <td className="p-4 text-slate-300">Emory/CDC demand stabilizes</td>
+                  <td className="p-4">
+                    <div className="flex items-center gap-2">
+                      <div className="flex-1 bg-slate-800 rounded-full h-2">
+                        <div className="bg-emerald-500 h-2 rounded-full" style={{ width: '85%' }}></div>
+                      </div>
+                      <span className="text-emerald-400 font-semibold">85%</span>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td className="p-4 text-white">Execution Delays</td>
+                  <td className="p-4">
+                    <Badge className="bg-orange-500/20 text-orange-400">Medium</Badge>
+                  </td>
+                  <td className="p-4 text-slate-300">Materials onsite</td>
+                  <td className="p-4">
+                    <div className="flex items-center gap-2">
+                      <div className="flex-1 bg-slate-800 rounded-full h-2">
+                        <div className="bg-emerald-500 h-2 rounded-full" style={{ width: '80%' }}></div>
+                      </div>
+                      <span className="text-emerald-400 font-semibold">80%</span>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        {/* 8. LOCATION VALUE */}
+        <section className="space-y-6">
+          <div className="border-l-4 border-blue-500 pl-6">
+            <h2 className="text-3xl font-bold text-white mb-4">
+              The Location Prints Money — No Matter the Economy.
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="space-y-4">
+              <Card className="bg-blue-900/20 border-blue-500/30 p-6">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-slate-300">Mercedes-Benz Stadium</span>
+                  <Badge className="bg-blue-500 text-white">10 min</Badge>
+                </div>
+              </Card>
+
+              <Card className="bg-purple-900/20 border-purple-500/30 p-6">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-slate-300">Emory University</span>
+                  <Badge className="bg-purple-500 text-white">5 min</Badge>
+                </div>
+              </Card>
+
+              <Card className="bg-orange-900/20 border-orange-500/30 p-6">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-slate-300">CDC Headquarters</span>
+                  <Badge className="bg-orange-500 text-white">7 min</Badge>
+                </div>
+              </Card>
+
+              <Card className="bg-red-900/20 border-red-500/30 p-6">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-slate-300">Downtown Atlanta</span>
+                  <Badge className="bg-red-500 text-white">12 min</Badge>
+                </div>
+              </Card>
+            </div>
+
+            <Card className="bg-slate-900/50 border-slate-700 p-6">
+              <h3 className="text-xl font-semibold text-white mb-4">Demand Drivers</h3>
+              <ul className="space-y-3">
+                <li className="flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" />
+                  <span className="text-slate-300">Medical professionals</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" />
+                  <span className="text-slate-300">CDC and Emory staff</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" />
+                  <span className="text-slate-300">Film crews</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" />
+                  <span className="text-slate-300">Corporate executive rentals</span>
+                </li>
+              </ul>
+            </Card>
+          </div>
+        </section>
+
+        {/* 9. DUE DILIGENCE VAULT */}
+        <section id="due-diligence" className="space-y-6">
+          <div className="border-l-4 border-emerald-500 pl-6">
+            <h2 className="text-3xl font-bold text-white mb-4">
+              Verified Revenue. Transparent Documentation.
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <Card className="bg-slate-900/50 border-slate-700 p-6 hover:border-amber-500/50 transition-colors">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-amber-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <Download className="w-6 h-6 text-amber-400" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-white mb-2">Seller's Property Disclosure</h3>
+                  <p className="text-sm text-slate-400 mb-4">PDF · 310 KB</p>
+                  <Button 
+                    variant="outline" 
+                    className="border-amber-500/50 hover:bg-amber-500/10"
+                    onClick={() => window.open('https://drive.google.com/file/d/1nvxB7R-CJklGlDDfiLNVOcAvClNf0kpA/view', '_blank')}
+                  >
+                    Download
+                  </Button>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="bg-slate-900/50 border-slate-700 p-6 hover:border-emerald-500/50 transition-colors">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-emerald-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <Download className="w-6 h-6 text-emerald-400" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-white mb-2">Airbnb Revenue Data (Verified)</h3>
+                  <p className="text-sm text-slate-400 mb-4">CSV · 12 KB</p>
+                  <Button 
+                    variant="outline" 
+                    className="border-emerald-500/50 hover:bg-emerald-500/10"
+                    onClick={() => window.open('https://drive.google.com/file/d/1nvxB7R-CJklGlDDfiLNVOcAvClNf0kpA/view', '_blank')}
+                  >
+                    Download
+                  </Button>
+                </div>
+              </div>
+            </Card>
+          </div>
+        </section>
+
+        {/* 10. GO / NO-GO DECISION MATRIX */}
+        <section className="space-y-6">
+          <div className="border-l-4 border-amber-500 pl-6">
+            <h2 className="text-3xl font-bold text-white mb-4">
+              The Asymmetry Is Clear.
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* GO Reasons */}
+            <Card className="bg-gradient-to-br from-emerald-900/30 to-emerald-800/20 border-emerald-500/50 p-6">
+              <h3 className="text-2xl font-bold text-emerald-400 mb-6 flex items-center gap-2">
+                <CheckCircle2 className="w-6 h-6" />
+                GO Reasons
+              </h3>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" />
+                  <span className="text-slate-200">Duplex revenue covers debt Day 1</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" />
+                  <span className="text-slate-200">Materials onsite to finish Unit C</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" />
+                  <span className="text-slate-200">Walkable to Decatur + Emory + CDC</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" />
+                  <span className="text-slate-200">2026 World Cup revenue catalyst</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" />
+                  <span className="text-slate-200">Pre-market access = no bidding wars</span>
+                </li>
+              </ul>
+            </Card>
+
+            {/* NO-GO Reasons */}
+            <Card className="bg-gradient-to-br from-red-900/30 to-red-800/20 border-red-500/50 p-6">
+              <h3 className="text-2xl font-bold text-red-400 mb-6 flex items-center gap-2">
+                <XCircle className="w-6 h-6" />
+                NO-GO Reasons
+              </h3>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3">
+                  <XCircle className="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" />
+                  <span className="text-slate-200">Tree removal required</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <XCircle className="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" />
+                  <span className="text-slate-200">VA loan appraisal will kill speed</span>
+                </li>
+              </ul>
+            </Card>
+          </div>
+
+          {/* Recommendation */}
+          <Card className="bg-gradient-to-r from-amber-900/40 to-emerald-900/40 border-amber-500/50 p-8">
+            <div className="text-center space-y-4">
+              <Badge className="bg-emerald-500 text-white text-lg px-6 py-2">
+                RECOMMENDATION
+              </Badge>
+              <h3 className="text-3xl font-bold text-white">
+                GO — Secure With Speed (Hard Money / Conventional)
+              </h3>
+              <p className="text-xl text-slate-300">
+                This is operational arbitrage, not price arbitrage.
+              </p>
+            </div>
+          </Card>
+        </section>
+
+        {/* 11. FINAL CTA */}
+        <section className="space-y-6">
+          <Card className="bg-gradient-to-br from-slate-900 to-slate-800 border-amber-500/50 p-12 text-center">
+            <h2 className="text-4xl font-bold text-white mb-4">
+              Ready to move forward?
+            </h2>
+            <p className="text-xl text-slate-300 mb-8 max-w-2xl mx-auto">
+              This asset is a cash-flow engine with verified income, asymmetric risk, and a clear execution plan.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
               <Button 
-                size="lg" 
-                className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-8 py-6 text-lg"
-                onClick={() => setShowCalculator(true)}
+                onClick={() => setShowCalculator(!showCalculator)}
+                className="bg-amber-500 hover:bg-amber-600 text-slate-900 font-semibold text-lg px-8 py-6"
               >
                 <Calculator className="w-5 h-5 mr-2" />
                 Run Your Numbers
               </Button>
-              <Link href="/dashboard">
-                <Button 
-                  size="lg" 
-                  variant="outline"
-                  className="px-8 py-6 text-lg"
-                >
-                  View Other Deals
-                </Button>
-              </Link>
+              <Button 
+                variant="outline" 
+                className="border-amber-500/50 hover:bg-amber-500/10 text-lg px-8 py-6"
+              >
+                <Phone className="w-5 h-5 mr-2" />
+                Join Investor List
+              </Button>
+              <Button 
+                variant="outline" 
+                className="border-amber-500/50 hover:bg-amber-500/10 text-lg px-8 py-6"
+              >
+                <Phone className="w-5 h-5 mr-2" />
+                Schedule Call
+              </Button>
             </div>
-          </CardContent>
-        </Card>
+          </Card>
+        </section>
+
+        {/* Gallery Placeholder - Will be implemented in next phase */}
+        <section id="gallery" className="space-y-6">
+          <div className="border-l-4 border-blue-500 pl-6">
+            <h2 className="text-3xl font-bold text-white mb-4">
+              Property Walkthrough
+            </h2>
+          </div>
+          <Card className="bg-slate-900/50 border-slate-700 p-12 text-center">
+            <Film className="w-16 h-16 text-slate-600 mx-auto mb-4" />
+            <p className="text-slate-400 mb-6">
+              Mixed-media gallery coming soon. View photos and videos from the December 9, 2025 walkthrough.
+            </p>
+            <Button 
+              variant="outline" 
+              className="border-amber-500/50 hover:bg-amber-500/10"
+              onClick={() => window.open('https://photos.app.goo.gl/k1unnAfKJ4L1ZYqb7', '_blank')}
+            >
+              <Film className="w-4 h-4 mr-2" />
+              Open Full Gallery
+            </Button>
+          </Card>
+        </section>
+
       </div>
     </div>
   );

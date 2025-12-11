@@ -1000,3 +1000,64 @@ Create a Salesforce-caliber acquisition command center with Apple-level UX servi
 - [x] Page is production-ready for investor review
 
 **Status**: ✅ COMPLETE - Comprehensive institutional-grade investor package ready for deployment
+
+
+---
+
+## 🔥 PONCE PROTOCOL PAGE REBUILD (User Feedback Implementation)
+
+### Page Structure & Narrative
+- [x] Rebuild hero section as "Executive Summary" HUD card
+- [x] Add "What You're Actually Buying" section with Billy quote
+- [x] Add "Why This Asset Is Mispriced" section explaining pricing asymmetry
+- [x] Create "The Revenue Engine" 3-tier visualization
+- [x] Add "Execution Timeline" with timeline bar (Week 1-2, 3-4, Month 1, Month 2+)
+- [x] Add "Financing Strategy" table comparing VA/Hard Money/Conventional
+- [x] Create "Risk & Mitigation Matrix" table with confidence scores
+- [x] Add "Location Value" section with proximity times
+- [x] Redesign "Due Diligence Vault" as clean cards
+- [x] Rebuild "Go/No-Go Decision Matrix" with clear recommendation
+- [x] Add final CTA section
+
+### Mixed-Media Gallery (Critical Upgrade)
+- [ ] Remove broken Google Photos embed
+- [ ] Implement Google Photos API integration
+- [ ] Fetch album manifest and detect IMAGE vs VIDEO types
+- [ ] Create grid view with uniform square thumbnails
+- [ ] Add play icon overlay for videos
+- [ ] Implement filtering tabs (Exterior, Interior, Coach House, Materials)
+- [ ] Build lightbox with zoom/swipe for images
+- [ ] Add inline video playback with controls
+- [ ] Implement fallback UI for failed album parsing
+- [ ] Add diagnostic logging for debugging
+
+### Persistent CTA Panel
+- [ ] Create sticky right-side CTA panel
+- [ ] Add "Run Your Numbers" button
+- [ ] Add "View Full Gallery" button
+- [ ] Add "Download Due Diligence" button
+- [ ] Add "Join Investor List" button
+- [ ] Ensure visibility during scrolling
+
+### Design & UX Improvements
+- [x] Make each section feel like its own "slide"
+- [x] Add strong visual anchors (headers, dividers, whitespace)
+- [x] Limit paragraphs to 2-3 lines max
+- [x] Use card components for insights and numbers
+- [x] Implement premium aesthetic (grayscale + gold accents)
+- [x] Maintain consistent CTAs across sections
+- [ ] Test responsive design on mobile
+
+### Template Future-Proofing
+- [ ] Create reusable deal template component
+- [ ] Add variable fields (address, revenue, CapEx, media, timeline, etc.)
+- [ ] Document template usage for future deals
+- [ ] Test template with Stadium Plaza deal data
+
+### Testing & Validation
+- [ ] Test all sections render correctly
+- [ ] Test gallery with images and videos
+- [ ] Test persistent CTA panel scrolling
+- [ ] Test all buttons and links
+- [ ] Test responsive design
+- [ ] Validate narrative flow and investor psychology
