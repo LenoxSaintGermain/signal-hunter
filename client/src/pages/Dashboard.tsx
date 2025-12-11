@@ -57,53 +57,33 @@ export default function Dashboard() {
     setTimeout(() => {
       const mockOpportunities: Opportunity[] = [
         {
-          listing_id: "1",
-          title: "HVAC Service Company - Atlanta Metro",
-          industry: "Home Services",
-          location: "GA",
-          revenue: "$2.5M",
-          final_score: 0.89,
+          listing_id: "ponce-protocol",
+          title: "Ponce Protocol - Hospitality Business with Real Estate",
+          industry: "Hospitality / Real Estate",
+          location: "Druid Hills, Atlanta, GA",
+          revenue: "$109K/yr verified, $145K/yr potential",
+          final_score: 0.92,
           rank: 1,
           meets_threshold: true
         },
         {
-          listing_id: "2",
-          title: "Waste Management Route Business",
-          industry: "Environmental Services",
-          location: "GA",
-          revenue: "$1.8M",
-          final_score: 0.85,
+          listing_id: "whitehall-assemblage",
+          title: "Whitehall Assemblage - 2.31 Acre Development Site",
+          industry: "Real Estate Development",
+          location: "Downtown Atlanta, GA",
+          revenue: "$5.5M asking price",
+          final_score: 0.88,
           rank: 2,
           meets_threshold: true
         },
         {
-          listing_id: "3",
-          title: "Commercial Plumbing Services",
-          industry: "Construction",
-          location: "FL",
-          revenue: "$3.2M",
-          final_score: 0.82,
+          listing_id: "514-whitehall",
+          title: "514 Whitehall St SW - Mixed-Use Property",
+          industry: "Real Estate",
+          location: "Downtown Atlanta, GA",
+          revenue: "$200K estimated",
+          final_score: 0.85,
           rank: 3,
-          meets_threshold: true
-        },
-        {
-          listing_id: "4",
-          title: "Facilities Maintenance Company",
-          industry: "Facilities Management",
-          location: "TX",
-          revenue: "$4.1M",
-          final_score: 0.78,
-          rank: 4,
-          meets_threshold: true
-        },
-        {
-          listing_id: "5",
-          title: "Home Services Franchise",
-          industry: "Home Services",
-          location: "NC",
-          revenue: "$1.5M",
-          final_score: 0.75,
-          rank: 5,
           meets_threshold: true
         }
       ];
@@ -111,11 +91,11 @@ export default function Dashboard() {
       setOpportunities(mockOpportunities);
       
       setStats({
-        total_opportunities: 250,
-        high_score_count: 12,
-        avg_score: 0.68,
-        outreach_sent: 18,
-        outreach_replied: 5
+        total_opportunities: 3,
+        high_score_count: 3,
+        avg_score: 0.88,
+        outreach_sent: 3,
+        outreach_replied: 1
       });
       
       setLoading(false);
@@ -131,7 +111,7 @@ export default function Dashboard() {
       {/* Sidebar */}
       <aside className="w-64 border-r border-border bg-white">
         <div className="p-6">
-          <h1 className="text-2xl font-bold" style={{ color: '#1D1D1F' }}>Million Hunter</h1>
+          <h1 className="text-2xl font-bold" style={{ color: '#1D1D1F' }}>Capital Signal Hunter</h1>
           <p className="text-sm mt-1" style={{ color: '#6E6E73' }}>AI Acquisition Agent</p>
         </div>
         

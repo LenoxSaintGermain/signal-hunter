@@ -35,7 +35,7 @@ export default function PonceProtocol() {
           <div className="flex items-center justify-between">
             <Link href="/">
               <a className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                Million Hunter
+                Capital Signal Hunter
               </a>
             </Link>
             <div className="flex gap-4">
