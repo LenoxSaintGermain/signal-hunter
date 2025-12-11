@@ -4,6 +4,7 @@ import { ArrowRight, Target, Brain, Zap, Shield, TrendingUp, Sparkles } from "lu
 import { Link } from "wouter";
 import { APP_LOGO, APP_TITLE, getLoginUrl } from "@/const";
 import AIAssistant from "@/components/AIAssistant";
+import Navigation from "@/components/Navigation";
 
 export default function Home() {
   // The userAuth hooks provides authentication state
@@ -14,43 +15,7 @@ export default function Home() {
     <div className="min-h-screen bg-white">
       <AIAssistant />
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b" style={{ borderColor: '#D2D2D7' }}>
-        <div className="container mx-auto">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-2">
-              <img src={APP_LOGO} alt={APP_TITLE} className="w-8 h-8" />
-              <span className="font-semibold text-lg" style={{ color: '#1D1D1F' }}>{APP_TITLE}</span>
-            </div>
-            <div className="flex items-center gap-4">
-              <Link href="/property/514-whitehall">
-                <Button variant="ghost" className="text-sm">
-                  514 Whitehall
-                </Button>
-              </Link>
-              <Link href="/property/whitehall-assemblage">
-                <Button variant="ghost" className="text-sm">
-                  Assemblage
-                </Button>
-              </Link>
-              <Link href="/property/comparison">
-                <Button variant="ghost" className="text-sm">
-                  Compare
-                </Button>
-              </Link>
-              <Link href="/property/ponce-protocol">
-                <Button variant="ghost" className="text-sm">
-                  Ponce Protocol
-                </Button>
-              </Link>
-              <Link href="/pipeline">
-                <Button className="btn-apple-primary">
-                  Open Dashboard <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navigation currentPage="/" />
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden">
@@ -61,18 +26,18 @@ export default function Home() {
               <Sparkles className="w-4 h-4" />
               <span>AI-Powered Business Acquisition Intelligence</span>
             </div>
-            
+
             <h1 className="text-hero mb-6 animate-fade-in-up">
               Find your next
               <br />
               <span className="text-primary">million-dollar</span> acquisition
             </h1>
-            
+
             <p className="text-body-large max-w-3xl mx-auto mb-12 animate-fade-in-up animation-delay-200">
-              Identify and secure high-cash-flow businesses generating ≥$1M net profit through 
+              Identify and secure high-cash-flow businesses generating ≥$1M net profit through
               automated market scanning, intelligent scoring, and strategic analysis.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-400">
               <Link href="/property/514-whitehall">
                 <Button size="lg" className="btn-apple-primary text-lg px-8 py-6">
@@ -126,7 +91,7 @@ export default function Home() {
                 Automated daily scanning of 250+ listings
               </h2>
               <p className="text-body-large mb-8">
-                Our AI agent scans 11 sources across multiple platforms, intelligently filtering 
+                Our AI agent scans 11 sources across multiple platforms, intelligently filtering
                 for revenue, cash flow, and strategic fit. Never miss an opportunity again.
               </p>
               <ul className="space-y-4">
@@ -172,7 +137,7 @@ export default function Home() {
                 Multi-factor algorithm evaluating every deal
               </h2>
               <p className="text-body-large mb-8">
-                Our proprietary scoring engine analyzes financial metrics, AI optimization potential, 
+                Our proprietary scoring engine analyzes financial metrics, AI optimization potential,
                 government contract opportunities, and strategic multipliers to rank every opportunity.
               </p>
               <div className="grid grid-cols-2 gap-4">
@@ -206,7 +171,7 @@ export default function Home() {
                 Intelligent email campaigns with personalized templates
               </h2>
               <p className="text-body-large mb-8">
-                Reach brokers and sellers with professionally crafted emails that highlight your 
+                Reach brokers and sellers with professionally crafted emails that highlight your
                 competitive advantages: SDVOSB certification, SBA pre-approval, and AI expertise.
               </p>
               <div className="space-y-4">

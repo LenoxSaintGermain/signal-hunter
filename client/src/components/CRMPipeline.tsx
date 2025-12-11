@@ -64,13 +64,12 @@ export default function CRMPipeline() {
         {stages.map((stage) => {
           const stageDeals = deals.filter(d => d.stage === stage.value);
           const stageValue = stageDeals.reduce((sum, d) => sum + d.price, 0);
-          
+
           return (
             <Card
               key={stage.value}
-              className={`cursor-pointer transition-all ${
-                selectedStage === stage.value ? 'ring-2 ring-primary' : 'hover:shadow-md'
-              }`}
+              className={`cursor-pointer transition-all ${selectedStage === stage.value ? 'ring-2 ring-primary' : 'hover:shadow-md'
+                }`}
               onClick={() => setSelectedStage(selectedStage === stage.value ? null : stage.value)}
             >
               <CardContent className="p-4">
@@ -105,9 +104,9 @@ export default function CRMPipeline() {
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
                     <Building className="w-5 h-5 text-muted-foreground" />
-                    <h4 className="text-lg font-semibold">{deal.name}</h4>
+                    <h4 className="text-lg font-semibold text-foreground">{deal.name}</h4>
                     {deal.opportunityZone && (
-                      <Badge variant="secondary" className="bg-green-500/10 text-green-400 border-green-500/20">
+                      <Badge variant="secondary" className="bg-green-100 text-green-700 border-green-200">
                         OZ
                       </Badge>
                     )}
@@ -133,7 +132,7 @@ export default function CRMPipeline() {
                     {stages.find(s => s.value === deal.stage)?.label}
                   </Badge>
                   {deal.score && (
-                    <div className="text-sm font-semibold text-green-400">
+                    <div className="text-sm font-semibold text-green-600">
                       Score: {deal.score}/100
                     </div>
                   )}
@@ -142,23 +141,23 @@ export default function CRMPipeline() {
 
               {/* Financial Metrics */}
               {(deal.revenue || deal.cashFlow || deal.sdeMargin) && (
-                <div className="grid grid-cols-3 gap-4 mb-4 p-3 bg-muted/50 rounded-lg">
+                <div className="grid grid-cols-3 gap-4 mb-4 p-3 bg-secondary rounded-lg">
                   {deal.revenue && (
                     <div>
                       <div className="text-xs text-muted-foreground mb-1">Revenue</div>
-                      <div className="font-semibold">{formatCurrency(deal.revenue)}</div>
+                      <div className="font-semibold text-foreground">{formatCurrency(deal.revenue)}</div>
                     </div>
                   )}
                   {deal.cashFlow && (
                     <div>
                       <div className="text-xs text-muted-foreground mb-1">Cash Flow</div>
-                      <div className="font-semibold">{formatCurrency(deal.cashFlow)}</div>
+                      <div className="font-semibold text-foreground">{formatCurrency(deal.cashFlow)}</div>
                     </div>
                   )}
                   {deal.sdeMargin && (
                     <div>
                       <div className="text-xs text-muted-foreground mb-1">SDE Margin</div>
-                      <div className="font-semibold">{deal.sdeMargin.toFixed(1)}%</div>
+                      <div className="font-semibold text-foreground">{deal.sdeMargin.toFixed(1)}%</div>
                     </div>
                   )}
                 </div>
@@ -169,16 +168,16 @@ export default function CRMPipeline() {
                 <div className="flex gap-4 mb-4">
                   {deal.aiPotential && (
                     <div className="flex items-center gap-2 text-sm">
-                      <Zap className="w-4 h-4 text-purple-400" />
+                      <Zap className="w-4 h-4 text-purple-600" />
                       <span className="text-muted-foreground">AI Potential:</span>
-                      <span className="font-semibold text-purple-400">{deal.aiPotential}/100</span>
+                      <span className="font-semibold text-purple-600">{deal.aiPotential}/100</span>
                     </div>
                   )}
                   {deal.certAdvantage && (
                     <div className="flex items-center gap-2 text-sm">
-                      <Target className="w-4 h-4 text-blue-400" />
+                      <Target className="w-4 h-4 text-blue-600" />
                       <span className="text-muted-foreground">Cert Advantage:</span>
-                      <span className="font-semibold text-blue-400">{deal.certAdvantage}/100</span>
+                      <span className="font-semibold text-blue-600">{deal.certAdvantage}/100</span>
                     </div>
                   )}
                 </div>
@@ -191,7 +190,7 @@ export default function CRMPipeline() {
                     <div className="flex items-center gap-2 text-sm">
                       <Calendar className="w-4 h-4 text-muted-foreground" />
                       <span className="text-muted-foreground">Last Contact:</span>
-                      <span className="font-medium">
+                      <span className="font-medium text-foreground">
                         {new Date(deal.lastContact).toLocaleDateString()}
                       </span>
                     </div>
@@ -200,7 +199,7 @@ export default function CRMPipeline() {
                     <div className="flex items-center gap-2 text-sm">
                       <Mail className="w-4 h-4 text-muted-foreground" />
                       <span className="text-muted-foreground">Next Action:</span>
-                      <span className="font-medium">{deal.nextAction}</span>
+                      <span className="font-medium text-foreground">{deal.nextAction}</span>
                     </div>
                   )}
                 </div>
@@ -208,10 +207,10 @@ export default function CRMPipeline() {
 
               {/* Actions */}
               <div className="flex gap-2 flex-wrap">
-                <Button 
-                  size="sm" 
+                <Button
+                  size="sm"
                   variant="default"
-                  className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground"
                   onClick={() => handleAskAI(deal)}
                 >
                   <Bot className="w-4 h-4 mr-2" />
