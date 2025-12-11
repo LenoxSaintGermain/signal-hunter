@@ -33,10 +33,8 @@ export default function PonceProtocol() {
       <div className="border-b border-white/10 bg-white backdrop-blur-sm sticky top-0 z-40">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <Link href="/">
-              <a className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                Million Hunter
-              </a>
+            <Link href="/" className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              Million Hunter
             </Link>
             <div className="flex gap-4">
               <Button 
@@ -47,11 +45,9 @@ export default function PonceProtocol() {
                 <Calculator className="w-4 h-4" />
                 {showCalculator ? "Hide" : "Show"} Calculator
               </Button>
-              <Link href="/dashboard">
-                <Button variant="outline">
-                  Back to Dashboard
-                </Button>
-              </Link>
+              <Button variant="outline" onClick={() => window.location.href = '/dashboard'}>
+                Back to Dashboard
+              </Button>
             </div>
           </div>
         </div>
