@@ -17,9 +17,11 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import FinancialCalculator from "@/components/FinancialCalculator";
+import InvestorIntakeModal from "@/components/InvestorIntakeModal";
 
 export default function PonceProtocolV2() {
   const [showCalculator, setShowCalculator] = useState(false);
+  const [showInvestorModal, setShowInvestorModal] = useState(false);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
@@ -142,6 +144,12 @@ export default function PonceProtocolV2() {
 
             <div className="flex flex-wrap gap-4">
               <Button 
+                onClick={() => setShowInvestorModal(true)}
+                className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold transition-all duration-300 hover:scale-105 hover:shadow-xl"
+              >
+                Join Investor List
+              </Button>
+              <Button 
                 onClick={() => setShowCalculator(!showCalculator)}
                 className="bg-amber-500 hover:bg-amber-600 text-slate-900 font-semibold"
               >
@@ -159,6 +167,7 @@ export default function PonceProtocolV2() {
               <Button 
                 variant="outline" 
                 className="border-amber-500/50 hover:bg-amber-500/10"
+                onClick={() => window.open('https://calendar.google.com/calendar/u/0?cid=MTk5NzM0OGRmYWJkYTY3YTdmN2EyOGVlYTMzNGM4MzgyMTczMzlmYTllNDUzOTk1Y2Q2YzE3NWU2NDUwODRhZkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t', '_blank')}
               >
                 <Phone className="w-4 h-4 mr-2" />
                 Schedule Investor Call
@@ -787,6 +796,14 @@ export default function PonceProtocolV2() {
         </section>
 
       </div>
+
+      {/* Investor Intake Modal */}
+      <InvestorIntakeModal 
+        isOpen={showInvestorModal}
+        onClose={() => setShowInvestorModal(false)}
+        opportunityId="ponce-protocol"
+        opportunityName="Ponce Protocol"
+      />
     </div>
   );
 }

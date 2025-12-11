@@ -1061,3 +1061,71 @@ Create a Salesforce-caliber acquisition command center with Apple-level UX servi
 - [ ] Test all buttons and links
 - [ ] Test responsive design
 - [ ] Validate narrative flow and investor psychology
+
+
+---
+
+## 🍎 APPLE.COM AESTHETIC + AI INVESTOR ONBOARDING SYSTEM
+
+### Global Style Upgrade - Apple-Level Aesthetic
+- [ ] Update color system to minimal luxury palette (Pure White, Soft Charcoal, Warm Gray, Muted Gold, Slate Gray, Deep Black)
+- [ ] Implement cinematic typography (SF-inspired clean sans-serif)
+- [ ] Apply layout rules (each section as "slide", wide margins, full-bleed hero, smooth scroll)
+- [ ] Add subtle motion on hover (opacity shifts, micro-glow on CTAs)
+- [ ] Update all buttons to Apple-style rounded rectangles
+- [ ] Implement section fade-in on scroll (15% → 100% opacity)
+- [ ] Add soft gradients behind hero stats
+- [ ] Apply gold glow on revenue number hover
+- [ ] Convert charts to clean, monochromatic designs
+
+### Google Calendar Integration
+- [ ] Update "Schedule Call" buttons to open Google Calendar link
+- [ ] Add target="_blank" and preload hover animation
+- [ ] Implement scale 1.02 + soft shadow on hover
+
+### AI-Powered Investor Intake Modal
+- [ ] Create glassmorphic modal with blur effect
+- [ ] Design investor intake form with all required fields:
+  - First & Last Name
+  - Email
+  - Phone (optional)
+  - Investor Type (Individual/LLC/Fund/Trust)
+  - Net Investable Capital Range
+  - Check Size Preference
+  - Experience Level
+  - Deal Types Interested In
+  - Time Horizon
+  - Risk Appetite
+  - Geography Preference
+  - Liquidity Preference
+  - Investment Goals (text field)
+- [ ] Implement form validation
+- [ ] Add Apple-style form inputs with clean design
+
+### AI Investor Dossier Generation
+- [ ] Create database schema for investor profiles
+- [ ] Build tRPC procedure for investor intake submission
+- [ ] Integrate AI agent (Gemini 3 Pro) for dossier generation
+- [ ] Implement investor persona classification
+- [ ] Generate deal fit score for current opportunity
+- [ ] Create risk profile summary
+- [ ] Identify red flags or concerns
+- [ ] Generate structured JSON output
+- [ ] Create human-readable summary for founder
+
+### Thank You Page & Follow-up
+- [ ] Design Apple-style Thank You page with gradient
+- [ ] Add "Schedule a Call" CTA linking to Google Calendar
+- [ ] Implement email notification system
+- [ ] Create investor dossier email template
+- [ ] Send personalized deal recommendations
+
+### Share Deal Feature (Optional)
+- [ ] Create Apple-style share sheet
+- [ ] Implement short URL generation
+- [ ] Add pre-built share message
+
+### Template Application
+- [ ] Apply all upgrades to Ponce Protocol page
+- [ ] Create reusable template for future deals
+- [ ] Test on Stadium Plaza and other deals
