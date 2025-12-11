@@ -101,34 +101,33 @@
   --radius: 12px;
 }
 
-.dark {
-  /* Dark mode (optional, keeping minimal for Apple aesthetic) */
-  --background: #1D1D1F;
-  --foreground: #F5F5F7;
-  --card: #2C2C2E;
-  --card-foreground: #F5F5F7;
-  --popover: #2C2C2E;
-  --popover-foreground: #F5F5F7;
-  --secondary: #3A3A3C;
-  --secondary-foreground: #F5F5F7;
-  --muted: #3A3A3C;
-  --muted-foreground: #AEAEB2;
-  --accent: #D4AF37;
-  --accent-foreground: #1D1D1F;
-  --destructive: #FF453A;
-  --destructive-foreground: #FFFFFF;
-  --border: #48484A;
-  --input: #48484A;
-  --ring: #D4AF37;
-  --sidebar: #2C2C2E;
-  --sidebar-foreground: #F5F5F7;
-  --sidebar-primary: #F5F5F7;
-  --sidebar-primary-foreground: #1D1D1F;
-  --sidebar-accent: #3A3A3C;
-  --sidebar-accent-foreground: #F5F5F7;
-  --sidebar-border: #48484A;
-  --sidebar-ring: #D4AF37;
-}
+/* .dark {
+   --background: #1D1D1F;
+   --foreground: #F5F5F7;
+   --card: #2C2C2E;
+   --card-foreground: #F5F5F7;
+   --popover: #2C2C2E;
+   --popover-foreground: #F5F5F7;
+   --secondary: #3A3A3C;
+   --secondary-foreground: #F5F5F7;
+   --muted: #3A3A3C;
+   --muted-foreground: #AEAEB2;
+   --accent: #D4AF37;
+   --accent-foreground: #1D1D1F;
+   --destructive: #FF453A;
+   --destructive-foreground: #FFFFFF;
+   --border: #48484A;
+   --input: #48484A;
+   --ring: #D4AF37;
+   --sidebar: #2C2C2E;
+   --sidebar-foreground: #F5F5F7;
+   --sidebar-primary: #F5F5F7;
+   --sidebar-primary-foreground: #1D1D1F;
+   --sidebar-accent: #3A3A3C;
+   --sidebar-accent-foreground: #F5F5F7;
+   --sidebar-border: #48484A;
+   --sidebar-ring: #D4AF37;
+} */
 
 @layer base {
   * {

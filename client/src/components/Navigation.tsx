@@ -15,13 +15,13 @@ export default function Navigation({ currentPage }: NavigationProps) {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b" style={{ borderColor: '#D2D2D7' }}>
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-border">
       <div className="max-w-7xl mx-auto px-8">
         <div className="flex items-center justify-between h-16">
           {/* Left: Brand */}
           <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
             <img src={APP_LOGO} alt={APP_TITLE} className="w-8 h-8" />
-            <span className="font-semibold text-lg" style={{ color: '#1D1D1F' }}>
+            <span className="font-semibold text-lg text-foreground">
               {APP_TITLE}
             </span>
           </Link>
@@ -32,16 +32,14 @@ export default function Navigation({ currentPage }: NavigationProps) {
               <Link 
                 key={item.href} 
                 href={item.href}
-                className="text-sm font-medium transition-all hover:opacity-60 relative pb-1"
-                style={{ 
-                  color: currentPage === item.href ? '#1D1D1F' : '#6E6E73',
-                }}
+                className={`text-sm font-medium transition-all hover:opacity-60 relative pb-1 ${
+                  currentPage === item.href ? 'text-foreground' : 'text-muted-foreground'
+                }`}
               >
                 {item.label}
                 {currentPage === item.href && (
                   <div 
-                    className="absolute bottom-0 left-0 right-0 h-0.5" 
-                    style={{ background: '#1D1D1F' }}
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-foreground" 
                   />
                 )}
               </Link>

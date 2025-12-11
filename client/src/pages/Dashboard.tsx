@@ -1,14 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
-import { 
-  LayoutDashboard, 
-  Target, 
-  Mail, 
-  TrendingUp,
+import {
   Search,
-  ChevronDown
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -17,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import Navigation from "@/components/Navigation";
 
 interface Opportunity {
   listing_id: string;
@@ -89,7 +84,7 @@ export default function Dashboard() {
       ];
 
       setOpportunities(mockOpportunities);
-      
+
       setStats({
         total_opportunities: 3,
         high_score_count: 3,
@@ -97,7 +92,7 @@ export default function Dashboard() {
         outreach_sent: 3,
         outreach_replied: 1
       });
-      
+
       setLoading(false);
     }, 500);
   }, []);
@@ -107,48 +102,16 @@ export default function Dashboard() {
   );
 
   return (
-    <div className="min-h-screen bg-background flex">
-      {/* Sidebar */}
-      <aside className="w-64 border-r border-border bg-white">
-        <div className="p-6">
-          <h1 className="text-2xl font-bold" style={{ color: '#1D1D1F' }}>Capital Signal Hunter</h1>
-          <p className="text-sm mt-1" style={{ color: '#6E6E73' }}>AI Acquisition Agent</p>
-        </div>
-        
-        <nav className="px-4 space-y-2">
-          <Link href="/dashboard" className="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors" 
-               style={{ background: '#F5F5F7', color: '#1D1D1F' }}>
-            <LayoutDashboard className="w-5 h-5" />
-            <span className="font-medium">Dashboard</span>
-          </Link>
-          
-          <Link href="/dashboard" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-secondary transition-colors"
-               style={{ color: '#6E6E73' }}>
-            <Target className="w-5 h-5" />
-            <span className="font-medium">Opportunities</span>
-          </Link>
-          
-          <Link href="/dashboard" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-secondary transition-colors"
-               style={{ color: '#6E6E73' }}>
-            <Mail className="w-5 h-5" />
-            <span className="font-medium">Outreach</span>
-          </Link>
-          
-          <Link href="/dashboard" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-secondary transition-colors"
-               style={{ color: '#6E6E73' }}>
-            <TrendingUp className="w-5 h-5" />
-            <span className="font-medium">Analytics</span>
-          </Link>
-        </nav>
-      </aside>
+    <div className="min-h-screen bg-background">
+      <Navigation currentPage="/dashboard" />
 
       {/* Main Content */}
-      <main className="flex-1 overflow-auto">
-        <div className="max-w-7xl mx-auto p-8">
+      <main className="pt-20 pb-12">
+        <div className="max-w-7xl mx-auto px-8">
           {/* Page Hero */}
           <div className="mb-12">
-            <h2 className="text-section mb-3">Pipeline Overview</h2>
-            <p className="text-body-large">
+            <h2 className="text-section mb-3 text-foreground">Pipeline Overview</h2>
+            <p className="text-body-large text-muted-foreground">
               Track and manage acquisition opportunities scored by the AI Acquisition Agent.
             </p>
           </div>
@@ -156,89 +119,88 @@ export default function Dashboard() {
           {/* KPI Metric Cards */}
           <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-12">
             {/* Total Opportunities */}
-            <div className="metric-card">
-              <div className="text-xs uppercase tracking-wide font-medium mb-2" style={{ color: '#6E6E73' }}>
+            <div className="metric-card bg-secondary/50 border border-border">
+              <div className="text-xs uppercase tracking-wide font-medium mb-2 text-muted-foreground">
                 Total Opportunities
               </div>
-              <div className="text-4xl font-bold mb-1" style={{ color: '#1D1D1F' }}>
+              <div className="text-4xl font-bold mb-1 text-foreground">
                 {stats.total_opportunities}
               </div>
-              <div className="text-sm" style={{ color: '#6E6E73' }}>
+              <div className="text-sm text-muted-foreground">
                 Scanned this month
               </div>
             </div>
 
             {/* High Score */}
-            <div className="metric-card">
-              <div className="text-xs uppercase tracking-wide font-medium mb-2" style={{ color: '#6E6E73' }}>
+            <div className="metric-card bg-secondary/50 border border-border">
+              <div className="text-xs uppercase tracking-wide font-medium mb-2 text-muted-foreground">
                 High Score (≥ 0.70)
               </div>
-              <div className="text-4xl font-bold mb-1" style={{ color: '#1D1D1F' }}>
+              <div className="text-4xl font-bold mb-1 text-foreground">
                 {stats.high_score_count}
               </div>
-              <div className="text-sm" style={{ color: '#6E6E73' }}>
+              <div className="text-sm text-muted-foreground">
                 Meeting threshold
               </div>
             </div>
 
             {/* Average Score */}
-            <div className="metric-card">
-              <div className="text-xs uppercase tracking-wide font-medium mb-2" style={{ color: '#6E6E73' }}>
+            <div className="metric-card bg-secondary/50 border border-border">
+              <div className="text-xs uppercase tracking-wide font-medium mb-2 text-muted-foreground">
                 Average Score
               </div>
-              <div className="text-4xl font-bold mb-1" style={{ color: '#1D1D1F' }}>
+              <div className="text-4xl font-bold mb-1 text-foreground">
                 {stats.avg_score.toFixed(2)}
               </div>
-              <div className="text-sm" style={{ color: '#6E6E73' }}>
+              <div className="text-sm text-muted-foreground">
                 Across all listings
               </div>
             </div>
 
             {/* Outreach Sent */}
-            <div className="metric-card">
-              <div className="text-xs uppercase tracking-wide font-medium mb-2" style={{ color: '#6E6E73' }}>
+            <div className="metric-card bg-secondary/50 border border-border">
+              <div className="text-xs uppercase tracking-wide font-medium mb-2 text-muted-foreground">
                 Outreach Sent
               </div>
-              <div className="text-4xl font-bold mb-1" style={{ color: '#1D1D1F' }}>
+              <div className="text-4xl font-bold mb-1 text-foreground">
                 {stats.outreach_sent}
               </div>
-              <div className="text-sm" style={{ color: '#6E6E73' }}>
+              <div className="text-sm text-muted-foreground">
                 Emails/messages sent
               </div>
             </div>
 
             {/* Outreach Response */}
-            <div className="metric-card">
-              <div className="text-xs uppercase tracking-wide font-medium mb-2" style={{ color: '#6E6E73' }}>
+            <div className="metric-card bg-secondary/50 border border-border">
+              <div className="text-xs uppercase tracking-wide font-medium mb-2 text-muted-foreground">
                 Outreach Response
               </div>
-              <div className="text-4xl font-bold mb-1" style={{ color: '#1D1D1F' }}>
+              <div className="text-4xl font-bold mb-1 text-foreground">
                 {((stats.outreach_replied / stats.outreach_sent) * 100).toFixed(0)}%
               </div>
-              <div className="text-sm" style={{ color: '#6E6E73' }}>
+              <div className="text-sm text-muted-foreground">
                 {stats.outreach_replied}/{stats.outreach_sent} replies
               </div>
             </div>
           </div>
 
           {/* Filters & Search */}
-          <div className="metric-card mb-8">
+          <div className="metric-card mb-8 bg-secondary/50 border border-border p-4">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               {/* Search */}
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: '#6E6E73' }} />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input
                   placeholder="Search by business name, industry, or location…"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-9"
-                  style={{ borderColor: '#D2D2D7' }}
+                  className="pl-9 border-input bg-white"
                 />
               </div>
 
               {/* Filter by Score */}
               <Select value={scoreFilter} onValueChange={setScoreFilter}>
-                <SelectTrigger style={{ borderColor: '#D2D2D7' }}>
+                <SelectTrigger className="border-input bg-white">
                   <SelectValue placeholder="Filter by Score" />
                 </SelectTrigger>
                 <SelectContent>
@@ -251,7 +213,7 @@ export default function Dashboard() {
 
               {/* Filter by Status */}
               <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger style={{ borderColor: '#D2D2D7' }}>
+                <SelectTrigger className="border-input bg-white">
                   <SelectValue placeholder="Filter by Status" />
                 </SelectTrigger>
                 <SelectContent>
@@ -266,7 +228,7 @@ export default function Dashboard() {
 
               {/* Sort by */}
               <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger style={{ borderColor: '#D2D2D7' }}>
+                <SelectTrigger className="border-input bg-white">
                   <SelectValue placeholder="Sort by" />
                 </SelectTrigger>
                 <SelectContent>
@@ -280,30 +242,30 @@ export default function Dashboard() {
 
           {/* Top Opportunities List */}
           <div>
-            <h3 className="text-2xl font-semibold mb-6" style={{ color: '#1D1D1F' }}>
+            <h3 className="text-2xl font-semibold mb-6 text-foreground">
               Top Opportunities
             </h3>
-            
+
             {loading ? (
-              <div className="text-center py-12" style={{ color: '#6E6E73' }}>
+              <div className="text-center py-12 text-muted-foreground">
                 Loading opportunities...
               </div>
             ) : (
               <div className="space-y-4">
                 {filteredOpportunities.map((opp) => (
                   <Link key={opp.listing_id} href={`/property/${opp.listing_id}`}>
-                    <div className="opportunity-card">
+                    <div className="opportunity-card bg-white border border-border hover:border-primary/50 transition-colors">
                       <div className="flex items-center justify-between">
                         {/* Left: Rank + Title */}
                         <div className="flex items-center gap-4 flex-1">
-                          <div className="text-3xl font-bold" style={{ color: '#D2D2D7' }}>
+                          <div className="text-3xl font-bold text-muted-foreground/30">
                             #{opp.rank}
                           </div>
                           <div className="flex-1">
-                            <h4 className="font-semibold text-lg mb-1" style={{ color: '#1D1D1F' }}>
+                            <h4 className="font-semibold text-lg mb-1 text-foreground">
                               {opp.title}
                             </h4>
-                            <p className="text-sm" style={{ color: '#6E6E73' }}>
+                            <p className="text-sm text-muted-foreground">
                               Click to view full analysis
                             </p>
                           </div>
@@ -312,33 +274,33 @@ export default function Dashboard() {
                         {/* Middle: Key Stats */}
                         <div className="flex items-center gap-8 mr-8">
                           <div>
-                            <div className="text-xs uppercase tracking-wide mb-1" style={{ color: '#6E6E73' }}>
+                            <div className="text-xs uppercase tracking-wide mb-1 text-muted-foreground">
                               Industry
                             </div>
-                            <div className="text-sm font-medium" style={{ color: '#1D1D1F' }}>
+                            <div className="text-sm font-medium text-foreground">
                               {opp.industry}
                             </div>
                           </div>
                           <div>
-                            <div className="text-xs uppercase tracking-wide mb-1" style={{ color: '#6E6E73' }}>
+                            <div className="text-xs uppercase tracking-wide mb-1 text-muted-foreground">
                               Location
                             </div>
-                            <div className="text-sm font-medium" style={{ color: '#1D1D1F' }}>
+                            <div className="text-sm font-medium text-foreground">
                               {opp.location}
                             </div>
                           </div>
                           <div>
-                            <div className="text-xs uppercase tracking-wide mb-1" style={{ color: '#6E6E73' }}>
+                            <div className="text-xs uppercase tracking-wide mb-1 text-muted-foreground">
                               Revenue
                             </div>
-                            <div className="text-sm font-medium" style={{ color: '#1D1D1F' }}>
+                            <div className="text-sm font-medium text-foreground">
                               {opp.revenue}
                             </div>
                           </div>
                         </div>
 
                         {/* Right: Score Pill */}
-                        <div className={opp.final_score >= 0.8 ? 'score-pill score-pill-high' : 'score-pill'}>
+                        <div className={opp.final_score >= 0.8 ? 'score-pill bg-primary text-primary-foreground' : 'score-pill bg-secondary text-secondary-foreground'}>
                           Score {(opp.final_score * 100).toFixed(0)}
                         </div>
                       </div>
