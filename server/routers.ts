@@ -6,6 +6,12 @@ import { z } from "zod";
 import { getDb } from "./db";
 import { chatMessages, deals } from "../drizzle/schema";
 import { desc, eq } from "drizzle-orm";
+import { dealsRouter } from "./routes/deals";
+import { analysisRouter } from "./routes/analysis";
+import { capitalStackRouter } from "./routes/capitalStack";
+import { projectionsRouter } from "./routes/projections";
+import { commentsRouter } from "./routes/comments";
+import { marketRouter } from "./routes/market";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -166,6 +172,15 @@ Provide detailed, actionable advice. If asked to validate information, explain h
     }),
   }),
 
+  // V2 Enhanced Routers with full CRUD + financial modeling
+  dealsV2: dealsRouter,
+  analysis: analysisRouter,
+  capitalStack: capitalStackRouter,
+  projections: projectionsRouter,
+  comments: commentsRouter,
+  market: marketRouter,
+
+  // V1 Basic Deals Router (kept for backwards compatibility)
   deals: router({
     // Get all deals
     getAll: publicProcedure.query(async () => {
