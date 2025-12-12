@@ -189,13 +189,15 @@ export default function PonceProtocol() {
           </h2>
           <Card className="bg-white border border-border">
             <CardContent className="p-6">
-              <div className="aspect-video w-full bg-secondary rounded-lg overflow-hidden mb-4">
-                <iframe
-                  src="https://photos.google.com/share/AF1QipNWruX3wNfIcE3NzSE970Yl4W4qt4FiKZ1pVEB0OWmXkjmWvg-INWZ__UYyUlnVMA?key=MGVKT29udEItRk83NkxBWFFia19oUHB2SVVPeDhn"
-                  className="w-full h-full"
-                  allow="fullscreen"
-                  title="Property Photos"
-                />
+              <div className="aspect-video w-full bg-secondary rounded-lg overflow-hidden mb-4 flex items-center justify-center relative group cursor-pointer" onClick={() => window.open("https://photos.app.goo.gl/k1unnAfKJ4L1ZYqb7", "_blank")}>
+                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors" />
+                <ImageIcon className="w-16 h-16 text-muted-foreground/50 mb-4" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Button variant="secondary" className="shadow-lg">
+                    Open Full Gallery
+                    <ExternalLink className="w-4 h-4 ml-2" />
+                  </Button>
+                </div>
               </div>
               <div className="flex items-center justify-between">
                 <div>

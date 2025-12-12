@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { PropertyMap } from "@/components/PropertyMap";
+import Navigation from "@/components/Navigation";
 
 export default function WhitehallAssemblage() {
   // FIFA Countdown Timer
@@ -32,11 +33,11 @@ export default function WhitehallAssemblage() {
 
   useEffect(() => {
     const fifaDate = new Date("2026-06-15T00:00:00");
-    
+
     const updateCountdown = () => {
       const now = new Date();
       const diff = fifaDate.getTime() - now.getTime();
-      
+
       if (diff > 0) {
         setTimeToFIFA({
           days: Math.floor(diff / (1000 * 60 * 60 * 24)),
@@ -136,25 +137,26 @@ export default function WhitehallAssemblage() {
 
   return (
     <div className="min-h-screen bg-white">
+      <Navigation currentPage="/property/whitehall-assemblage" />
       {/* Hero Section with FIFA Countdown */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 " />
         <div className="absolute inset-0 " />
-        
+
         <div className="relative z-10 container mx-auto px-4 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary border mb-8">
             <Trophy className="w-4 h-4 text-foreground" />
             <span className="text-sm text-foreground font-medium">FIFA World Cup 2026 Host City</span>
           </div>
-          
+
           <h1 className="text-6xl md:text-8xl font-bold mb-6 text-foreground">
             Whitehall
             <br />
             Assemblage
           </h1>
-          
-          <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
-            2.31 acres of prime stadium-adjacent land. 8 FIFA World Cup matches. 
+
+          <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto">
+            2.31 acres of prime stadium-adjacent land. 8 FIFA World Cup matches.
             <br />
             <span className="text-foreground font-semibold">One extraordinary opportunity.</span>
           </p>
@@ -170,16 +172,16 @@ export default function WhitehallAssemblage() {
                 { label: "Sec", value: timeToFIFA.seconds },
               ].map((item) => (
                 <div key={item.label} className="flex flex-col items-center">
-                  <div className="text-4xl font-bold text-white tabular-nums">
+                  <div className="text-4xl font-bold text-foreground tabular-nums">
                     {item.value.toString().padStart(2, "0")}
                   </div>
-                  <div className="text-xs text-gray-400 uppercase tracking-wider">
+                  <div className="text-xs text-muted-foreground uppercase tracking-wider">
                     {item.label}
                   </div>
                 </div>
               ))}
             </div>
-            <span className="text-gray-400">until FIFA 2026</span>
+            <span className="text-muted-foreground">until FIFA 2026</span>
           </div>
 
           {/* Key Metrics */}
@@ -190,20 +192,20 @@ export default function WhitehallAssemblage() {
               { label: "FIFA Matches", value: "8", icon: Trophy },
               { label: "Stadium Distance", value: "0.6 mi", icon: Building2 },
             ].map((metric) => (
-              <Card key={metric.label} className="p-4 bg-secondary backdrop-blur-sm border">
+              <Card key={metric.label} className="p-4 bg-secondary backdrop-blur-sm border border-border">
                 <metric.icon className="w-5 h-5 text-foreground mb-2" />
-                <div className="text-2xl font-bold text-white">{metric.value}</div>
-                <div className="text-sm text-gray-400">{metric.label}</div>
+                <div className="text-2xl font-bold text-foreground">{metric.value}</div>
+                <div className="text-sm text-muted-foreground">{metric.label}</div>
               </Card>
             ))}
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="btn-apple-primary text-lg px-8">
+            <Button size="lg" className="bg-primary text-primary-foreground text-lg px-8 hover:bg-primary/90">
               View Investment Calculator
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
-            <Button size="lg" variant="outline" className="border text-white hover:bg-white/10 text-lg px-8">
+            <Button size="lg" variant="outline" className="border border-border text-foreground hover:bg-secondary text-lg px-8">
               Download Pro Forma
             </Button>
           </div>
@@ -211,14 +213,14 @@ export default function WhitehallAssemblage() {
       </section>
 
       {/* Executive Summary */}
-      <section className="py-24 bg-secondary">
+      <section className="py-24 bg-secondary/50">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl font-bold text-white mb-6 text-center">
+            <h2 className="text-4xl font-bold text-foreground mb-6 text-center">
               The Opportunity
             </h2>
-            <p className="text-xl text-gray-300 text-center mb-12">
-              A rare assemblage of four properties totaling 2.31 acres with 600 feet of Whitehall Street frontage, 
+            <p className="text-xl text-muted-foreground text-center mb-12">
+              A rare assemblage of four properties totaling 2.31 acres with 600 feet of Whitehall Street frontage,
               located just 0.6 miles from Mercedes-Benz Stadium in Atlanta's rapidly gentrifying Mechanicsville corridor.
             </p>
 
@@ -228,13 +230,13 @@ export default function WhitehallAssemblage() {
                   title: "FIFA 2026 Catalyst",
                   description: "Generate $230K-$1.7M in revenue during the 30-day tournament period",
                   icon: Trophy,
-                  color: "text-yellow-400",
+                  color: "text-yellow-600",
                 },
                 {
                   title: "Opportunity Zone",
                   description: `Defer and reduce capital gains taxes. Save up to $${(ozTaxSavings / 1000).toFixed(0)}K over 10 years`,
                   icon: PiggyBank,
-                  color: "text-green-400",
+                  color: "text-green-600",
                 },
                 {
                   title: "Development Upside",
@@ -243,10 +245,10 @@ export default function WhitehallAssemblage() {
                   color: "text-foreground",
                 },
               ].map((feature) => (
-                <Card key={feature.title} className="p-6 bg-secondary backdrop-blur-sm border">
+                <Card key={feature.title} className="p-6 bg-card backdrop-blur-sm border border-border">
                   <feature.icon className={`w-8 h-8 ${feature.color} mb-4`} />
-                  <h3 className="text-xl font-semibold text-white mb-2">{feature.title}</h3>
-                  <p className="text-gray-400">{feature.description}</p>
+                  <h3 className="text-xl font-semibold text-foreground mb-2">{feature.title}</h3>
+                  <p className="text-muted-foreground">{feature.description}</p>
                 </Card>
               ))}
             </div>
@@ -255,30 +257,30 @@ export default function WhitehallAssemblage() {
       </section>
 
       {/* Interactive ROI Calculator */}
-      <section className="py-24 bg-gray-950">
+      <section className="py-24 bg-background">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
               <Calculator className="w-12 h-12 text-foreground mx-auto mb-4" />
-              <h2 className="text-4xl font-bold text-white mb-4">
+              <h2 className="text-4xl font-bold text-foreground mb-4">
                 Investment Calculator
               </h2>
-              <p className="text-xl text-gray-400">
+              <p className="text-xl text-muted-foreground">
                 Adjust the variables below to model your investment scenario
               </p>
             </div>
 
-            <Card className="p-8 bg-secondary backdrop-blur-sm border">
+            <Card className="p-8 bg-secondary/30 backdrop-blur-sm border border-border">
               <Tabs defaultValue="financing" className="w-full">
-                <TabsList className="grid w-full grid-cols-3 mb-8">
-                  <TabsTrigger value="financing">Financing</TabsTrigger>
-                  <TabsTrigger value="fifa">FIFA Revenue</TabsTrigger>
-                  <TabsTrigger value="returns">Returns</TabsTrigger>
+                <TabsList className="grid w-full grid-cols-3 mb-8 bg-secondary">
+                  <TabsTrigger value="financing" className="data-[state=active]:bg-background">Financing</TabsTrigger>
+                  <TabsTrigger value="fifa" className="data-[state=active]:bg-background">FIFA Revenue</TabsTrigger>
+                  <TabsTrigger value="returns" className="data-[state=active]:bg-background">Returns</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="financing" className="space-y-6">
                   <div>
-                    <label className="text-white font-medium mb-2 block">
+                    <label className="text-foreground font-medium mb-2 block">
                       Purchase Price: ${(purchasePrice / 1000000).toFixed(2)}M
                     </label>
                     <Slider
@@ -292,7 +294,7 @@ export default function WhitehallAssemblage() {
                   </div>
 
                   <div>
-                    <label className="text-white font-medium mb-2 block">
+                    <label className="text-foreground font-medium mb-2 block">
                       Down Payment: {downPayment}%
                     </label>
                     <Slider
@@ -306,7 +308,7 @@ export default function WhitehallAssemblage() {
                   </div>
 
                   <div>
-                    <label className="text-white font-medium mb-2 block">
+                    <label className="text-foreground font-medium mb-2 block">
                       Interest Rate: {interestRate}%
                     </label>
                     <Slider
@@ -320,7 +322,7 @@ export default function WhitehallAssemblage() {
                   </div>
 
                   <div>
-                    <label className="text-white font-medium mb-2 block">
+                    <label className="text-foreground font-medium mb-2 block">
                       Hold Period: {holdPeriod} years
                     </label>
                     <Slider
@@ -333,28 +335,28 @@ export default function WhitehallAssemblage() {
                     />
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4 mt-8 pt-8 border-t border">
+                  <div className="grid grid-cols-2 gap-4 mt-8 pt-8 border-t border-border">
                     <div>
-                      <div className="text-sm text-gray-400 mb-1">Down Payment</div>
-                      <div className="text-2xl font-bold text-white">
+                      <div className="text-sm text-muted-foreground mb-1">Down Payment</div>
+                      <div className="text-2xl font-bold text-foreground">
                         ${(downPaymentAmount / 1000000).toFixed(2)}M
                       </div>
                     </div>
                     <div>
-                      <div className="text-sm text-gray-400 mb-1">Loan Amount</div>
-                      <div className="text-2xl font-bold text-white">
+                      <div className="text-sm text-muted-foreground mb-1">Loan Amount</div>
+                      <div className="text-2xl font-bold text-foreground">
                         ${(loanAmount / 1000000).toFixed(2)}M
                       </div>
                     </div>
                     <div>
-                      <div className="text-sm text-gray-400 mb-1">Monthly Payment</div>
-                      <div className="text-2xl font-bold text-white">
+                      <div className="text-sm text-muted-foreground mb-1">Monthly Payment</div>
+                      <div className="text-2xl font-bold text-foreground">
                         ${monthlyPayment.toLocaleString("en-US", { maximumFractionDigits: 0 })}
                       </div>
                     </div>
                     <div>
-                      <div className="text-sm text-gray-400 mb-1">Annual Debt Service</div>
-                      <div className="text-2xl font-bold text-white">
+                      <div className="text-sm text-muted-foreground mb-1">Annual Debt Service</div>
+                      <div className="text-2xl font-bold text-foreground">
                         ${(annualDebtService / 1000).toFixed(0)}K
                       </div>
                     </div>
@@ -363,7 +365,7 @@ export default function WhitehallAssemblage() {
 
                 <TabsContent value="fifa" className="space-y-6">
                   <div>
-                    <label className="text-white font-medium mb-2 block">
+                    <label className="text-foreground font-medium mb-2 block">
                       Parking Spaces: {parkingSpaces}
                     </label>
                     <Slider
@@ -377,7 +379,7 @@ export default function WhitehallAssemblage() {
                   </div>
 
                   <div>
-                    <label className="text-white font-medium mb-2 block">
+                    <label className="text-foreground font-medium mb-2 block">
                       Parking Price per Space: ${parkingPrice}
                     </label>
                     <Slider
@@ -391,7 +393,7 @@ export default function WhitehallAssemblage() {
                   </div>
 
                   <div>
-                    <label className="text-white font-medium mb-2 block">
+                    <label className="text-foreground font-medium mb-2 block">
                       Fan Zone Capacity: {fanZoneCapacity}
                     </label>
                     <Slider
@@ -405,7 +407,7 @@ export default function WhitehallAssemblage() {
                   </div>
 
                   <div>
-                    <label className="text-white font-medium mb-2 block">
+                    <label className="text-foreground font-medium mb-2 block">
                       Fan Zone Ticket Price: ${fanZoneTicket}
                     </label>
                     <Slider
@@ -418,8 +420,8 @@ export default function WhitehallAssemblage() {
                     />
                   </div>
 
-                  <div className="mt-8 pt-8 border-t border">
-                    <h3 className="text-xl font-semibold text-white mb-4">FIFA 2026 Revenue Breakdown</h3>
+                  <div className="mt-8 pt-8 border-t border-border">
+                    <h3 className="text-xl font-semibold text-foreground mb-4">FIFA 2026 Revenue Breakdown</h3>
                     <div className="h-64 mb-6">
                       <ResponsiveContainer width="100%" height="100%">
                         <PieChart>
@@ -443,13 +445,13 @@ export default function WhitehallAssemblage() {
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <div className="text-sm text-gray-400 mb-1">Total FIFA Revenue</div>
-                        <div className="text-3xl font-bold text-green-400">
+                        <div className="text-sm text-muted-foreground mb-1">Total FIFA Revenue</div>
+                        <div className="text-3xl font-bold text-green-600">
                           ${(totalFIFARevenue / 1000).toFixed(0)}K
                         </div>
                       </div>
                       <div>
-                        <div className="text-sm text-gray-400 mb-1">Per Match Average</div>
+                        <div className="text-sm text-muted-foreground mb-1">Per Match Average</div>
                         <div className="text-3xl font-bold text-foreground">
                           ${(totalFIFARevenue / fifaMatches / 1000).toFixed(0)}K
                         </div>
@@ -460,41 +462,41 @@ export default function WhitehallAssemblage() {
 
                 <TabsContent value="returns" className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <Card className="p-6 bg-gradient-to-br from-green-500/10 to-green-600/5 border-green-500/20">
-                      <div className="text-sm text-green-400 mb-2">Year 1 Cash-on-Cash</div>
-                      <div className="text-4xl font-bold text-white mb-1">
+                    <Card className="p-6 bg-green-50 border-green-200">
+                      <div className="text-sm text-green-700 mb-2">Year 1 Cash-on-Cash</div>
+                      <div className="text-4xl font-bold text-foreground mb-1">
                         {(cashOnCashReturn * 100).toFixed(1)}%
                       </div>
-                      <div className="text-xs text-gray-400">FIFA year returns</div>
+                      <div className="text-xs text-muted-foreground">FIFA year returns</div>
                     </Card>
 
-                    <Card className="p-6 bg-gradient-to-br from-blue-500/10 to-blue-600/5 border-blue-500/20">
+                    <Card className="p-6 bg-blue-50 border-blue-200">
                       <div className="text-sm text-foreground mb-2">Year 1 NOI</div>
-                      <div className="text-4xl font-bold text-white mb-1">
+                      <div className="text-4xl font-bold text-foreground mb-1">
                         ${(year1NOI / 1000).toFixed(0)}K
                       </div>
-                      <div className="text-xs text-gray-400">Net operating income</div>
+                      <div className="text-xs text-muted-foreground">Net operating income</div>
                     </Card>
 
-                    <Card className="p-6 bg-gradient-to-br from-purple-500/10 to-purple-600/5 border-purple-500/20">
+                    <Card className="p-6 bg-purple-50 border-purple-200">
                       <div className="text-sm text-foreground mb-2">10-Year Exit Value</div>
-                      <div className="text-4xl font-bold text-white mb-1">
+                      <div className="text-4xl font-bold text-foreground mb-1">
                         ${(exitValue / 1000000).toFixed(1)}M
                       </div>
-                      <div className="text-xs text-gray-400">118% appreciation</div>
+                      <div className="text-xs text-muted-foreground">118% appreciation</div>
                     </Card>
                   </div>
 
                   <div>
-                    <h3 className="text-xl font-semibold text-white mb-4">10-Year Cash Flow Projection</h3>
+                    <h3 className="text-xl font-semibold text-foreground mb-4">10-Year Cash Flow Projection</h3>
                     <div className="h-80">
                       <ResponsiveContainer width="100%" height="100%">
                         <LineChart data={cashFlowData}>
-                          <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                          <XAxis dataKey="year" stroke="#9ca3af" />
-                          <YAxis stroke="#9ca3af" tickFormatter={(value) => `$${(value / 1000).toFixed(0)}K`} />
+                          <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                          <XAxis dataKey="year" stroke="#6b7280" />
+                          <YAxis stroke="#6b7280" tickFormatter={(value) => `$${(value / 1000).toFixed(0)}K`} />
                           <Tooltip
-                            contentStyle={{ backgroundColor: "#1f2937", border: "1px solid #374151" }}
+                            contentStyle={{ backgroundColor: "#ffffff", border: "1px solid #e5e7eb" }}
                             formatter={(value: number) => `$${(value / 1000).toFixed(0)}K`}
                           />
                           <Legend />
@@ -513,13 +515,13 @@ export default function WhitehallAssemblage() {
       </section>
 
       {/* Location & Proximity */}
-      <section className="py-24 bg-secondary">
+      <section className="py-24 bg-secondary/50">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-4xl font-bold text-white mb-6 text-center">
+            <h2 className="text-4xl font-bold text-foreground mb-6 text-center">
               Prime Stadium Location
             </h2>
-            <p className="text-xl text-gray-300 text-center mb-12">
+            <p className="text-xl text-muted-foreground text-center mb-12">
               2.31 acres just 0.6 miles from Mercedes-Benz Stadium with 600 feet of Whitehall Street frontage
             </p>
             <PropertyMap property="assemblage" />
@@ -528,15 +530,15 @@ export default function WhitehallAssemblage() {
       </section>
 
       {/* Opportunity Zone Benefits */}
-      <section className="py-24 bg-gradient-to-b from-gray-900 to-gray-950">
+      <section className="py-24 bg-background">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
-              <PiggyBank className="w-12 h-12 text-green-400 mx-auto mb-4" />
-              <h2 className="text-4xl font-bold text-white mb-4">
+              <PiggyBank className="w-12 h-12 text-green-600 mx-auto mb-4" />
+              <h2 className="text-4xl font-bold text-foreground mb-4">
                 Opportunity Zone Tax Advantages
               </h2>
-              <p className="text-xl text-gray-400">
+              <p className="text-xl text-muted-foreground">
                 Defer and reduce capital gains taxes with Qualified Opportunity Zone investment
               </p>
             </div>
@@ -562,26 +564,26 @@ export default function WhitehallAssemblage() {
                   savings: `$${(ozTaxSavings / 1000).toFixed(0)}K`,
                 },
               ].map((milestone) => (
-                <Card key={milestone.year} className="p-6 bg-gradient-to-br from-green-500/10 to-green-600/5 border-green-500/20">
-                  <div className="text-sm text-green-400 font-semibold mb-2">{milestone.year}</div>
-                  <h3 className="text-xl font-bold text-white mb-2">{milestone.benefit}</h3>
-                  <p className="text-sm text-gray-400 mb-4">{milestone.description}</p>
-                  <div className="text-3xl font-bold text-green-400">{milestone.savings}</div>
-                  <div className="text-xs text-gray-500 mt-1">Tax Savings</div>
+                <Card key={milestone.year} className="p-6 bg-green-50 border-green-200">
+                  <div className="text-sm text-green-700 font-semibold mb-2">{milestone.year}</div>
+                  <h3 className="text-xl font-bold text-foreground mb-2">{milestone.benefit}</h3>
+                  <p className="text-sm text-muted-foreground mb-4">{milestone.description}</p>
+                  <div className="text-3xl font-bold text-green-600">{milestone.savings}</div>
+                  <div className="text-xs text-muted-foreground mt-1">Tax Savings</div>
                 </Card>
               ))}
             </div>
 
-            <Card className="p-8 bg-secondary backdrop-blur-sm border">
-              <h3 className="text-2xl font-semibold text-white mb-6">Cumulative Tax Savings Over Time</h3>
+            <Card className="p-8 bg-secondary/30 backdrop-blur-sm border border-border">
+              <h3 className="text-2xl font-semibold text-foreground mb-6">Cumulative Tax Savings Over Time</h3>
               <div className="h-80 mb-6">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={ozBenefitsData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                    <XAxis dataKey="year" stroke="#9ca3af" label={{ value: "Year", position: "insideBottom", offset: -5 }} />
-                    <YAxis stroke="#9ca3af" tickFormatter={(value) => `$${(value / 1000).toFixed(0)}K`} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                    <XAxis dataKey="year" stroke="#6b7280" label={{ value: "Year", position: "insideBottom", offset: -5 }} />
+                    <YAxis stroke="#6b7280" tickFormatter={(value) => `$${(value / 1000).toFixed(0)}K`} />
                     <Tooltip
-                      contentStyle={{ backgroundColor: "#1f2937", border: "1px solid #374151" }}
+                      contentStyle={{ backgroundColor: "#ffffff", border: "1px solid #e5e7eb" }}
                       formatter={(value: number) => `$${(value / 1000).toFixed(0)}K`}
                     />
                     <Legend />
@@ -590,34 +592,34 @@ export default function WhitehallAssemblage() {
                 </ResponsiveContainer>
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-border">
                 <div>
-                  <div className="text-sm text-gray-400 mb-1">Capital Gain</div>
-                  <div className="text-xl font-bold text-white">${(capitalGain / 1000000).toFixed(2)}M</div>
+                  <div className="text-sm text-muted-foreground mb-1">Capital Gain</div>
+                  <div className="text-xl font-bold text-foreground">${(capitalGain / 1000000).toFixed(2)}M</div>
                 </div>
                 <div>
-                  <div className="text-sm text-gray-400 mb-1">Tax Rate</div>
-                  <div className="text-xl font-bold text-white">29.57%</div>
+                  <div className="text-sm text-muted-foreground mb-1">Tax Rate</div>
+                  <div className="text-xl font-bold text-foreground">29.57%</div>
                 </div>
                 <div>
-                  <div className="text-sm text-gray-400 mb-1">Without OZ</div>
-                  <div className="text-xl font-bold text-red-400">${(capitalGain * 0.2957 / 1000).toFixed(0)}K</div>
+                  <div className="text-sm text-muted-foreground mb-1">Without OZ</div>
+                  <div className="text-xl font-bold text-red-500">${(capitalGain * 0.2957 / 1000).toFixed(0)}K</div>
                 </div>
                 <div>
-                  <div className="text-sm text-gray-400 mb-1">With OZ (10yr)</div>
-                  <div className="text-xl font-bold text-green-400">$0</div>
+                  <div className="text-sm text-muted-foreground mb-1">With OZ (10yr)</div>
+                  <div className="text-xl font-bold text-green-600">$0</div>
                 </div>
               </div>
 
-              <div className="mt-6 p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
+              <div className="mt-6 p-4 bg-green-50 border-green-200 rounded-lg">
                 <div className="flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
+                  <CheckCircle2 className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
                   <div>
-                    <div className="font-semibold text-white mb-1">Total Tax Savings Potential</div>
-                    <div className="text-sm text-gray-400">
+                    <div className="font-semibold text-foreground mb-1">Total Tax Savings Potential</div>
+                    <div className="text-sm text-muted-foreground">
                       By holding this investment in a Qualified Opportunity Fund for 10+ years, you could save{" "}
-                      <span className="text-green-400 font-semibold">${(ozTaxSavings / 1000).toFixed(0)}K</span> in capital gains taxes.
-                      This represents a <span className="text-green-400 font-semibold">100% exclusion</span> of all appreciation from taxation.
+                      <span className="text-green-600 font-semibold">${(ozTaxSavings / 1000).toFixed(0)}K</span> in capital gains taxes.
+                      This represents a <span className="text-green-600 font-semibold">100% exclusion</span> of all appreciation from taxation.
                     </div>
                   </div>
                 </div>
@@ -628,15 +630,15 @@ export default function WhitehallAssemblage() {
       </section>
 
       {/* Scenario Comparison */}
-      <section className="py-24 bg-gray-950">
+      <section className="py-24 bg-secondary/30">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
               <BarChart3 className="w-12 h-12 text-foreground mx-auto mb-4" />
-              <h2 className="text-4xl font-bold text-white mb-4">
+              <h2 className="text-4xl font-bold text-foreground mb-4">
                 Investment Scenarios
               </h2>
-              <p className="text-xl text-gray-400">
+              <p className="text-xl text-muted-foreground">
                 Compare different strategies to find the optimal path forward
               </p>
             </div>
@@ -644,10 +646,10 @@ export default function WhitehallAssemblage() {
             <div className="h-96 mb-12">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={scenarioComparisonData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                  <XAxis dataKey="scenario" stroke="#9ca3af" />
-                  <YAxis stroke="#9ca3af" />
-                  <Tooltip contentStyle={{ backgroundColor: "#1f2937", border: "1px solid #374151" }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                  <XAxis dataKey="scenario" stroke="#6b7280" />
+                  <YAxis stroke="#6b7280" />
+                  <Tooltip contentStyle={{ backgroundColor: "#ffffff", border: "1px solid #e5e7eb" }} />
                   <Legend />
                   <Bar dataKey="roi" fill="#8b5cf6" name="Year 1 ROI (%)" />
                   <Bar dataKey="irr" fill="#3b82f6" name="10-Year IRR (%)" />
@@ -657,22 +659,22 @@ export default function WhitehallAssemblage() {
 
             <div className="grid md:grid-cols-2 gap-6">
               {scenarioComparisonData.map((scenario) => (
-                <Card key={scenario.scenario} className="p-6 bg-secondary backdrop-blur-sm border">
-                  <h3 className="text-xl font-semibold text-white mb-4">{scenario.scenario}</h3>
+                <Card key={scenario.scenario} className="p-6 bg-card backdrop-blur-sm border border-border">
+                  <h3 className="text-xl font-semibold text-foreground mb-4">{scenario.scenario}</h3>
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-400">Year 1 ROI</span>
+                      <span className="text-muted-foreground">Year 1 ROI</span>
                       <span className="text-2xl font-bold text-foreground">{scenario.roi}%</span>
                     </div>
                     {scenario.irr > 0 && (
                       <div className="flex justify-between items-center">
-                        <span className="text-gray-400">10-Year IRR</span>
+                        <span className="text-muted-foreground">10-Year IRR</span>
                         <span className="text-2xl font-bold text-foreground">{scenario.irr}%</span>
                       </div>
                     )}
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-400">Exit Value</span>
-                      <span className="text-2xl font-bold text-green-400">
+                      <span className="text-muted-foreground">Exit Value</span>
+                      <span className="text-2xl font-bold text-green-600">
                         ${(scenario.exitValue / 1000000).toFixed(1)}M
                       </span>
                     </div>
@@ -685,15 +687,15 @@ export default function WhitehallAssemblage() {
       </section>
 
       {/* Risk Analysis */}
-      <section className="py-24 bg-secondary">
+      <section className="py-24 bg-background">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
-              <AlertTriangle className="w-12 h-12 text-yellow-400 mx-auto mb-4" />
-              <h2 className="text-4xl font-bold text-white mb-4">
+              <AlertTriangle className="w-12 h-12 text-yellow-500 mx-auto mb-4" />
+              <h2 className="text-4xl font-bold text-foreground mb-4">
                 Risk Analysis & Mitigation
               </h2>
-              <p className="text-xl text-gray-400">
+              <p className="text-xl text-muted-foreground">
                 Transparent assessment of risks and how to address them
               </p>
             </div>
@@ -721,22 +723,21 @@ export default function WhitehallAssemblage() {
                   mitigation: "Buildings built 1940-1959 need inspection. Can be demolished if not viable. Land value alone supports investment.",
                 },
               ].map((item) => (
-                <Card key={item.risk} className="p-6 bg-secondary backdrop-blur-sm border">
+                <Card key={item.risk} className="p-6 bg-secondary/30 backdrop-blur-sm border border-border">
                   <div className="flex items-start justify-between mb-3">
-                    <h3 className="text-xl font-semibold text-white">{item.risk}</h3>
+                    <h3 className="text-xl font-semibold text-foreground">{item.risk}</h3>
                     <span
-                      className={`px-3 py-1 rounded-full text-sm font-medium ${
-                        item.level === "High"
-                          ? "bg-red-500/20 text-red-400"
+                      className={`px-3 py-1 rounded-full text-sm font-medium ${item.level === "High"
+                          ? "bg-red-500/10 text-red-600"
                           : item.level === "Medium"
-                          ? "bg-yellow-500/20 text-yellow-400"
-                          : "bg-green-500/20 text-green-400"
-                      }`}
+                            ? "bg-yellow-500/10 text-yellow-600"
+                            : "bg-green-500/10 text-green-600"
+                        }`}
                     >
                       {item.level} Risk
                     </span>
                   </div>
-                  <p className="text-gray-400">{item.mitigation}</p>
+                  <p className="text-muted-foreground">{item.mitigation}</p>
                 </Card>
               ))}
             </div>
@@ -745,22 +746,22 @@ export default function WhitehallAssemblage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-gradient-to-b from-gray-950 to-blue-950">
+      <section className="py-24 bg-primary/5">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-5xl font-bold text-white mb-6">
+          <h2 className="text-5xl font-bold text-foreground mb-6">
             Ready to Capitalize on This Opportunity?
           </h2>
-          <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto">
             Download the complete pro forma, schedule a site visit, or connect with our investment team to discuss financing options.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="btn-apple-primary text-lg px-8">
+            <Button size="lg" className="bg-primary text-primary-foreground btn-apple-primary text-lg px-8 hover:bg-primary/90">
               Download Full Analysis
             </Button>
-            <Button size="lg" variant="outline" className="border text-white hover:bg-white/10 text-lg px-8">
+            <Button size="lg" variant="outline" className="border border-border text-foreground hover:bg-secondary text-lg px-8">
               Schedule Site Visit
             </Button>
-            <Button size="lg" variant="outline" className="border text-white hover:bg-white/10 text-lg px-8">
+            <Button size="lg" variant="outline" className="border border-border text-foreground hover:bg-secondary text-lg px-8">
               Contact Investment Team
             </Button>
           </div>
