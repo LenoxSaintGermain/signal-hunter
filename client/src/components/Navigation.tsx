@@ -22,6 +22,8 @@ export default function Navigation({ currentPage }: NavigationProps) {
 
   const navItems = [
     { href: "/dashboard", label: "Pipeline" },
+    { href: "/capital-stack", label: "Capital Stack" },
+    { href: "/projections", label: "Projections" },
     { href: "/property/ponce-protocol", label: "Ponce Protocol" },
     { href: "/property/514-whitehall", label: "514 Whitehall" },
     { href: "/property/whitehall-assemblage", label: "Assemblage" },
