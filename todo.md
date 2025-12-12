@@ -2053,3 +2053,34 @@ The 3 working models provide strong consensus and are sufficient for production 
 - **Current cost** (personal keys): $10-30/month for 100 analyses
 - **With Manus tokens**: $0/month (covered by 1T pool)
 - **Potential savings**: $120-360/year per active user
+
+
+---
+
+## 🐛 URGENT FIXES (Dec 12, 2024 - Post Forge Integration)
+
+### Forge API 502 Errors
+- [x] Investigate why Forge API calls return 502 errors (Forge API working, 502s from browser timeout/CORS)
+- [x] Check if Forge API endpoint URL is correct (confirmed working with curl test)
+- [ ] Add retry logic with exponential backoff
+- [ ] Improve error messages to show which model failed
+- [x] Add fallback to personal keys when Forge fails (already implemented)
+
+### Analysis Score Visualization
+- [x] Create Score Card component with visual breakdown
+- [x] Show each model's individual score (0-100)
+- [x] Display model confidence levels
+- [x] Show reasoning/methodology for each score
+- [x] Add weighted average calculation explanation
+- [x] Highlight consensus recommendation
+- [x] Use progress bars or radial charts for scores
+- [x] Color-code scores (green=80+, yellow=60-79, red=<60)
+- [x] Collapsible model details with strengths/risks breakdown
+
+### Error Handling Improvements
+- [ ] Wrap all Forge API calls in try-catch
+- [ ] Add user-friendly error toasts
+- [ ] Log detailed errors to console for debugging
+- [ ] Prevent uncaught promise rejections
+- [ ] Add loading states during analysis
+- [ ] Show partial results if some models fail

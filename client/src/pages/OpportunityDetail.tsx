@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRoute, Link } from "wouter";
 import { ArrowLeft, Download, Mail, ExternalLink, Lightbulb, AlertTriangle, TrendingUp, Shield, Sparkles, Loader2, BrainCircuit } from "lucide-react";
+import AnalysisScoreCard from "@/components/AnalysisScoreCard";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -191,22 +192,17 @@ export default function OpportunityDetail() {
                 </CardContent>
               </Card>
             ) : (
-              <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-
-                {/* Consensus Banner */}
-                <div className={`p-4 rounded-lg border flex items-center justify-between ${analysisResult.consensus === 'strong_buy' ? 'bg-green-500/10 border-green-500/20' :
-                    analysisResult.consensus === 'pass' ? 'bg-red-500/10 border-red-500/20' :
-                      'bg-yellow-500/10 border-yellow-500/20'
-                  }`}>
-                  <div className="flex items-center gap-3">
-                    <Sparkles className="w-5 h-5 text-foreground" />
-                    <div>
-                      <h4 className="font-bold text-lg">AI Consensus: {analysisResult.consensus.toUpperCase().replace('_', ' ')}</h4>
-                      <p className="text-sm text-muted-foreground">Confidence: {(analysisResult.confidence * 100).toFixed(0)}% • Based on {analysisResult.models.length} Models</p>
-                    </div>
-                  </div>
-                  <div className="text-2xl font-black">{analysisResult.overallScore}/100</div>
-                </div>
+              /* AI Analysis Results */
+              <div className="space-y-6">
+                <AnalysisScoreCard
+                  overallScore={analysisResult.overallScore}
+                  confidence={analysisResult.confidence}
+                  consensus={analysisResult.consensus}
+                  models={analysisResult.models}
+                  summary={analysisResult.summary}
+                  topStrengths={analysisResult.topStrengths}
+                  topRisks={analysisResult.topRisks}
+                />
 
                 {/* Investment Thesis */}
                 <Card>
