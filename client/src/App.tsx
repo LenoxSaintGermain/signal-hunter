@@ -12,6 +12,9 @@ import WhitehallAssemblage from "./pages/WhitehallAssemblage";
 import PropertyComparison from "@/pages/PropertyComparison";
 import Property514Whitehall from "./pages/Property514Whitehall";
 import PonceProtocol from "./pages/PonceProtocol";
+import Pipeline from "./pages/Pipeline";
+import CapitalStack from "./pages/CapitalStack";
+import Projections from "./pages/Projections";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -19,7 +22,10 @@ function Router() {
     <Switch>
       <Route path={"/"} component={Home} />
 
-      <Route path={"/pipeline"} component={Dashboard} />
+      <Route path={"/pipeline"} component={Pipeline} />
+      <Route path={"/capital-stack"} component={CapitalStack} />
+      <Route path={"/projections"} component={Projections} />
+      <Route path={"/dashboard"} component={Dashboard} />
       <Route path={"opportunity/:id"} component={OpportunityDetail} />
       <Route path="/property/514-whitehall" component={Property514Whitehall} />
       <Route path="/property/whitehall-assemblage" component={WhitehallAssemblage} />

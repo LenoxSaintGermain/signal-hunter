@@ -1391,3 +1391,122 @@ Create a Salesforce-caliber acquisition command center with Apple-level UX servi
 - [ ] Add loading states and optimistic updates
 
 ---
+
+
+---
+
+## 🎨 PHASE 3: FRONTEND INTEGRATION (CURRENT PHASE)
+
+### Deal Pipeline UI (`/pipeline`)
+- [x] Create Pipeline page with Kanban board layout
+- [x] Build DealCard component with key metrics (score, price, revenue)
+- [x] Add filters: search, score range, industry, location
+- [x] Create stats dashboard with KPIs (total deals, high score count, avg score, response rate)
+- [x] Integrate with `dealsV2.list` and `dealsV2.getStats` tRPC endpoints
+- [x] Implement stage change mutations
+- [x] Add loading states and error handling
+- [ ] Implement drag-and-drop between stages using @dnd-kit (deferred - basic version working)
+
+### Capital Stack Calculator (`/capital-stack`)
+- [x] Create CapitalStackCalculator page
+- [x] Build financing structure sliders (equity, seller note, SBA 7(a), conventional)
+- [x] Add loan term inputs (interest rates, term years)
+- [x] Display real-time calculations: monthly payment, DSCR, cash-on-cash return, IRR, equity multiple
+- [x] Integrate with `capitalStack.calculate` tRPC endpoint
+- [x] Auto-calculate on input change with debouncing
+- [x] Display capital stack breakdown, debt service, returns, and cash flow analysis
+- [ ] Create scenario comparison table (deferred to V2)
+- [ ] Build visual capital stack chart (deferred to V2)
+
+### 5-Year Projections Dashboard (`/projections`)
+- [x] Create ProjectionsDashboard page
+- [x] Build scenario selector (conservative/moderate/aggressive)
+- [x] Add input form: base financials, growth assumptions, AI optimization toggles
+- [x] Create line charts for revenue/profit/cash flow projections (recharts)
+- [x] Display Opportunity Zone tax benefits with toggle
+- [x] Build scenario comparison view (3 scenarios side-by-side)
+- [x] Integrate with `projections.simulate` tRPC endpoint
+- [x] Auto-simulate on input change with debouncing
+- [x] Interactive tabs for revenue/profit/cash flow views
+- [ ] Add export to CSV/PDF functionality (deferred to V2)
+
+### Navigation & Routing
+- [x] Update App.tsx with new routes (/pipeline, /capital-stack, /projections)
+- [x] Routes working correctly with tRPC integration
+- [ ] Add navigation links to header (existing header navigation works)
+- [ ] Implement breadcrumbs for sub-pages (deferred to V2)
+- [ ] Add route guards for authenticated pages (deferred to V2)
+
+### tRPC Client Setup
+- [x] tRPC client already configured in `client/src/lib/trpc.ts`
+- [x] React Query provider already set up
+- [x] Using tRPC hooks directly in components
+- [x] Error handling with toast notifications
+- [x] Loading skeletons implemented in Pipeline page
+
+### Testing & Polish
+- [x] Test all pages load correctly in browser
+- [x] Verify tRPC integration works (Pipeline stats, Capital Stack calculations, Projections simulations)
+- [x] Test financial calculations with real data (backend tests passing)
+- [x] Empty states implemented (Pipeline shows "No deals")
+- [x] Error handling with toast notifications
+- [ ] Verify drag-and-drop functionality (basic version without DnD kit working)
+- [ ] Full responsive design testing (deferred to V2)
+- [ ] Performance optimization (deferred to V2)
+
+---
+
+
+## ✅ PHASE 3 FRONTEND INTEGRATION - COMPLETE
+
+**Delivered Pages:**
+- ✅ **Deal Pipeline** (`/pipeline`): Interactive Kanban board with real-time stats dashboard
+  - Stage columns for lead → initial review → due diligence → negotiation → offer submitted → closing
+  - Deal cards showing score, price, revenue, industry, location, OZ status
+  - KPI dashboard: total deals, high score count, avg score, outreach sent, response rate
+  - Search and filter functionality
+  - tRPC integration with `dealsV2.list` and `dealsV2.getStats`
+  
+- ✅ **Capital Stack Calculator** (`/capital-stack`): Interactive financing scenario builder
+  - Sliders for equity, seller note, SBA 7(a), conventional loan percentages
+  - Auto-balancing to maintain 100% total
+  - Loan term inputs (interest rates, term years)
+  - Real-time calculations: monthly payment, DSCR, cash-on-cash return, IRR, equity multiple
+  - Operating assumptions: revenue, cash flow, growth rate, exit multiple
+  - tRPC integration with `capitalStack.calculate`
+  - Auto-calculate on input change (500ms debounce)
+  
+- ✅ **5-Year Projections Dashboard** (`/projections`): Scenario modeling with charts
+  - Three scenarios: conservative, moderate, aggressive
+  - Interactive charts (recharts): revenue, profit, cash flow projections
+  - AI optimization toggles: cost automation savings, revenue uplift
+  - Opportunity Zone tax benefits calculator with toggle
+  - Scenario comparison view (side-by-side line charts)
+  - Summary metrics: total revenue/profit/cash flow over 5 years
+  - tRPC integration with `projections.simulate`
+  - Auto-simulate on input change (500ms debounce)
+
+**Technical Implementation:**
+- ✅ tRPC React Query hooks for data fetching
+- ✅ Shadcn/ui components (Card, Input, Slider, Button, Badge, Tabs, Switch)
+- ✅ Recharts for data visualization
+- ✅ Loading states and error handling with toast notifications
+- ✅ Responsive layouts with Tailwind CSS
+- ✅ TypeScript type safety end-to-end
+- ✅ All routes registered in App.tsx
+
+**Browser Testing:**
+- ✅ Pipeline page loads with empty state (0 deals)
+- ✅ Capital Stack Calculator loads with default values
+- ✅ Projections Dashboard loads with interactive charts
+- ✅ All tRPC endpoints responding correctly
+
+**Next Steps for V2:**
+- [ ] Add drag-and-drop to Pipeline Kanban using @dnd-kit
+- [ ] Implement scenario comparison table in Capital Stack
+- [ ] Add visual capital stack chart (stacked bar)
+- [ ] Export functionality (CSV/PDF) for projections
+- [ ] Full responsive design optimization
+- [ ] Performance optimization (memoization, virtualization)
+
+---
