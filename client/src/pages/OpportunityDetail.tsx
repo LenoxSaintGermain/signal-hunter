@@ -100,7 +100,7 @@ export default function OpportunityDetail() {
                 </Badge>
               </div>
               <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                <span className="flex items-center gap-1"><Badge variant="outline">{deal.status || "New"}</Badge></span>
+                <span className="flex items-center gap-1"><Badge variant="outline">{deal.stage || "lead"}</Badge></span>
                 <span>•</span>
                 <span>{deal.industry || "Unknown Industry"}</span>
                 <span>•</span>

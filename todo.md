@@ -1797,3 +1797,47 @@ The platform is now a cohesive, navigable full-stack application. Ready to proce
 - ✅ SearchSettings UI reviewed (minor TS errors, non-blocking)
 - ✅ OpportunityDetail reviewed (Radar Charts, Investment Thesis, Multi-model analysis)
 - ✅ Dev server running successfully
+
+
+---
+
+## 🔧 INTERACTIONS API UPGRADE (Latest Best Practices)
+
+### Research Complete
+- [x] Read Google Developers blog post about ADK and Interactions API
+- [x] Read official Interactions API documentation  
+- [x] Document key findings in INTERACTIONS_API_FINDINGS.md
+- [x] Identify 5 critical improvements needed
+
+### TypeScript Errors
+- [x] Fix SearchSettings.tsx schema type errors (sectors/locations optional vs required)
+- [x] Fix @hookform/resolvers/zod import resolution (reinstalled dependencies)
+- [x] Fix OpportunityDetail.tsx 'status' property error (changed to 'stage')
+- [x] All TypeScript errors resolved (0 errors)
+
+### DeepResearchService Updates
+- [x] Add `background=true` to prevent browser timeouts (already implemented)
+- [x] Import official `@google/generative-ai` SDK
+- [x] Add thought streaming support (polling-based for V1)
+- [x] Store `interaction_id` for follow-up scans (previousInteractionId parameter)
+- [x] Update error handling with better logging
+- [x] Add progress percentage tracking (0-100%)
+- [x] Document SSE streaming for future V2 implementation
+- [ ] Switch from raw fetch to SDK when interactions API is officially supported
+
+### Frontend Updates
+- [ ] Add live thought display in SearchSettings.tsx
+- [ ] Update polling UI to show agent progress
+- [ ] Add "Follow-up Scan" button (uses `previous_interaction_id`)
+
+### Testing
+- [ ] Test background execution (no browser timeout)
+- [ ] Test thought streaming (see live progress)
+- [ ] Test polling (status updates every 10s)
+- [ ] Test follow-up scans (conversation continuity)
+- [ ] Test error handling (failed scans, API errors)
+
+### Documentation
+- [ ] Update GEMINI_DEEP_RESEARCH.md with new architecture
+- [ ] Add code examples for thought streaming
+- [ ] Document follow-up scan workflow

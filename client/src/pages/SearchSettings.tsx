@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -21,8 +21,8 @@ const searchSchema = z.object({
     minPrice: z.number().min(0).optional(),
     maxPrice: z.number().min(0).optional(),
     minCashFlow: z.number().min(0).optional(),
-    sectors: z.array(z.string()).default([]),
-    locations: z.array(z.string()).default([]),
+    sectors: z.array(z.string()),
+    locations: z.array(z.string()),
     keywords: z.string().optional(),
 });
 
@@ -42,6 +42,9 @@ export default function SearchSettings() {
     const [jobId, setJobId] = useState<string | null>(null);
     const [pollInterval, setPollInterval] = useState<number | null>(null);
     const [activeTab, setActiveTab] = useState<"config" | "saved">("config");
+    const [thoughts, setThoughts] = useState<string[]>([]);
+    const [progress, setProgress] = useState<number>(0);
+    const [scanStatus, setScanStatus] = useState<"idle" | "running" | "completed" | "failed">("idle");
 
     const form = useForm<SearchFormValues>({
         resolver: zodResolver(searchSchema),
@@ -57,14 +60,61 @@ export default function SearchSettings() {
         onSuccess: (data) => {
             toast.success("Market scan started successfully!");
             console.log("Job ID:", data.jobId);
+            setJobId(data.jobId);
+            setScanStatus("running");
+            setThoughts(["Initializing Gemini Deep Research Agent..."]);
+            setProgress(5);
+            // Start polling for status updates
+            startPolling(data.jobId);
         },
         onError: (error) => {
             toast.error(`Scan failed: ${error.message}`);
+            setScanStatus("failed");
         },
     });
 
+    const statusQuery = trpc.market.getScanStatus.useQuery(
+        { jobId: jobId! },
+        {
+            enabled: !!jobId && scanStatus === "running",
+            refetchInterval: 10000, // Poll every 10 seconds
+        }
+    );
+
+    // Watch for status changes
+    useEffect(() => {
+        if (!statusQuery.data) return;
+
+        const data = statusQuery.data;
+        if (data.status === "completed") {
+            setScanStatus("completed");
+            setProgress(100);
+            toast.success("Market scan completed!");
+            setJobId(null); // Stop polling
+        } else if (data.status === "failed") {
+            setScanStatus("failed");
+            toast.error("Market scan failed");
+            setJobId(null);
+        } else {
+            // Update thoughts and progress
+            if (data.thoughts && data.thoughts.length > 0) {
+                setThoughts(data.thoughts);
+            }
+            if (data.progress !== undefined) {
+                setProgress(data.progress);
+            }
+        }
+    }, [statusQuery.data]);
+
+    const startPolling = (id: string) => {
+        console.log("[SearchSettings] Starting polling for job:", id);
+    };
+
     const onSubmit = (data: SearchFormValues) => {
         toast.info("Configuring market scanner...");
+        setThoughts([]);
+        setProgress(0);
+        setScanStatus("idle");
         scanMutation.mutate({
             source: data.source,
             filters: {
@@ -259,6 +309,49 @@ export default function SearchSettings() {
                                     </div>
                                 </CardContent>
                             </Card>
+
+                            {/* Live Thought Streaming */}
+                            {scanStatus === "running" && (
+                                <Card className="border-primary/50">
+                                    <CardHeader>
+                                        <CardTitle className="text-lg flex items-center gap-2">
+                                            <Loader2 className="w-5 h-5 text-primary animate-spin" />
+                                            Agent Thinking...
+                                        </CardTitle>
+                                        <CardDescription>
+                                            Gemini Deep Research Agent is analyzing the market
+                                        </CardDescription>
+                                    </CardHeader>
+                                    <CardContent className="space-y-4">
+                                        {/* Progress Bar */}
+                                        <div className="space-y-2">
+                                            <div className="flex items-center justify-between text-sm">
+                                                <span className="text-muted-foreground">Progress</span>
+                                                <span className="font-medium">{progress}%</span>
+                                            </div>
+                                            <div className="w-full bg-secondary rounded-full h-2">
+                                                <div 
+                                                    className="bg-primary h-2 rounded-full transition-all duration-500"
+                                                    style={{ width: `${progress}%` }}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {/* Thought Stream */}
+                                        <div className="space-y-2 max-h-64 overflow-y-auto">
+                                            {thoughts.map((thought, i) => (
+                                                <div key={i} className="flex items-start gap-2 p-2 bg-secondary/50 rounded text-sm">
+                                                    <span className="text-primary font-mono text-xs mt-0.5">{i + 1}.</span>
+                                                    <p className="text-muted-foreground flex-1">{thought}</p>
+                                                </div>
+                                            ))}
+                                            {thoughts.length === 0 && (
+                                                <p className="text-sm text-muted-foreground italic">Waiting for agent thoughts...</p>
+                                            )}
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            )}
 
                             <Card>
                                 <CardHeader>
