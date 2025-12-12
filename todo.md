@@ -1934,3 +1934,15 @@ The platform is now a cohesive, navigable full-stack application. Ready to proce
 - [x] Added Slider components for percentage inputs
 - [x] Implemented auto-simulation with debouncing (500ms)
 - [x] Added scenario tabs (Conservative/Moderate/Aggressive)
+
+
+---
+
+## 🐛 BUG FIX (Dec 12, 2025 - Analyze Button Error)
+
+### Console Errors When Clicking "Analyze" on Deal
+- [x] Fix 500 server error from api.manus.im/user.v1...onService/Preview
+- [x] Fix "Uncaught (in promise) undefined" error at line 34339
+- [x] Add proper error handling for failed analyze requests (Promise.allSettled)
+- [ ] Add aria-describedby to DialogContent for accessibility
+- [ ] Configure missing API keys (OPENAI_API_KEY, ANTHROPIC_API_KEY) if needed

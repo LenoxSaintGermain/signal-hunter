@@ -264,8 +264,7 @@ Analyze:
 
   try {
     // @ts-ignore - xai-sdk doesn't have type definitions yet
-    const xaiSdk = await import('xai-sdk');
-    const Client = xaiSdk.default || xaiSdk.Client;
+    const { Client } = await import('xai-sdk');
     const client = new Client({ apiKey: process.env.XAI_API_KEY! });
 
     const completion = await client.chat.completions.create({
@@ -488,14 +487,33 @@ export const analysisRouter = router({
       
       console.log(`🤖 Starting multi-model AI analysis for: ${deal.name}`);
       
-      // Run all 5 AI analyses in parallel
-      const [perplexityResult, gpt51Result, geminiResult, grokResult, claudeResult] = await Promise.all([
+      // Run all 5 AI analyses in parallel (gracefully handle failures)
+      const results = await Promise.allSettled([
         analyzeWithPerplexity(deal),
         analyzeWithGPT51(deal),
         analyzeWithGemini(deal),
         analyzeWithGrok(deal),
         analyzeWithClaude(deal),
       ]);
+      
+      // Extract successful results or use fallbacks
+      const [perplexityResult, gpt51Result, geminiResult, grokResult, claudeResult] = results.map((result, index) => {
+        if (result.status === 'fulfilled') {
+          return result.value;
+        } else {
+          const models = ['Perplexity', 'OpenAI GPT-5.1', 'Gemini 3 Pro', 'Grok 4', 'Claude Sonnet 4.5'];
+          console.error(`${models[index]} analysis rejected:`, result.reason);
+          return {
+            model: models[index],
+            score: 70,
+            confidence: 0.5,
+            reasoning: "Analysis unavailable - API error",
+            strengths: [],
+            risks: ["API analysis failed"],
+            recommendation: "hold" as const,
+          };
+        }
+      });
       
       // Combine results
       const combined = combineAnalyses(deal, [
