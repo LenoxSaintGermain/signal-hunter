@@ -21,7 +21,7 @@ export default function Navigation({ currentPage }: NavigationProps) {
   const [open, setOpen] = useState(false);
 
   const navItems = [
-    { href: "/pipeline", label: "Pipeline" },
+    { href: "/dashboard", label: "Pipeline" },
     { href: "/property/ponce-protocol", label: "Ponce Protocol" },
     { href: "/property/514-whitehall", label: "514 Whitehall" },
     { href: "/property/whitehall-assemblage", label: "Assemblage" },

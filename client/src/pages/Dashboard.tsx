@@ -31,42 +31,14 @@ interface DashboardStats {
   outreach_replied: number;
 }
 
-// The 3 real opportunities (hardcoded for now, will be in database in V2)
-const REAL_OPPORTUNITIES: Opportunity[] = [
-  {
-    listing_id: "ponce-protocol",
-    title: "Ponce Protocol - Hospitality Business with Real Estate",
-    industry: "Hospitality / Real Estate",
-    location: "Druid Hills, Atlanta, GA",
-    revenue: "$109K/yr verified, $145K/yr potential",
-    final_score: 0.92,
-    rank: 1,
-    meets_threshold: true
-  },
-  {
-    listing_id: "whitehall-assemblage",
-    title: "Whitehall Assemblage - 2.31 Acre Development Site",
-    industry: "Real Estate Development",
-    location: "Downtown Atlanta, GA",
-    revenue: "$5.5M asking price",
-    final_score: 0.88,
-    rank: 2,
-    meets_threshold: true
-  },
-  {
-    listing_id: "514-whitehall",
-    title: "514 Whitehall St SW - Mixed-Use Property",
-    industry: "Real Estate",
-    location: "Downtown Atlanta, GA",
-    revenue: "$200K estimated",
-    final_score: 0.85,
-    rank: 3,
-    meets_threshold: true
-  }
-];
+// Map deal IDs to property routes
+const DEAL_ID_TO_ROUTE: Record<number, string> = {
+  90003: "ponce-protocol",
+  90004: "whitehall-assemblage",
+  90005: "514-whitehall",
+};
 
 export default function Dashboard() {
-  const [opportunities, setOpportunities] = useState<Opportunity[]>(REAL_OPPORTUNITIES);
   const [searchTerm, setSearchTerm] = useState("");
   const [scoreFilter, setScoreFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -75,19 +47,31 @@ export default function Dashboard() {
   // Fetch stats from tRPC backend
   const { data: statsData, isLoading: statsLoading } = trpc.dealsV2.getStats.useQuery();
 
-  // Fetch deals from tRPC backend (for future integration)
+  // Fetch deals from tRPC backend
   const { data: dealsData, isLoading: dealsLoading } = trpc.dealsV2.list.useQuery({
     sortBy: "score",
     sortOrder: "desc",
     limit: 100,
   });
 
-  // Use real opportunities for now, but show tRPC stats
+  // Map deals from database to Opportunity format
+  const opportunities: Opportunity[] = (dealsData?.deals || []).map((deal, index) => ({
+    listing_id: DEAL_ID_TO_ROUTE[deal.id] || `deal-${deal.id}`,
+    title: deal.name,
+    industry: deal.industry || "Unknown",
+    location: deal.location || "Unknown",
+    revenue: deal.revenue ? `$${(deal.revenue / 1000).toFixed(0)}K/yr` : deal.price ? `$${(deal.price / 1000000).toFixed(1)}M asking` : "N/A",
+    final_score: (deal.score || 0) / 100,
+    rank: index + 1,
+    meets_threshold: (deal.score || 0) >= 70,
+  }));
+
+  // Stats from tRPC
   const stats: DashboardStats = {
-    total_opportunities: statsData?.totalOpportunities || 3,
-    high_score_count: statsData?.highScoreCount || 3,
-    avg_score: statsData?.averageScore || 0.88,
-    outreach_sent: statsData?.outreachSent || 3,
+    total_opportunities: statsData?.totalOpportunities || 0,
+    high_score_count: statsData?.highScoreCount || 0,
+    avg_score: statsData?.averageScore || 0,
+    outreach_sent: statsData?.outreachSent || 0,
     outreach_replied: 1 // Hardcoded for now
   };
 
