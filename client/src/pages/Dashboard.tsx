@@ -1,7 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "wouter";
-import { Search } from "lucide-react";
+import { Search, Plus, Pencil, Trash2, Sparkles } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import DealFormModal from "@/components/DealFormModal";
 import {
   Select,
   SelectContent,
@@ -43,16 +46,64 @@ export default function Dashboard() {
   const [scoreFilter, setScoreFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
   const [sortBy, setSortBy] = useState("score");
+  const [showDealModal, setShowDealModal] = useState(false);
+  const [editingDeal, setEditingDeal] = useState<any>(null);
 
   // Fetch stats from tRPC backend
   const { data: statsData, isLoading: statsLoading } = trpc.dealsV2.getStats.useQuery();
 
   // Fetch deals from tRPC backend
-  const { data: dealsData, isLoading: dealsLoading } = trpc.dealsV2.list.useQuery({
+  const { data: dealsData, isLoading: dealsLoading, refetch: refetchDeals } = trpc.dealsV2.list.useQuery({
     sortBy: "score",
     sortOrder: "desc",
     limit: 100,
   });
+
+  // Delete mutation
+  const deleteMutation = trpc.dealsV2.delete.useMutation({
+    onSuccess: () => {
+      toast.success("Deal deleted successfully!");
+      refetchDeals();
+    },
+    onError: (error) => {
+      toast.error(`Failed to delete deal: ${error.message}`);
+    },
+  });
+
+  // Analyze mutation
+  const analyzeMutation = trpc.analysis.trigger.useMutation({
+    onSuccess: (result) => {
+      toast.success(`Analysis complete! Score: ${result.overallScore}/100`);
+    },
+    onError: (error) => {
+      toast.error(`Analysis failed: ${error.message}`);
+    },
+  });
+
+  const handleEdit = (deal: any) => {
+    setEditingDeal(deal);
+    setShowDealModal(true);
+  };
+
+  const handleDelete = (dealId: number, dealName: string) => {
+    if (confirm(`Are you sure you want to delete "${dealName}"?`)) {
+      deleteMutation.mutate({ id: dealId });
+    }
+  };
+
+  const handleAnalyze = (dealId: number) => {
+    toast.info("Starting AI analysis...");
+    analyzeMutation.mutate({ dealId });
+  };
+
+  const handleModalClose = () => {
+    setShowDealModal(false);
+    setEditingDeal(null);
+  };
+
+  const handleModalSuccess = () => {
+    refetchDeals();
+  };
 
   // Map deals from database to Opportunity format
   const opportunities: Opportunity[] = (dealsData?.deals || []).map((deal, index) => ({
@@ -164,6 +215,17 @@ export default function Dashboard() {
             </div>
           </div>
 
+          {/* Action Bar */}
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="text-2xl font-semibold text-foreground">
+              Top Opportunities
+            </h3>
+            <Button onClick={() => setShowDealModal(true)} className="gap-2">
+              <Plus className="w-4 h-4" />
+              New Deal
+            </Button>
+          </div>
+
           {/* Filters & Search */}
           <div className="metric-card mb-8 bg-secondary/50 border border-border p-4">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -222,19 +284,16 @@ export default function Dashboard() {
 
           {/* Top Opportunities List */}
           <div>
-            <h3 className="text-2xl font-semibold mb-6 text-foreground">
-              Top Opportunities
-            </h3>
-
             {loading ? (
               <div className="text-center py-12 text-muted-foreground">
                 Loading opportunities...
               </div>
             ) : (
               <div className="space-y-6">
-                {filteredOpportunities.map((opp) => (
-                  <Link key={opp.listing_id} href={`/property/${opp.listing_id}`}>
-                    <div className="opportunity-card bg-white border border-border hover:border-primary/50 transition-all rounded-xl overflow-hidden group shadow-sm hover:shadow-md">
+                {filteredOpportunities.map((opp) => {
+                  const deal = dealsData?.deals.find(d => DEAL_ID_TO_ROUTE[d.id] === opp.listing_id || `deal-${d.id}` === opp.listing_id);
+                  return (
+                    <div key={opp.listing_id} className="opportunity-card bg-white border border-border hover:border-primary/50 transition-all rounded-xl overflow-hidden group shadow-sm hover:shadow-md">
                       <div className="flex flex-col md:flex-row md:items-center p-4 md:p-6 gap-4 md:gap-6 relative">
 
                         {/* Mobile Rank Badge (visible only on mobile) */}
@@ -298,21 +357,66 @@ export default function Dashboard() {
 
                       </div>
 
-                      {/* Mobile CTA Footer */}
-                      <div className="md:hidden bg-secondary/30 px-6 py-3 border-t border-border flex items-center justify-between text-sm">
-                        <span className="text-muted-foreground font-medium">View Analysis</span>
-                        <div className="w-8 h-8 rounded-full bg-white border border-border flex items-center justify-center group-hover:border-primary/50 transition-colors">
-                          →
+                      {/* Action Buttons */}
+                      <div className="bg-secondary/30 px-6 py-3 border-t border-border flex items-center justify-between gap-2">
+                        <Link href={`/property/${opp.listing_id}`}>
+                          <Button variant="outline" size="sm" className="gap-2">
+                            View Details →
+                          </Button>
+                        </Link>
+                        <div className="flex gap-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="gap-1"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              if (deal) handleAnalyze(deal.id);
+                            }}
+                            disabled={analyzeMutation.isPending}
+                          >
+                            <Sparkles className="w-4 h-4" />
+                            Analyze
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              if (deal) handleEdit(deal);
+                            }}
+                          >
+                            <Pencil className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              if (deal) handleDelete(deal.id, deal.name);
+                            }}
+                            disabled={deleteMutation.isPending}
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
                         </div>
                       </div>
                     </div>
-                  </Link>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>
         </div>
       </main>
+
+      {/* Deal Form Modal */}
+      <DealFormModal
+        open={showDealModal}
+        onOpenChange={handleModalClose}
+        deal={editingDeal}
+        onSuccess={handleModalSuccess}
+      />
     </div>
   );
 }

@@ -1654,3 +1654,71 @@ The platform is now a cohesive, navigable full-stack application. Ready to proce
 - [x] TypeScript compilation successful
 - [ ] Test all 5 models with Ponce Protocol deal
 - [ ] Verify API keys work with new models
+
+
+---
+
+## 🚀 PHASE 7: OPERATIONALIZATION
+
+### Two-Stage Workflow
+- [ ] **Stage 1 (Internal)**: Dashboard table view with raw data, analysis, scoring
+- [ ] **Stage 2 (Public)**: AI-generated storytelling pages (only when ready to share)
+- [ ] Add "Publish Deal Page" button that triggers AI page generation
+- [ ] Store generated HTML/content in database for published deals
+
+### Deal CRUD Operations
+- [x] Create "New Deal" button with modal form (name, price, revenue, industry, location, etc.)
+- [x] Add "Edit" button to deal cards with pre-filled form
+- [x] Add "Delete" button with confirmation dialog
+- [x] Implement `dealsV2.create`, `dealsV2.update`, `dealsV2.delete` mutations
+- [x] Add form validation with Zod schemas (via tRPC)
+- [x] Show toast notifications for success/error states
+- [x] Add "Analyze" button to trigger multi-model AI analysis
+- [x] Create DealFormModal component with comprehensive form fields
+- [x] Integrate modal with Dashboard page
+- [x] TypeScript compilation successful
+
+### Search Configuration UI
+- [ ] Review `advanced_scraper.py` to extract search parameters
+- [ ] Create Settings page at `/settings/search`
+- [ ] Build form for configurable search parameters:
+  * Price range (min/max)
+  * Revenue range (min/max)
+  * Cash flow range (min/max)
+  * Industries (multi-select)
+  * Locations (multi-select)
+  * Opportunity Zone filter (yes/no)
+  * SDVOSB certification filter (yes/no)
+  * AI potential threshold (0-100)
+- [ ] Save search config to database (user preferences table)
+- [ ] Use config in market scraper integration
+
+### AI-Powered Dynamic Deal Pages
+- [ ] Create `/deal/:id/preview` route for AI-generated storytelling page
+- [ ] Use GPT-5.1 or Claude Opus 4.5 to generate narrative content
+- [ ] Prompt includes: deal data, system look/feel rules, target audience, brand voice
+- [ ] Generate sections: Hero, Executive Summary, Financial Highlights, Strategic Opportunity, Risk Analysis, Investment Thesis
+- [ ] Apply consistent scrollytelling layout with animations
+- [ ] Add "Regenerate Page" button to iterate on AI content
+- [ ] Store final generated HTML in `deal_pages` table
+
+### Scrollytelling Component Library
+- [ ] Create reusable components in `/client/src/components/scrollytelling/`:
+  * `HeroSection.tsx` - Full-screen hero with parallax
+  * `StatCard.tsx` - Animated stat reveals on scroll
+  * `TimelineSection.tsx` - Vertical timeline with milestones
+  * `ComparisonSection.tsx` - Side-by-side comparisons
+  * `HighlightSection.tsx` - Key insights with visual emphasis
+  * `CTASection.tsx` - Call-to-action with contact form
+- [ ] Use Framer Motion for scroll animations
+- [ ] Ensure consistent Apple-Design System styling
+- [ ] Make components configurable via props
+
+### Testing
+- [ ] Test deal creation flow
+- [ ] Test deal editing and deletion
+- [ ] Test AI page generation with Ponce Protocol
+- [ ] Verify scrollytelling components render correctly
+- [ ] Test search configuration persistence
+
+---
