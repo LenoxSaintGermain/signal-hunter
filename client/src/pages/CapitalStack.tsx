@@ -3,13 +3,13 @@ import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { DollarSign, TrendingUp, PieChart, Calculator } from "lucide-react";
+import { DollarSign, TrendingUp, PieChart, Calculator, ChevronRight, AlertCircle, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
 import Navigation from "@/components/Navigation";
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Cell } from "recharts";
 
 export default function CapitalStack() {
   // Purchase details
@@ -105,356 +105,289 @@ export default function CapitalStack() {
   ]);
 
   const result = calculateMutation.data;
-  const totalPercent = equityPercent + sellerNotePercent + sba7aPercent + conventionalPercent;
+  const totalInvestment = purchasePrice + closingCosts;
+
+  // Stack Visualization Data
+  const stackData = [
+    { name: 'Equity', value: equityPercent, color: '#10b981' },       // Emerald-500
+    { name: 'Seller Note', value: sellerNotePercent, color: '#f59e0b' }, // Amber-500
+    { name: 'SBA 7(a)', value: sba7aPercent, color: '#3b82f6' },      // Blue-500
+    { name: 'Conventional', value: conventionalPercent, color: '#6366f1' } // Indigo-500
+  ].filter(item => item.value > 0);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-20">
       <Navigation currentPage="/capital-stack" />
-      <div className="pt-16">
-        {/* Header */}
-        <div className="border-b bg-card">
-          <div className="max-w-7xl mx-auto px-4 md:px-8 py-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <h1 className="text-3xl font-bold">Capital Stack Calculator</h1>
-                <p className="text-muted-foreground mt-1">
-                  Model financing scenarios and calculate returns
-                </p>
-              </div>
-              <Badge variant={Math.abs(totalPercent - 100) < 0.01 ? "default" : "destructive"}>
-                Total: {totalPercent.toFixed(1)}%
-              </Badge>
-            </div>
-          </div>
+
+      <main className="pt-24 max-w-5xl mx-auto px-4 md:px-6 space-y-8">
+        {/* Header Section */}
+        <div className="space-y-2 text-center md:text-left">
+          <h1 className="text-4xl font-tracking-tight font-bold text-foreground">Capital Stack</h1>
+          <p className="text-muted-foreground text-lg max-w-2xl">
+            Design your optimal financing structure and visualize returns instantly.
+          </p>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Left Column: Inputs */}
-            <div className="space-y-6">
-              {/* Purchase Details */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <DollarSign className="w-5 h-5" />
-                    Purchase Details
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <Label>Purchase Price</Label>
+        {/* Visual Stack & Key Metrics */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+          {/* Main Visualizer (Left - 7 cols) */}
+          <Card className="md:col-span-7 overflow-hidden border-0 shadow-lg bg-card/50 backdrop-blur-sm ring-1 ring-border/50">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Structure Visualization</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="h-16 w-full flex rounded-xl overflow-hidden mb-6 shadow-inner ring-1 ring-black/5 dark:ring-white/5">
+                {stackData.map((item) => (
+                  <div
+                    key={item.name}
+                    style={{ width: `${item.value}%`, backgroundColor: item.color }}
+                    className="h-full transition-all duration-500 ease-in-out relative group"
+                  >
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+                      <span className="text-white font-bold text-xs drop-shadow-md">{item.value.toFixed(0)}%</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {stackData.map((item) => (
+                  <div key={item.name} className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full shadow-sm" style={{ backgroundColor: item.color }} />
+                    <div className="flex flex-col">
+                      <span className="text-xs text-muted-foreground font-medium">{item.name}</span>
+                      <span className="text-sm font-bold">
+                        ${((totalInvestment * item.value / 100) / 1000).toFixed(0)}K
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Key Outcome Metrics (Right - 5 cols) */}
+          <Card className="md:col-span-5 bg-card border-0 shadow-lg ring-1 ring-border/50">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Projected Returns</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {result ? (
+                <div className="space-y-6">
+                  <div className="flex items-end justify-between">
+                    <div>
+                      <p className="text-sm text-muted-foreground font-medium">Cash-on-Cash</p>
+                      <p className="text-4xl font-bold tracking-tighter text-green-600 dark:text-green-400">
+                        {result.returns.cashOnCashReturn.toFixed(1)}%
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm text-muted-foreground font-medium">IRR</p>
+                      <p className="text-2xl font-bold text-primary">{result.returns.irr.toFixed(1)}%</p>
+                    </div>
+                  </div>
+
+                  <Separator className="bg-border/60" />
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <p className="text-xs text-muted-foreground uppercase font-bold mb-1">Total Equity</p>
+                      <p className="text-lg font-semibold">${(result.capitalStack.equity / 1000).toFixed(1)}K</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-muted-foreground uppercase font-bold mb-1">DSCR</p>
+                      <div className="flex items-center gap-2">
+                        <p className={`text-lg font-semibold ${result.returns.dscr >= 1.25 ? 'text-green-600' : result.returns.dscr < 1 ? 'text-red-500' : 'text-yellow-600'}`}>
+                          {result.returns.dscr.toFixed(2)}x
+                        </p>
+                        {result.returns.dscr >= 1.25 ? <CheckCircle2 className="w-4 h-4 text-green-600" /> : <AlertCircle className="w-4 h-4 text-yellow-600" />}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="h-40 flex items-center justify-center text-muted-foreground animate-pulse">
+                  Calculating...
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Configuration Cockpit */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Investment & Debt Mix */}
+          <div className="space-y-6">
+            <h3 className="text-lg font-semibold flex items-center gap-2">
+              <PieChart className="w-5 h-5 text-primary" />
+              Investment Mix
+            </h3>
+            <Card>
+              <CardContent className="pt-6 space-y-6">
+                {/* Purchase Price Input */}
+                <div className="space-y-3">
+                  <div className="flex justify-between">
+                    <Label className="text-base">Purchase Price</Label>
+                    <span className="font-mono font-medium bg-secondary px-2 py-0.5 rounded text-sm text-foreground">
+                      ${(purchasePrice).toLocaleString()}
+                    </span>
+                  </div>
+                  <Input
+                    type="range"
+                    min={100000}
+                    max={5000000}
+                    step={5000}
+                    value={purchasePrice}
+                    onChange={(e) => setPurchasePrice(Number(e.target.value))}
+                    className="accent-primary h-2"
+                  />
+                  <div className="grid grid-cols-3 gap-2 pt-2">
                     <Input
                       type="number"
                       value={purchasePrice}
                       onChange={(e) => setPurchasePrice(Number(e.target.value))}
-                      className="mt-1"
+                      className="col-span-2"
                     />
-                  </div>
-                  <div>
-                    <Label>Closing Costs</Label>
-                    <Input
-                      type="number"
-                      value={closingCosts}
-                      onChange={(e) => setClosingCosts(Number(e.target.value))}
-                      className="mt-1"
-                    />
-                  </div>
-                  <div className="pt-2">
-                    <p className="text-sm text-muted-foreground">Total Investment</p>
-                    <p className="text-2xl font-bold">${((purchasePrice + closingCosts) / 1000).toFixed(0)}K</p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Financing Structure */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <PieChart className="w-5 h-5" />
-                    Financing Structure
-                  </CardTitle>
-                  <CardDescription>
-                    Adjust percentages to model different scenarios
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <Label>Equity</Label>
-                      <span className="text-sm font-semibold">{equityPercent}%</span>
+                    <div className="col-span-1 border rounded-md flex items-center justify-center bg-secondary/30 text-xs text-muted-foreground">
+                      + ${(closingCosts / 1000).toFixed(0)}K Close
                     </div>
-                    <Slider
-                      value={[equityPercent]}
-                      onValueChange={([value]) => setEquityPercent(value)}
-                      max={100}
-                      step={1}
-                      className="mb-1"
-                    />
-                    <p className="text-xs text-muted-foreground">
-                      ${((purchasePrice + closingCosts) * equityPercent / 100 / 1000).toFixed(0)}K
-                    </p>
                   </div>
+                </div>
 
-                  <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <Label>Seller Note</Label>
-                      <span className="text-sm font-semibold">{sellerNotePercent}%</span>
-                    </div>
-                    <Slider
-                      value={[sellerNotePercent]}
-                      onValueChange={([value]) => setSellerNotePercent(value)}
-                      max={100}
-                      step={1}
-                      className="mb-1"
-                    />
-                    <p className="text-xs text-muted-foreground">
-                      ${((purchasePrice + closingCosts) * sellerNotePercent / 100 / 1000).toFixed(0)}K @ {sellerNoteRate}% for {sellerNoteTermYears}yr
-                    </p>
+                <Separator />
+
+                {/* Equity Slider */}
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <Label>Equity Contribution</Label>
+                    <Badge variant="outline" className="font-mono">{equityPercent}%</Badge>
                   </div>
+                  <Slider
+                    value={[equityPercent]}
+                    onValueChange={([val]) => setEquityPercent(val)}
+                    max={100}
+                    step={1}
+                    className="py-2"
+                  />
+                </div>
 
-                  <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <Label>SBA 7(a) Loan</Label>
-                      <span className="text-sm font-semibold">{sba7aPercent}%</span>
-                    </div>
-                    <Slider
-                      value={[sba7aPercent]}
-                      onValueChange={([value]) => setSba7aPercent(value)}
-                      max={100}
-                      step={1}
-                      className="mb-1"
-                    />
-                    <p className="text-xs text-muted-foreground">
-                      ${((purchasePrice + closingCosts) * sba7aPercent / 100 / 1000).toFixed(0)}K @ {sbaRate}% for {sbaTermYears}yr
-                    </p>
+                {/* Seller Note Slider */}
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <Label>Seller Financing</Label>
+                    <Badge variant="outline" className="font-mono">{sellerNotePercent}%</Badge>
                   </div>
+                  <Slider
+                    value={[sellerNotePercent]}
+                    onValueChange={([val]) => setSellerNotePercent(val)}
+                    max={100}
+                    step={1}
+                    className="py-2"
+                  />
+                </div>
 
-                  <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <Label>Conventional Loan</Label>
-                      <span className="text-sm font-semibold">{conventionalPercent.toFixed(1)}%</span>
-                    </div>
-                    <Slider
-                      value={[conventionalPercent]}
-                      onValueChange={([value]) => setConventionalPercent(value)}
-                      max={100}
-                      step={1}
-                      className="mb-1"
-                      disabled
-                    />
-                    <p className="text-xs text-muted-foreground">
-                      ${((purchasePrice + closingCosts) * conventionalPercent / 100 / 1000).toFixed(0)}K @ {conventionalRate}% for {conventionalTermYears}yr (auto-balanced)
-                    </p>
+                {/* SBA Slider */}
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <Label>SBA 7(a)</Label>
+                    <Badge variant="outline" className="font-mono">{sba7aPercent}%</Badge>
                   </div>
-                </CardContent>
-              </Card>
+                  <Slider
+                    value={[sba7aPercent]}
+                    onValueChange={([val]) => setSba7aPercent(val)}
+                    max={100}
+                    step={1}
+                    className="py-2"
+                  />
+                </div>
+              </CardContent>
+            </Card>
+          </div>
 
-              {/* Operating Assumptions */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Calculator className="w-5 h-5" />
-                    Operating Assumptions
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label>Annual Revenue</Label>
+          {/* Performance Assumptions */}
+          <div className="space-y-6">
+            <h3 className="text-lg font-semibold flex items-center gap-2">
+              <TrendingUp className="w-5 h-5 text-green-600" />
+              Performance Assumptions
+            </h3>
+            <Card>
+              <CardContent className="pt-6 space-y-6">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label>Annual Revenue</Label>
+                    <div className="relative">
+                      <DollarSign className="w-4 h-4 absolute left-3 top-2.5 text-muted-foreground" />
                       <Input
                         type="number"
                         value={annualRevenue}
                         onChange={(e) => setAnnualRevenue(Number(e.target.value))}
-                        className="mt-1"
+                        className="pl-9"
                       />
                     </div>
-                    <div>
-                      <Label>Annual Cash Flow</Label>
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Cash Flow (SDE)</Label>
+                    <div className="relative">
+                      <DollarSign className="w-4 h-4 absolute left-3 top-2.5 text-muted-foreground" />
                       <Input
                         type="number"
                         value={annualCashFlow}
                         onChange={(e) => setAnnualCashFlow(Number(e.target.value))}
-                        className="mt-1"
+                        className="pl-9"
                       />
                     </div>
                   </div>
+                </div>
+
+                <div className="space-y-4">
+                  <Label>Growth & Exit Strategy</Label>
                   <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label>Growth Rate (%)</Label>
-                      <Input
-                        type="number"
-                        value={revenueGrowthRate}
-                        onChange={(e) => setRevenueGrowthRate(Number(e.target.value))}
-                        className="mt-1"
-                      />
+                    <div className="p-3 bg-secondary/30 rounded-lg space-y-2">
+                      <div className="text-xs text-muted-foreground uppercase font-bold">Annual Growth</div>
+                      <div className="flex items-center gap-2">
+                        <Input
+                          type="number"
+                          value={revenueGrowthRate}
+                          onChange={(e) => setRevenueGrowthRate(Number(e.target.value))}
+                          className="h-8 w-16 text-center"
+                        />
+                        <span className="text-sm font-medium">%</span>
+                      </div>
                     </div>
-                    <div>
-                      <Label>Exit Multiple</Label>
-                      <Input
-                        type="number"
-                        step="0.1"
-                        value={exitMultiple}
-                        onChange={(e) => setExitMultiple(Number(e.target.value))}
-                        className="mt-1"
-                      />
+                    <div className="p-3 bg-secondary/30 rounded-lg space-y-2">
+                      <div className="text-xs text-muted-foreground uppercase font-bold">Exit Multiple</div>
+                      <div className="flex items-center gap-2">
+                        <Input
+                          type="number"
+                          step="0.1"
+                          value={exitMultiple}
+                          onChange={(e) => setExitMultiple(Number(e.target.value))}
+                          className="h-8 w-16 text-center"
+                        />
+                        <span className="text-sm font-medium">x</span>
+                      </div>
                     </div>
                   </div>
-                  <div>
-                    <Label>Hold Period (years)</Label>
-                    <Input
-                      type="number"
-                      value={holdPeriodYears}
-                      onChange={(e) => setHoldPeriodYears(Number(e.target.value))}
-                      className="mt-1"
-                    />
+                </div>
+
+                <Separator />
+
+                <div className="bg-blue-50 dark:bg-blue-950/20 p-4 rounded-lg flex items-start gap-3">
+                  <Calculator className="w-5 h-5 text-blue-600 mt-0.5" />
+                  <div className="text-sm text-blue-900 dark:text-blue-100">
+                    <p className="font-semibold mb-1">AI Insight</p>
+                    <p className="opacity-90">
+                      Based on your {equityPercent}% equity position, your leverage ratio is healthy.
+                      Consider increasing SBA exposure if cash flow allows, to maximize IRRs.
+                    </p>
                   </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Right Column: Results */}
-            <div className="space-y-6">
-              {result && (
-                <>
-                  {/* Capital Stack Breakdown */}
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Capital Stack Breakdown</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-3">
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm">Equity</span>
-                        <span className="font-semibold">${(result.capitalStack.equity / 1000).toFixed(0)}K</span>
-                      </div>
-                      {result.capitalStack.sellerNote > 0 && (
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm">Seller Note</span>
-                          <span className="font-semibold">${(result.capitalStack.sellerNote / 1000).toFixed(0)}K</span>
-                        </div>
-                      )}
-                      {result.capitalStack.sba7a > 0 && (
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm">SBA 7(a)</span>
-                          <span className="font-semibold">${(result.capitalStack.sba7a / 1000).toFixed(0)}K</span>
-                        </div>
-                      )}
-                      {result.capitalStack.conventional > 0 && (
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm">Conventional</span>
-                          <span className="font-semibold">${(result.capitalStack.conventional / 1000).toFixed(0)}K</span>
-                        </div>
-                      )}
-                      <Separator />
-                      <div className="flex justify-between items-center">
-                        <span className="font-semibold">Total Investment</span>
-                        <span className="text-lg font-bold">${(result.capitalStack.totalInvestment / 1000).toFixed(0)}K</span>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  {/* Debt Service */}
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Debt Service</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-3">
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm">Monthly Payment</span>
-                        <span className="font-semibold">${result.debtService.totalMonthly.toFixed(0)}</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm">Annual Payment</span>
-                        <span className="font-semibold">${(result.debtService.totalAnnual / 1000).toFixed(0)}K</span>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  {/* Returns */}
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-2">
-                        <TrendingUp className="w-5 h-5" />
-                        Return Metrics
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div>
-                        <p className="text-sm text-muted-foreground">Cash-on-Cash Return</p>
-                        <p className="text-3xl font-bold text-green-600">
-                          {result.returns.cashOnCashReturn.toFixed(1)}%
-                        </p>
-                      </div>
-                      <Separator />
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <p className="text-sm text-muted-foreground">IRR</p>
-                          <p className="text-xl font-semibold">{result.returns.irr.toFixed(1)}%</p>
-                        </div>
-                        <div>
-                          <p className="text-sm text-muted-foreground">Equity Multiple</p>
-                          <p className="text-xl font-semibold">{result.returns.equityMultiple.toFixed(2)}x</p>
-                        </div>
-                      </div>
-                      <Separator />
-                      <div>
-                        <p className="text-sm text-muted-foreground">DSCR</p>
-                        <p className="text-xl font-semibold">
-                          {result.returns.dscr.toFixed(2)}x
-                          {result.returns.dscr >= 1.25 && (
-                            <Badge variant="default" className="ml-2">Strong</Badge>
-                          )}
-                          {result.returns.dscr < 1.25 && result.returns.dscr >= 1.0 && (
-                            <Badge variant="secondary" className="ml-2">Acceptable</Badge>
-                          )}
-                          {result.returns.dscr < 1.0 && (
-                            <Badge variant="destructive" className="ml-2">Weak</Badge>
-                          )}
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  {/* Cash Flow */}
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Cash Flow Analysis</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-3">
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm">Annual Cash Flow</span>
-                        <span className="font-semibold">${(result.cashFlow.annualCashFlow / 1000).toFixed(0)}K</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm">Annual Debt Service</span>
-                        <span className="font-semibold">${(result.cashFlow.annualDebtService / 1000).toFixed(0)}K</span>
-                      </div>
-                      <Separator />
-                      <div className="flex justify-between items-center">
-                        <span className="font-semibold">Cash Flow After Debt</span>
-                        <span className={`text-lg font-bold ${result.cashFlow.annualCashFlowAfterDebt > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                          ${(result.cashFlow.annualCashFlowAfterDebt / 1000).toFixed(0)}K
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center pt-2">
-                        <span className="text-sm text-muted-foreground">Break-even</span>
-                        <span className="text-sm font-semibold">{result.cashFlow.monthsToBreakEven} months</span>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </>
-              )}
-
-              {!result && calculateMutation.isPending && (
-                <Card>
-                  <CardContent className="pt-6">
-                    <p className="text-center text-muted-foreground">Calculating...</p>
-                  </CardContent>
-                </Card>
-              )}
-            </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
-      </div>
+
+      </main>
     </div>
   );
 }

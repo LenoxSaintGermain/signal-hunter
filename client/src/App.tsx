@@ -15,8 +15,7 @@ import PonceProtocol from "./pages/PonceProtocol";
 import CapitalStack from "./pages/CapitalStack";
 
 import Projections from "./pages/Projections";
-import SearchSettings from "./pages/SearchSettings";
-import ApiSettings from "./pages/ApiSettings";
+import Settings from "./pages/Settings";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -26,8 +25,12 @@ function Router() {
 
       <Route path={"/capital-stack"} component={CapitalStack} />
       <Route path={"/projections"} component={Projections} />
-      <Route path={"/settings/search"} component={SearchSettings} />
-      <Route path={"/settings/api"} component={ApiSettings} />
+
+      {/* Unified Settings Route (handles both Discovery and API params via internal tabs if needed, or just default) */}
+      <Route path={"/settings"} component={Settings} />
+      <Route path={"/settings/search"} component={Settings} /> {/* Backward compat */}
+      <Route path={"/settings/api"} component={Settings} />    {/* Backward compat */}
+
       <Route path={"/dashboard"} component={Dashboard} />
       <Route path={"opportunity/:id"} component={OpportunityDetail} />
       <Route path="/property/514-whitehall" component={Property514Whitehall} />

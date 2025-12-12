@@ -43,7 +43,7 @@ export default function Navigation({ currentPage }: NavigationProps) {
 
   const staticNavItems = [
     { href: "/dashboard", label: "Pipeline" },
-    { href: "/settings/search", label: "Discovery" },
+    { href: "/settings", label: "Discovery" }, // Metadata: "Discovery" is the primary function of Settings tab 1
     { href: "/capital-stack", label: "Capital Stack" },
     { href: "/projections", label: "Projections" },
   ];
@@ -66,9 +66,8 @@ export default function Navigation({ currentPage }: NavigationProps) {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`text-sm font-medium transition-all hover:opacity-60 relative pb-1 whitespace-nowrap ${
-                  activePath === item.href ? "text-foreground" : "text-muted-foreground"
-                }`}
+                className={`text-sm font-medium transition-all hover:opacity-60 relative pb-1 whitespace-nowrap ${activePath === item.href ? "text-foreground" : "text-muted-foreground"
+                  }`}
               >
                 {item.label}
                 {activePath === item.href && (
@@ -187,9 +186,8 @@ export default function Navigation({ currentPage }: NavigationProps) {
                       key={item.href}
                       href={item.href}
                       onClick={() => setOpen(false)}
-                      className={`text-lg font-medium transition-colors hover:text-foreground/80 py-2 border-b border-border/50 ${
-                        activePath === item.href ? "text-foreground" : "text-muted-foreground"
-                      }`}
+                      className={`text-lg font-medium transition-colors hover:text-foreground/80 py-2 border-b border-border/50 ${activePath === item.href ? "text-foreground" : "text-muted-foreground"
+                        }`}
                     >
                       {item.label}
                     </Link>
