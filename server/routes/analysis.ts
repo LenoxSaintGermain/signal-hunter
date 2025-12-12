@@ -205,7 +205,7 @@ Calculate:
   try {
     const { GoogleGenerativeAI } = await import('@google/generative-ai');
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
-    const model = genAI.getGenerativeModel({ model: "gemini-3-pro-preview" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
 
     const result = await model.generateContent(prompt);
     const analysis = result.response.text();
@@ -264,7 +264,8 @@ Analyze:
 
   try {
     // @ts-ignore - xai-sdk doesn't have type definitions yet
-    const { Client } = await import('xai-sdk');
+    const xaiSdk = await import('xai-sdk');
+    const Client = xaiSdk.default;
     const client = new Client({ apiKey: process.env.XAI_API_KEY! });
 
     const completion = await client.chat.completions.create({
@@ -342,7 +343,7 @@ Provide comprehensive analysis:
     const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! });
 
     const message = await anthropic.messages.create({
-      model: "claude-sonnet-4.5-20241022",
+      model: "claude-sonnet-4-5",
       max_tokens: 2048,
       messages: [
         {

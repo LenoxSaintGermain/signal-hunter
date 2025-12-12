@@ -1945,4 +1945,15 @@ The platform is now a cohesive, navigable full-stack application. Ready to proce
 - [x] Fix "Uncaught (in promise) undefined" error at line 34339
 - [x] Add proper error handling for failed analyze requests (Promise.allSettled)
 - [ ] Add aria-describedby to DialogContent for accessibility
-- [ ] Configure missing API keys (OPENAI_API_KEY, ANTHROPIC_API_KEY) if needed
+- [x] Configure missing API keys (OPENAI_API_KEY, ANTHROPIC_API_KEY) - DONE
+- [x] Fix Claude model name to use claude-sonnet-4-5
+- [x] Fix Grok SDK initialization (still has issues with xai-sdk package)
+- [ ] Fix Gemini API model name or key configuration
+- [ ] Test actual deal analysis end-to-end
+
+**Current AI Services Status (3/5 Working):**
+- ✅ OpenAI GPT-4: Working
+- ✅ Anthropic Claude Sonnet 4.5: Working
+- ✅ Perplexity Sonar Pro: Working
+- ❌ Grok: SDK initialization error
+- ❌ Gemini: API fetch error (model name or key issue)
