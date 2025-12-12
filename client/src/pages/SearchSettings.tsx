@@ -21,8 +21,8 @@ const searchSchema = z.object({
     minPrice: z.number().min(0).optional(),
     maxPrice: z.number().min(0).optional(),
     minCashFlow: z.number().min(0).optional(),
-    sectors: z.array(z.string()).optional().default([]),
-    locations: z.array(z.string()).optional().default([]),
+    sectors: z.array(z.string()).default([]),
+    locations: z.array(z.string()).default([]),
     keywords: z.string().optional(),
 });
 

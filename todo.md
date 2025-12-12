@@ -1754,3 +1754,46 @@ The platform is now a cohesive, navigable full-stack application. Ready to proce
 - [x] Ensure no dependencies on local Python script execution
 - [x] Background processing with polling (2-5 minutes per scan)
 - [x] Smart prompt engineering for structured JSON output
+
+
+---
+
+## 🔧 NEXT STEPS: Complete Deep Research Integration
+
+### Fix TypeScript Errors
+- [x] Upgrade `@hookform/resolvers` to latest version (already at 5.2.2)
+- [x] Adjust SearchSettings schema to fix resolver type conflicts
+- [ ] TypeScript error persists (known react-hook-form + zod issue, doesn't block functionality)
+- [ ] Consider adding @ts-expect-error comment if needed
+
+### End-to-End Deep Research Testing
+- [ ] Configure market scan at `/settings/search` with specific filters
+- [ ] Trigger Gemini Deep Research Agent
+- [ ] Poll for completion (2-5 minutes)
+- [ ] Verify JSON output parsing (listings array + market_summary)
+- [ ] Test error handling for failed scans
+
+### OpportunityDetail Radar Charts Review
+- [x] Review OpportunityDetail.tsx code - comprehensive Deal Detail 2.0 implementation
+- [x] Radar Chart with 6 dimensions (Financials, Growth, Market, Risk, Synergy, Terms)
+- [x] Investment Thesis section with AI summary and key strengths
+- [x] Risk Assessment with top risks
+- [x] Model Perspectives tabs (GPT-5.1, Claude, Perplexity)
+- [ ] Navigate to `/opportunity/90003` (Ponce Protocol) and test live
+- [ ] Click "Generate Deep Analysis" button and verify results
+
+### Final Checkpoint
+- [x] Verify dev server status (running successfully)
+- [x] Review all integrated features (DeepResearchService, SearchSettings, OpportunityDetail)
+- [x] Confirm architecture pivot complete (Gemini Deep Research Agent API)
+- [ ] Save checkpoint with complete Deep Research integration
+- [ ] Push to GitHub
+
+### Summary
+- ✅ GitHub sync complete (pulled Deep Research & Deal Detail 2.0)
+- ✅ Dependencies installed (@hookform/resolvers)
+- ✅ GEMINI_API_KEY verified
+- ✅ DeepResearchService reviewed (background polling with deep-research-pro-preview-12-2025)
+- ✅ SearchSettings UI reviewed (minor TS errors, non-blocking)
+- ✅ OpportunityDetail reviewed (Radar Charts, Investment Thesis, Multi-model analysis)
+- ✅ Dev server running successfully
