@@ -1608,3 +1608,49 @@ The platform is now a cohesive, navigable full-stack application. Ready to proce
 - Multi-model AI analysis orchestration
 
 ---
+
+
+---
+
+## 🤖 PHASE 6: AI ANALYSIS ORCHESTRATION
+
+### Database Cleanup
+- [ ] Query deals table to identify deals without proper data
+- [ ] Delete or archive incomplete deals
+- [ ] Verify 3 real opportunities remain (Ponce Protocol, Whitehall Assemblage, 514 Whitehall)
+
+### Multi-Model AI Analysis
+- [ ] Implement analysis.trigger endpoint with multi-model orchestration
+- [ ] Integrate Perplexity API for market research and competitive analysis
+- [ ] Integrate Gemini API for financial document analysis
+- [ ] Integrate Grok API for strategic reasoning and risk assessment
+- [ ] Integrate Claude API for comprehensive due diligence reports
+- [ ] Combine scores into unified recommendation with confidence levels
+- [ ] Store analysis results in database
+
+### Testing & Validation
+- [ ] Test AI analysis with Ponce Protocol deal
+- [ ] Verify all 4 AI models respond correctly
+- [ ] Validate score aggregation logic
+- [ ] Write vitest tests for analysis orchestration
+
+### UI Integration
+- [ ] Update Dashboard to show AI analysis status
+- [ ] Add "Analyze" button to deal cards
+- [ ] Display AI scores and recommendations
+- [ ] Show analysis progress indicators
+
+---
+
+
+### Model Updates (Latest Flagship Models - Dec 2025)
+- [x] Update Gemini from 2.0 Flash to **Gemini 3 Pro Preview** (`gemini-3-pro-preview`)
+- [x] Update Grok from Beta to **Grok 4** (`grok-4`)
+- [x] Update Claude from 3.5 Sonnet to **Claude Sonnet 4.5** (`claude-sonnet-4.5-20241022`)
+- [x] Add **GPT-5.1** as fifth AI model (`gpt-5.1`)
+- [x] Keep Perplexity Sonar Pro (already latest)
+- [x] Install OpenAI SDK and configure API key
+- [x] Update analysis router to call all 5 models in parallel
+- [x] TypeScript compilation successful
+- [ ] Test all 5 models with Ponce Protocol deal
+- [ ] Verify API keys work with new models

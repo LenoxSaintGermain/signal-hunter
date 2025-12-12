@@ -1,0 +1,74 @@
+{
+  "query": "SELECT id, name, score, price, revenue, stage FROM deals ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3v1wvYFABP51Dvh.3f4911c04924 --database boxxx2H9MLTMPZtbmRJTvV --execute SELECT id, name, score, price, revenue, stage FROM deals ORDER BY id;",
+  "rows": [
+    {
+      "id": "30001",
+      "name": "Stadium Plaza Mixed-Use",
+      "score": "87",
+      "price": "12500000",
+      "revenue": "3200000",
+      "stage": "due_diligence"
+    },
+    {
+      "id": "30002",
+      "name": "Government Contractor - IT Services",
+      "score": "82",
+      "price": "5800000",
+      "revenue": "8000000",
+      "stage": "initial_review"
+    },
+    {
+      "id": "30003",
+      "name": "Multifamily - Opportunity Zone",
+      "score": "79",
+      "price": "18900000",
+      "revenue": "2800000",
+      "stage": "offer_submitted"
+    },
+    {
+      "id": "30004",
+      "name": "Regional Logistics Hub",
+      "score": "85",
+      "price": "24000000",
+      "revenue": "2100000",
+      "stage": "negotiation"
+    },
+    {
+      "id": "30005",
+      "name": "SBA Pre-Qualified Manufacturing",
+      "score": "76",
+      "price": "3200000",
+      "revenue": "4200000",
+      "stage": "initial_review"
+    },
+    {
+      "id": "90003",
+      "name": "Ponce Protocol - Hospitality Business with Real Estate",
+      "score": "92",
+      "price": "850000",
+      "revenue": "109000",
+      "stage": "due_diligence"
+    },
+    {
+      "id": "90004",
+      "name": "Whitehall Assemblage - 2.31 Acre Development Site",
+      "score": "88",
+      "price": "5500000",
+      "revenue": "0",
+      "stage": "initial_review"
+    },
+    {
+      "id": "90005",
+      "name": "514 Whitehall St SW - Mixed-Use Property",
+      "score": "85",
+      "price": "1200000",
+      "revenue": "200000",
+      "stage": "lead"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tscore\tprice\trevenue\tstage\n30001\tStadium Plaza Mixed-Use\t87\t12500000\t3200000\tdue_diligence\n30002\tGovernment Contractor - IT Services\t82\t5800000\t8000000\tinitial_review\n30003\tMultifamily - Opportunity Zone\t79\t18900000\t2800000\toffer_submitted\n30004\tRegional Logistics Hub\t85\t24000000\t2100000\tnegotiation\n30005\tSBA Pre-Qualified Manufacturing\t76\t3200000\t4200000\tinitial_review\n90003\tPonce Protocol - Hospitality Business with Real Estate\t92\t850000\t109000\tdue_diligence\n90004\tWhitehall Assemblage - 2.31 Acre Development Site\t88\t5500000\t0\tinitial_review\n90005\t514 Whitehall St SW - Mixed-Use Property\t85\t1200000\t200000\tlead\n",
+  "stderr": "",
+  "execution_time_ms": 69
+}
