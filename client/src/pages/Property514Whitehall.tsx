@@ -20,6 +20,7 @@ import { Link } from "wouter";
 import { PropertyMap } from "@/components/PropertyMap";
 import AIAssistant from "@/components/AIAssistant";
 import { generatePropertyPDF, PropertyData } from "@/utils/pdfGenerator";
+import Navigation from "@/components/Navigation";
 import {
   LineChart,
   Line,
@@ -119,56 +120,58 @@ export default function Property514Whitehall() {
       ozTaxSavings: scenario === "flexstack" ? 543000 : 260000,
       fifaRevenue: scenario === "flexstack" ? 156000 : 78000,
     };
-    
+
     await generatePropertyPDF(propertyData);
   };
 
   return (
     <div className="min-h-screen bg-white">
       <AIAssistant propertyContext={{ name: "514 Whitehall St SW", price: purchasePrice, location: "Atlanta, GA - 1.0 mile from Mercedes-Benz Stadium" }} />
+      <Navigation currentPage="/property/514-whitehall" />
+
       {/* Hero Section */}
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/10 to-transparent" />
+      <div className="relative overflow-hidden pt-16">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 via-purple-600/5 to-transparent" />
         <div className="container mx-auto px-4 py-20 relative">
           <div className="max-w-4xl mx-auto text-center space-y-6">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-foreground text-sm">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 border border-blue-200 text-blue-800 text-sm">
               <Trophy className="w-4 h-4" />
               Prime Stadium-Adjacent Opportunity
             </div>
-            
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
+
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-foreground">
               514 Whitehall St SW
             </h1>
-            
-            <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto">
+
+            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
               11,500 sq ft lot, 1.0 mile from Mercedes-Benz Stadium.
-              <span className="text-foreground"> Transform into a revenue-generating asset.</span>
+              <span className="text-foreground font-medium"> Transform into a revenue-generating asset.</span>
             </p>
 
             {/* Key Metrics */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-8">
-              <Card className="bg-white/5 backdrop-blur-sm border-white/10 p-6">
+              <Card className="bg-secondary border-border p-6">
                 <DollarSign className="w-8 h-8 text-foreground mb-2" />
                 <div className="text-3xl font-bold">${(purchasePrice / 1000).toFixed(0)}K</div>
-                <div className="text-sm text-gray-400">Asking Price</div>
+                <div className="text-sm text-muted-foreground">Asking Price</div>
               </Card>
-              
-              <Card className="bg-white/5 backdrop-blur-sm border-white/10 p-6">
+
+              <Card className="bg-secondary border-border p-6">
                 <MapPin className="w-8 h-8 text-foreground mb-2" />
                 <div className="text-3xl font-bold">11,500</div>
-                <div className="text-sm text-gray-400">Sq Ft Lot</div>
+                <div className="text-sm text-muted-foreground">Sq Ft Lot</div>
               </Card>
-              
-              <Card className="bg-white/5 backdrop-blur-sm border-white/10 p-6">
+
+              <Card className="bg-secondary border-border p-6">
                 <Building2 className="w-8 h-8 text-foreground mb-2" />
                 <div className="text-3xl font-bold">1.0 mi</div>
-                <div className="text-sm text-gray-400">To Stadium</div>
+                <div className="text-sm text-muted-foreground">To Stadium</div>
               </Card>
-              
-              <Card className="bg-white/5 backdrop-blur-sm border-white/10 p-6">
+
+              <Card className="bg-secondary border-border p-6">
                 <TrendingUp className="w-8 h-8 text-foreground mb-2" />
                 <div className="text-3xl font-bold">{cashOnCashReturn.toFixed(0)}%</div>
-                <div className="text-sm text-gray-400">Cash-on-Cash</div>
+                <div className="text-sm text-muted-foreground">Cash-on-Cash</div>
               </Card>
             </div>
 
@@ -177,12 +180,12 @@ export default function Property514Whitehall() {
                 View Investment Calculator
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
-              <Button size="lg" variant="outline" className="border-white/20 hover:bg-white/10">
+              <Button size="lg" variant="outline" className="border-border hover:bg-secondary">
                 <Download className="w-4 h-4 mr-2" />
                 Download Pro Forma
               </Button>
               <Link href="/property/comparison">
-                <Button size="lg" variant="outline" className="border-white/20 hover:bg-white/10">
+                <Button size="lg" variant="outline" className="border-border hover:bg-secondary">
                   Compare Properties
                 </Button>
               </Link>
@@ -194,29 +197,29 @@ export default function Property514Whitehall() {
       {/* The Opportunity */}
       <div className="container mx-auto px-4 py-20">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold mb-8 text-center">The Opportunity</h2>
-          
+          <h2 className="text-4xl font-bold mb-8 text-center text-foreground">The Opportunity</h2>
+
           <div className="grid md:grid-cols-3 gap-6 mb-12">
-            <Card className="bg-gradient-to-br from-blue-500/10 to-blue-600/5 border-blue-500/20 p-8">
-              <Trophy className="w-12 h-12 text-yellow-400 mb-4" />
-              <h3 className="text-2xl font-bold mb-3">FIFA 2026 Catalyst</h3>
-              <p className="text-gray-300">
+            <Card className="bg-blue-50 border-blue-200 p-8">
+              <Trophy className="w-12 h-12 text-yellow-500 mb-4" />
+              <h3 className="text-2xl font-bold mb-3 text-blue-900">FIFA 2026 Catalyst</h3>
+              <p className="text-blue-700">
                 Generate $40K-$60K during the 30-day FIFA World Cup tournament with premium parking and fan experiences
               </p>
             </Card>
 
-            <Card className="bg-gradient-to-br from-purple-500/10 to-purple-600/5 border-purple-500/20 p-8">
-              <CheckCircle2 className="w-12 h-12 text-foreground mb-4" />
-              <h3 className="text-2xl font-bold mb-3">Opportunity Zone</h3>
-              <p className="text-gray-300">
+            <Card className="bg-purple-50 border-purple-200 p-8">
+              <CheckCircle2 className="w-12 h-12 text-purple-900 mb-4" />
+              <h3 className="text-2xl font-bold mb-3 text-purple-900">Opportunity Zone</h3>
+              <p className="text-purple-700">
                 Defer and reduce capital gains taxes. Save ${(ozSavingsWithTAD / 1000).toFixed(0)}K over 10 years with OZ + TAD benefits
               </p>
             </Card>
 
-            <Card className="bg-gradient-to-br from-pink-500/10 to-pink-600/5 border-pink-500/20 p-8">
-              <TrendingUp className="w-12 h-12 text-foreground mb-4" />
-              <h3 className="text-2xl font-bold mb-3">Flex-Stack Design</h3>
-              <p className="text-gray-300">
+            <Card className="bg-pink-50 border-pink-200 p-8">
+              <TrendingUp className="w-12 h-12 text-pink-900 mb-4" />
+              <h3 className="text-2xl font-bold mb-3 text-pink-900">Flex-Stack Design</h3>
+              <p className="text-pink-700">
                 Triple revenue streams: parking + event space + Airbnb. ${(flexStackRevenue / 1000).toFixed(0)}K annual revenue potential
               </p>
             </Card>
@@ -225,18 +228,18 @@ export default function Property514Whitehall() {
       </div>
 
       {/* Investment Calculator */}
-      <div className="container mx-auto px-4 py-20 bg-gradient-to-b from-transparent via-blue-950/20 to-transparent">
+      <div className="container mx-auto px-4 py-20 bg-secondary/30">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold mb-8 text-center">Investment Calculator</h2>
-          <p className="text-center text-gray-300 mb-12 max-w-2xl mx-auto">
+          <h2 className="text-4xl font-bold mb-8 text-center text-foreground">Investment Calculator</h2>
+          <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
             Adjust the variables below to model your investment scenario
           </p>
 
           <Tabs defaultValue="financing" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 mb-8">
-              <TabsTrigger value="financing">Financing</TabsTrigger>
-              <TabsTrigger value="scenario">Scenario</TabsTrigger>
-              <TabsTrigger value="returns">Returns</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-3 mb-8 bg-secondary border border-border">
+              <TabsTrigger value="financing" className="data-[state=active]:bg-white">Financing</TabsTrigger>
+              <TabsTrigger value="scenario" className="data-[state=active]:bg-white">Scenario</TabsTrigger>
+              <TabsTrigger value="returns" className="data-[state=active]:bg-white">Returns</TabsTrigger>
             </TabsList>
 
             <TabsContent value="financing" className="space-y-8">
@@ -325,11 +328,10 @@ export default function Property514Whitehall() {
             <TabsContent value="scenario" className="space-y-8">
               <div className="grid md:grid-cols-2 gap-6">
                 <Card
-                  className={`cursor-pointer transition-all ${
-                    scenario === "parking"
-                      ? "bg-blue-500/20 border-blue-500"
-                      : "bg-white/5 border-white/10"
-                  } p-8`}
+                  className={`cursor-pointer transition-all ${scenario === "parking"
+                    ? "bg-blue-500/20 border-blue-500"
+                    : "bg-white/5 border-white/10"
+                    } p-8`}
                   onClick={() => setScenario("parking")}
                 >
                   <h3 className="text-2xl font-bold mb-4">Basic Parking Lot</h3>
@@ -354,11 +356,10 @@ export default function Property514Whitehall() {
                 </Card>
 
                 <Card
-                  className={`cursor-pointer transition-all ${
-                    scenario === "flexstack"
-                      ? "bg-purple-500/20 border-purple-500"
-                      : "bg-white/5 border-white/10"
-                  } p-8`}
+                  className={`cursor-pointer transition-all ${scenario === "flexstack"
+                    ? "bg-purple-500/20 border-purple-500"
+                    : "bg-white/5 border-white/10"
+                    } p-8`}
                   onClick={() => setScenario("flexstack")}
                 >
                   <h3 className="text-2xl font-bold mb-4">Flex-Stack Development</h3>
@@ -419,21 +420,21 @@ export default function Property514Whitehall() {
                     ${(selectedRevenue / 1000).toFixed(0)}K
                   </div>
                 </Card>
-                
+
                 <Card className="bg-gradient-to-br from-purple-500/10 to-purple-600/5 border-purple-500/20 p-6">
                   <div className="text-sm text-gray-400 mb-2">Net Operating Income</div>
                   <div className="text-3xl font-bold text-foreground">
                     ${(noi / 1000).toFixed(0)}K
                   </div>
                 </Card>
-                
+
                 <Card className="bg-gradient-to-br from-pink-500/10 to-pink-600/5 border-pink-500/20 p-6">
                   <div className="text-sm text-gray-400 mb-2">Annual Cash Flow</div>
                   <div className="text-3xl font-bold text-foreground">
                     ${(cashFlow / 1000).toFixed(0)}K
                   </div>
                 </Card>
-                
+
                 <Card className="bg-gradient-to-br from-green-500/10 to-green-600/5 border-green-500/20 p-6">
                   <div className="text-sm text-gray-400 mb-2">Cash-on-Cash Return</div>
                   <div className="text-3xl font-bold text-foreground">
@@ -649,13 +650,13 @@ export default function Property514Whitehall() {
           <p className="text-center text-gray-300 mb-12 max-w-2xl mx-auto">
             Explore photorealistic renderings of the Flex-Stack building design
           </p>
-          
+
           <div className="grid md:grid-cols-2 gap-8">
             <Card className="bg-white/5 backdrop-blur-sm border-white/10 overflow-hidden group">
               <div className="relative aspect-video overflow-hidden">
-                <img 
-                  src="/renderings/514-whitehall-flex-stack-exterior.png" 
-                  alt="Flex-Stack Building Exterior" 
+                <img
+                  src="/renderings/514-whitehall-flex-stack-exterior.png"
+                  alt="Flex-Stack Building Exterior"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
@@ -669,9 +670,9 @@ export default function Property514Whitehall() {
 
             <Card className="bg-white/5 backdrop-blur-sm border-white/10 overflow-hidden group">
               <div className="relative aspect-video overflow-hidden">
-                <img 
-                  src="/renderings/514-whitehall-event-space-interior.png" 
-                  alt="Event Space Interior" 
+                <img
+                  src="/renderings/514-whitehall-event-space-interior.png"
+                  alt="Event Space Interior"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
@@ -685,9 +686,9 @@ export default function Property514Whitehall() {
 
             <Card className="bg-white/5 backdrop-blur-sm border-white/10 overflow-hidden group">
               <div className="relative aspect-video overflow-hidden">
-                <img 
-                  src="/renderings/514-whitehall-rooftop-airbnb.png" 
-                  alt="Rooftop Airbnb Unit" 
+                <img
+                  src="/renderings/514-whitehall-rooftop-airbnb.png"
+                  alt="Rooftop Airbnb Unit"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
@@ -701,9 +702,9 @@ export default function Property514Whitehall() {
 
             <Card className="bg-white/5 backdrop-blur-sm border-white/10 overflow-hidden group">
               <div className="relative aspect-video overflow-hidden">
-                <img 
-                  src="/renderings/assemblage-fifa-fan-zone.png" 
-                  alt="FIFA Fan Zone Concept" 
+                <img
+                  src="/renderings/assemblage-fifa-fan-zone.png"
+                  alt="FIFA Fan Zone Concept"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
