@@ -12,7 +12,11 @@ import { toast } from "sonner";
 import Navigation from "@/components/Navigation";
 
 export default function OpportunityDetail() {
-  const [, params] = useRoute("/opportunity/:id");
+  // Try both routes
+  const [matchOpportunity, paramsOpportunity] = useRoute("/opportunity/:id");
+  const [matchDeal, paramsDeal] = useRoute("/deal/:id");
+  
+  const params = matchOpportunity ? paramsOpportunity : paramsDeal;
   const dealId = params?.id ? parseInt(params.id) : 0;
 
   const [analysisResult, setAnalysisResult] = useState<any>(null);

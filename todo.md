@@ -1,5 +1,8 @@
 # Million Hunter Command Center - Development TODO
 
+## 🐛 BUG FIXES
+- [x] Fix 404 error on /deal/:id routes (dynamic deal detail pages not working)
+
 ## 🎯 VISION
 Create a Salesforce-caliber acquisition command center with Apple-level UX serving as the single source of truth for finding, analyzing, collaborating on, and managing business acquisitions for investor groups.
 
