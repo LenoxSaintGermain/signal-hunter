@@ -1904,3 +1904,33 @@ The platform is now a cohesive, navigable full-stack application. Ready to proce
 - [ ] Add checkboxes to select which listings to import
 - [ ] Create deals in database with source = "market_scan"
 - [ ] Link imported deals to original scan record
+
+
+---
+
+## 🎨 UX POLISH (Dec 12, 2025 - Settings Hub & Interactive Visualizations)
+
+### Unified Settings Hub
+- [x] Created `/settings` as central configuration page
+- [x] Implemented tabs for "Discovery" and "API Configuration"
+- [x] Moved SearchConfiguration to settings component
+- [x] Moved ApiConfiguration to settings component
+- [x] Updated Navigation to point "Discovery" to `/settings`
+- [x] Added backward compatibility routes for `/settings/search` and `/settings/api`
+
+### Capital Stack 2.0
+- [x] Replaced text inputs with interactive Sliders
+- [x] Implemented Visual Stack Bar using Recharts BarChart
+- [x] Added real-time updates when dragging sliders
+- [x] Created AI Insight cards with leverage ratio feedback
+- [x] Added CheckCircle/AlertCircle icons for DSCR validation
+- [x] Improved layout with grouped "Investment Mix" section
+
+### Projections 2.0
+- [x] Implemented Area Chart for 5-year growth visualization
+- [x] Added "AI Optimization" toggle switch
+- [x] Created visual uplift curves when AI is enabled
+- [x] Grouped inputs into logical "Growth Levers" sections
+- [x] Added Slider components for percentage inputs
+- [x] Implemented auto-simulation with debouncing (500ms)
+- [x] Added scenario tabs (Conservative/Moderate/Aggressive)
