@@ -21,8 +21,8 @@ const searchSchema = z.object({
     minPrice: z.number().min(0).optional(),
     maxPrice: z.number().min(0).optional(),
     minCashFlow: z.number().min(0).optional(),
-    sectors: z.array(z.string()).default([]),
-    locations: z.array(z.string()).default([]),
+    sectors: z.array(z.string()).optional().default([]),
+    locations: z.array(z.string()).optional().default([]),
     keywords: z.string().optional(),
 });
 
@@ -41,11 +41,12 @@ const LOCATIONS = [
 export default function SearchSettings() {
     const [jobId, setJobId] = useState<string | null>(null);
     const [pollInterval, setPollInterval] = useState<number | null>(null);
+    const [activeTab, setActiveTab] = useState<"config" | "saved">("config");
 
     const form = useForm<SearchFormValues>({
         resolver: zodResolver(searchSchema),
         defaultValues: {
-            source: "all",
+            source: "all" as const,
             sectors: [],
             locations: [],
             keywords: "",
@@ -119,7 +120,7 @@ export default function SearchSettings() {
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         {/* Left Column: Query Builder */}
                         <div className="lg:col-span-2 space-y-6">
-                            <form onSubmit={form.handleSubmit(onSubmit)}>
+                            <form onSubmit={form.handleSubmit(onSubmit as any)}>
                                 <Card>
                                     <CardHeader>
                                         <CardTitle className="flex items-center gap-2">

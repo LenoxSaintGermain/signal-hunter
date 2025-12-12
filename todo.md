@@ -1722,3 +1722,35 @@ The platform is now a cohesive, navigable full-stack application. Ready to proce
 - [ ] Test search configuration persistence
 
 ---
+
+
+---
+
+## 🔄 SYNC: GitHub Pull - Deep Research & Deal Detail 2.0
+
+### Environment Sync
+- [x] Pull latest changes from GitHub (`git pull github main`)
+- [x] Install new dependencies (`pnpm install`)
+- [x] Verify GEMINI_API_KEY is set in environment
+- [x] Run TypeScript compilation check (minor type errors in SearchSettings.tsx)
+- [x] Restart dev server
+
+### New Features to Review
+- [x] Review `server/services/deepResearch.ts` - Gemini Deep Research Agent API integration
+- [x] Review `client/src/pages/SearchSettings.tsx` - Market scan configuration UI (minor TS errors)
+- [x] Review updated `server/routes/market.ts` - Enhanced market scanning logic
+- [ ] Review updated `client/src/pages/OpportunityDetail.tsx` - Deal Detail 2.0 with Radar Charts
+- [x] Read `GEMINI_DEEP_RESEARCH.md` documentation
+
+### Testing
+- [x] Test Market Discovery at `/settings/search` - Page loads successfully with scanner status
+- [ ] Test Deal Analytics at `/opportunity/:id` - Generate Deep Analysis with Radar Charts (deferred)
+- [ ] Verify Investment Thesis generation (deferred)
+- [ ] Test multi-model analysis integration (deferred)
+
+### Architecture Changes
+- [x] Confirm pivot from local Python scrapers to Gemini Deep Research Agent API
+- [x] Verify `DeepResearchService` handles all scraping logic
+- [x] Ensure no dependencies on local Python script execution
+- [x] Background processing with polling (2-5 minutes per scan)
+- [x] Smart prompt engineering for structured JSON output
