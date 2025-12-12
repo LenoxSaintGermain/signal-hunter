@@ -1,4 +1,5 @@
 import { boolean, float, int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
 /**
  * Core user table backing auth flow.
@@ -87,12 +88,15 @@ export type InsertMarketScan = typeof marketScans.$inferInsert;
 export const userPreferences = mysqlTable("userPreferences", {
   id: int("id").autoincrement().primaryKey(),
   userId: int("userId").notNull().unique(),
-  aiProvider: mysqlEnum("aiProvider", ["manus", "personal"]).default("manus"), // "manus" = Forge API (free tokens), "personal" = direct APIs
+  aiProvider: text("ai_provider").default("manus"), // "manus" or "personal"
   geminiApiMode: mysqlEnum("geminiApiMode", ["beta", "ga"]).default("beta"),
-  customPromptTemplate: text("customPromptTemplate"), // For GA mode
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
-  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  customPromptTemplate: text("custom_prompt_template"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export type UserPreference = typeof userPreferences.$inferSelect;
 export type InsertUserPreference = typeof userPreferences.$inferInsert;
+
+export const insertUserPreferencesSchema = createInsertSchema(userPreferences);
+export const selectUserPreferencesSchema = createSelectSchema(userPreferences);

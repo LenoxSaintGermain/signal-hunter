@@ -271,13 +271,14 @@ Analyze:
 7. Recommendation`;
 
   try {
-    // @ts-ignore - xai-sdk doesn't have type definitions yet
-    const xaiSdk = await import('xai-sdk');
-    const Client = xaiSdk.default;
-    const client = new Client({ apiKey: process.env.XAI_API_KEY! });
+    const { OpenAI } = await import('openai');
+    const client = new OpenAI({
+      apiKey: process.env.XAI_API_KEY!,
+      baseURL: "https://api.x.ai/v1",
+    });
 
     const completion = await client.chat.completions.create({
-      model: "grok-4",
+      model: "grok-beta",
       messages: [
         {
           role: "system",
@@ -299,7 +300,7 @@ Analyze:
     const recommendation = (recommendationMatch?.[1]?.toLowerCase() as any) || "hold";
 
     return {
-      model: "Grok 4",
+      model: "Grok Beta",
       score,
       confidence: 0.88,
       reasoning: analysis,
@@ -310,7 +311,7 @@ Analyze:
   } catch (error) {
     console.error("Grok analysis failed:", error);
     return {
-      model: "Grok 4",
+      model: "Grok Beta",
       score: 70,
       confidence: 0.5,
       reasoning: "Analysis unavailable - API error",
@@ -399,15 +400,15 @@ function extractBulletPoints(text: string, type: "strength" | "risk"): string[] 
   const section = type === "strength" ? "strength" : "risk";
   const regex = new RegExp(`${section}[s]?:([^]*?)(?=\\n\\n|risk[s]?:|recommendation|$)`, 'i');
   const match = text.match(regex);
-  
+
   if (!match) return [];
-  
+
   const lines = match[1].split('\n')
     .map(line => line.trim())
     .filter(line => line.startsWith('-') || line.startsWith('•') || line.match(/^\d+\./))
     .map(line => line.replace(/^[-•]\s*|\d+\.\s*/, '').trim())
     .filter(line => line.length > 10);
-  
+
   return lines.slice(0, 5); // Top 5
 }
 
@@ -418,10 +419,10 @@ function combineAnalyses(dealData: any, analyses: AIAnalysisResult[]): CombinedA
   // Calculate weighted average score
   const totalWeight = analyses.reduce((sum, a) => sum + a.confidence, 0);
   const overallScore = analyses.reduce((sum, a) => sum + (a.score * a.confidence), 0) / totalWeight;
-  
+
   // Calculate average confidence
   const confidence = analyses.reduce((sum, a) => sum + a.confidence, 0) / analyses.length;
-  
+
   // Determine consensus recommendation
   const recommendations = analyses.map(a => a.recommendation);
   const recommendationCounts = {
@@ -430,21 +431,21 @@ function combineAnalyses(dealData: any, analyses: AIAnalysisResult[]): CombinedA
     hold: recommendations.filter(r => r === "hold").length,
     pass: recommendations.filter(r => r === "pass").length,
   };
-  
+
   const consensus = Object.entries(recommendationCounts)
     .sort(([, a], [, b]) => b - a)[0][0] as any;
-  
+
   // Aggregate strengths and risks
   const allStrengths = analyses.flatMap(a => a.strengths);
   const allRisks = analyses.flatMap(a => a.risks);
-  
+
   // Get top 5 most common strengths and risks
   const topStrengths = getMostCommon(allStrengths, 5);
   const topRisks = getMostCommon(allRisks, 5);
-  
+
   // Generate summary
   const summary = `Multi-model AI analysis of ${dealData.name} yielded an overall score of ${overallScore.toFixed(1)}/100 with ${(confidence * 100).toFixed(0)}% confidence. Consensus recommendation: ${consensus.toUpperCase().replace('_', ' ')}. ${analyses.length} flagship AI models (Perplexity, GPT-5.1, Gemini 3 Pro, Grok 4, Claude Sonnet 4.5) analyzed market opportunity, financial metrics, strategic fit, and comprehensive due diligence.`;
-  
+
   return {
     dealId: dealData.id,
     dealName: dealData.name,
@@ -467,7 +468,7 @@ function getMostCommon(arr: string[], limit: number): string[] {
     acc[item] = (acc[item] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
-  
+
   return Object.entries(counts)
     .sort(([, a], [, b]) => b - a)
     .slice(0, limit)
@@ -487,39 +488,39 @@ export const analysisRouter = router({
       const db = await getDb();
       if (!db) throw new Error("Database not available");
       const dealData = await db.select().from(deals).where(eq(deals.id, input.dealId)).limit(1);
-      
+
       if (dealData.length === 0) {
         throw new Error(`Deal ${input.dealId} not found`);
       }
-      
+
       const deal = dealData[0];
-      
+
       // Check user's AI provider preference
       const prefs = await db.select().from(userPreferences).where(eq(userPreferences.userId, deal.userId || 0)).limit(1);
       const aiProvider = prefs[0]?.aiProvider || "manus"; // Default to Manus free tokens
-      
+
       console.log(`🤖 Starting multi-model AI analysis for: ${deal.name} (provider: ${aiProvider})`);
-      
+
       // Run all 5 AI analyses in parallel (gracefully handle failures)
       // Use Forge API if provider is "manus", otherwise use direct APIs
       const results = await Promise.allSettled(
         aiProvider === "manus" && ForgeAPI.isForgeAPIAvailable()
           ? [
-              analyzeWithPerplexityForge(deal),
-              analyzeWithGPT4Forge(deal),
-              analyzeWithGeminiForge(deal),
-              analyzeWithGrokForge(deal),
-              analyzeWithClaudeForge(deal),
-            ]
+            analyzeWithPerplexityForge(deal),
+            analyzeWithGPT4Forge(deal),
+            analyzeWithGeminiForge(deal),
+            analyzeWithGrokForge(deal),
+            analyzeWithClaudeForge(deal),
+          ]
           : [
-              analyzeWithPerplexity(deal),
-              analyzeWithGPT51(deal),
-              analyzeWithGemini(deal),
-              analyzeWithGrok(deal),
-              analyzeWithClaude(deal),
-            ]
+            analyzeWithPerplexity(deal),
+            analyzeWithGPT51(deal),
+            analyzeWithGemini(deal),
+            analyzeWithGrok(deal),
+            analyzeWithClaude(deal),
+          ]
       );
-      
+
       // Extract successful results or use fallbacks
       const [perplexityResult, gpt51Result, geminiResult, grokResult, claudeResult] = results.map((result, index) => {
         if (result.status === 'fulfilled') {
@@ -538,7 +539,7 @@ export const analysisRouter = router({
           };
         }
       });
-      
+
       // Combine results
       const combined = combineAnalyses(deal, [
         perplexityResult,
@@ -547,9 +548,9 @@ export const analysisRouter = router({
         grokResult,
         claudeResult,
       ]);
-      
+
       console.log(`✅ Analysis complete: ${combined.overallScore}/100 (${combined.consensus})`);
-      
+
       return combined;
     }),
 

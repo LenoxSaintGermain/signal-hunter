@@ -12,8 +12,8 @@
  * - xAI Grok
  */
 
+
 const FORGE_API_URL = process.env.BUILT_IN_FORGE_API_URL || "https://api.manus.im";
-const FORGE_API_KEY = process.env.BUILT_IN_FORGE_API_KEY;
 
 interface ForgeCompletionRequest {
   model: string;
@@ -46,14 +46,16 @@ interface ForgeCompletionResponse {
  * Call Manus Forge API for chat completions
  */
 async function callForgeAPI(request: ForgeCompletionRequest): Promise<ForgeCompletionResponse> {
-  if (!FORGE_API_KEY) {
+  const apiKey = process.env.BUILT_IN_FORGE_API_KEY;
+
+  if (!apiKey) {
     throw new Error("Manus Forge API key not configured");
   }
 
   const response = await fetch(`${FORGE_API_URL}/v1/chat/completions`, {
     method: "POST",
     headers: {
-      "Authorization": `Bearer ${FORGE_API_KEY}`,
+      "Authorization": `Bearer ${apiKey}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(request),
@@ -270,7 +272,7 @@ Analyze:
  * Check if Forge API is available
  */
 export function isForgeAPIAvailable(): boolean {
-  return Boolean(FORGE_API_KEY && FORGE_API_URL);
+  return Boolean(process.env.BUILT_IN_FORGE_API_KEY && FORGE_API_URL);
 }
 
 /**
@@ -284,6 +286,6 @@ export async function getForgeAPIStatus(): Promise<{
   return {
     available: isForgeAPIAvailable(),
     endpoint: FORGE_API_URL,
-    configured: Boolean(FORGE_API_KEY),
+    configured: Boolean(process.env.BUILT_IN_FORGE_API_KEY),
   };
 }

@@ -10,9 +10,11 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { Save, Info, Sparkles, Zap } from "lucide-react";
+import { Save, Info, Sparkles, Zap, Key, ShieldCheck } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const apiSettingsSchema = z.object({
+    aiProvider: z.enum(["manus", "personal"]), // manus = free tokens campaign, personal = BYO keys
     geminiApiMode: z.enum(["beta", "ga"]),
     customPromptTemplate: z.string().optional(),
 });
@@ -67,6 +69,7 @@ export default function ApiConfiguration() {
     const form = useForm<ApiSettingsFormValues>({
         resolver: zodResolver(apiSettingsSchema),
         defaultValues: {
+            aiProvider: "manus",
             geminiApiMode: "beta",
             customPromptTemplate: DEFAULT_PROMPT_TEMPLATE,
         },
@@ -78,6 +81,7 @@ export default function ApiConfiguration() {
             const mode = preferences.geminiApiMode || "beta";
             setUseBeta(mode === "beta");
             form.reset({
+                aiProvider: preferences.aiProvider || "manus",
                 geminiApiMode: mode,
                 customPromptTemplate: preferences.customPromptTemplate || DEFAULT_PROMPT_TEMPLATE,
             });
@@ -103,12 +107,79 @@ export default function ApiConfiguration() {
             <div>
                 <h2 className="text-2xl font-bold">API Configuration</h2>
                 <p className="text-muted-foreground mt-1">
-                    Configure how the Market Discovery feature interacts with Google Gemini AI
+                    Manage AI providers and model settings
                 </p>
             </div>
 
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                {/* API Mode Selection */}
+
+                {/* AI Provider Selection */}
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                            <ShieldCheck className="w-5 h-5 text-green-600" />
+                            AI Provider
+                        </CardTitle>
+                        <CardDescription>
+                            Select how AI requests are processed
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                        <RadioGroup
+                            defaultValue="manus"
+                            value={form.watch("aiProvider")}
+                            onValueChange={(val) => form.setValue("aiProvider", val as "manus" | "personal")}
+                            className="grid grid-cols-1 md:grid-cols-2 gap-4"
+                        >
+                            {/* Manus Option */}
+                            <div className={`flex flex-col space-y-2 border-2 rounded-xl p-4 cursor-pointer transition-all ${form.watch("aiProvider") === "manus" ? "border-primary bg-primary/5" : "border-border hover:border-primary/50"}`}>
+                                <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="manus" id="manus" />
+                                    <Label htmlFor="manus" className="font-bold cursor-pointer">Use Manus Campaign (Free)</Label>
+                                </div>
+                                <div className="pl-6 text-sm text-muted-foreground">
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <Badge variant="secondary">1T Tokens Free</Badge>
+                                        <Badge variant="outline" className="border-green-200 bg-green-50 text-green-700">Recommended</Badge>
+                                    </div>
+                                    <p>Leverage the Manus Forge API campaign to access GPT-4, Claude 3.5, and Gemini Pro for free.</p>
+                                </div>
+                            </div>
+
+                            {/* Personal Keys Option */}
+                            <div className={`flex flex-col space-y-2 border-2 rounded-xl p-4 cursor-pointer transition-all ${form.watch("aiProvider") === "personal" ? "border-primary bg-primary/5" : "border-border hover:border-primary/50"}`}>
+                                <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="personal" id="personal" />
+                                    <Label htmlFor="personal" className="font-bold cursor-pointer">Use Personal API Keys</Label>
+                                </div>
+                                <div className="pl-6 text-sm text-muted-foreground">
+                                    <p className="mb-2">Connect your own accounts directly:</p>
+                                    <ul className="list-disc list-inside space-y-1 text-xs">
+                                        <li>OpenAI (GPT-4/5)</li>
+                                        <li>Anthropic (Claude)</li>
+                                        <li>Google (Gemini)</li>
+                                        <li>Perplexity (Sonar)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </RadioGroup>
+
+                        {/* Campaign Banner - Only show if Manus is selected */}
+                        {form.watch("aiProvider") === "manus" && (
+                            <div className="flex items-start gap-3 p-4 bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-950/20 dark:to-blue-950/20 border border-purple-200 dark:border-purple-800 rounded-lg">
+                                <Sparkles className="w-5 h-5 text-purple-600 dark:text-purple-400 mt-0.5 flex-shrink-0" />
+                                <div className="text-sm text-purple-900 dark:text-purple-100">
+                                    <p className="font-medium mb-1">Manus 1 Trillion Token Campaign Active</p>
+                                    <p>
+                                        You are currently using the community pool. Requests are routed through the Forge API wrapper which handles model switching and load balancing automatically.
+                                    </p>
+                                </div>
+                            </div>
+                        )}
+                    </CardContent>
+                </Card>
+
+                {/* Gemini API Mode Selection */}
                 <Card>
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">

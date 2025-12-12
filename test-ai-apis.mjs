@@ -80,9 +80,11 @@ async function testAnthropic() {
 // Test Grok/xAI
 async function testGrok() {
   try {
-    const xaiSdk = await import('xai-sdk');
-    const Client = xaiSdk.default;
-    const client = new Client({ apiKey: process.env.XAI_API_KEY });
+    const { OpenAI } = await import('openai');
+    const client = new OpenAI({
+      apiKey: process.env.XAI_API_KEY,
+      baseURL: "https://api.x.ai/v1",
+    });
 
     const completion = await client.chat.completions.create({
       model: "grok-beta",
