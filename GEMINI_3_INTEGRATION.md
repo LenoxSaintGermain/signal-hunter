@@ -1,5 +1,19 @@
 # Gemini 3 Integration Strategy
 
+**⚠️ IMPORTANT FOR JAVASCRIPT/TYPESCRIPT PROJECTS:**
+
+This document describes the **Python SDK** implementation. For **JavaScript/TypeScript** projects (like this acquisition dashboard), refer to `GEMINI_MODELS_REFERENCE.md` for:
+- Correct model names for `@google/generative-ai` package
+- JavaScript SDK usage examples
+- Compatible models and features
+
+**Key Differences:**
+- Python SDK: `gemini-3-pro-preview` with `thinking_level` config
+- JavaScript SDK: `gemini-3-pro-preview` with standard `GenerativeModel` API
+- Some features (like `thinking_level`) may not be available in JavaScript SDK yet
+
+---
+
 ## Key Capabilities
 
 **Gemini 3** is Google's most intelligent model family built on state-of-the-art reasoning, designed for:
