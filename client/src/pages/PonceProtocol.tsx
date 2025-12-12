@@ -413,12 +413,12 @@ export default function PonceProtocol() {
                 </div>
               </div>
               <div className="mt-6 p-6 bg-secondary border border-border rounded-lg">
-                <div className="flex justify-between items-center">
+                <div className="flex flex-col gap-4 md:flex-row md:justify-between md:items-center">
                   <div>
                     <div className="text-sm text-muted-foreground">Total CapEx Budget</div>
                     <div className="text-3xl font-bold text-foreground">~$25,000</div>
                   </div>
-                  <div className="text-right">
+                  <div className="text-left md:text-right">
                     <div className="text-sm text-muted-foreground">Unlocks Additional Revenue</div>
                     <div className="text-3xl font-bold text-foreground">$35,000/yr</div>
                   </div>
