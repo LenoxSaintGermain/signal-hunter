@@ -43,13 +43,13 @@ export default function Navigation({ currentPage }: NavigationProps) {
             </span>
           </Link>
 
-          {/* Desktop Nav Items */}
-          <div className="hidden md:flex items-center gap-8">
-            {navItems.map((item) => (
+          {/* Desktop Nav Items - Reduced for space */}
+          <div className="hidden lg:flex items-center gap-4 xl:gap-6">
+            {navItems.slice(0, 5).map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`text-sm font-medium transition-all hover:opacity-60 relative pb-1 ${activePath === item.href ? 'text-foreground' : 'text-muted-foreground'
+                className={`text-sm font-medium transition-all hover:opacity-60 relative pb-1 whitespace-nowrap ${activePath === item.href ? 'text-foreground' : 'text-muted-foreground'
                   }`}
               >
                 {item.label}
@@ -62,8 +62,8 @@ export default function Navigation({ currentPage }: NavigationProps) {
             ))}
           </div>
 
-          {/* Mobile Menu */}
-          <div className="md:hidden">
+          {/* Mobile Menu - Show on medium screens too */}
+          <div className="lg:hidden">
             <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="text-foreground">

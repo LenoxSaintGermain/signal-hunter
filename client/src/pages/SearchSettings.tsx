@@ -12,7 +12,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { Loader2, Search, Save, Filter, Globe, DollarSign, Briefcase } from "lucide-react";
+import { Loader2, Search, Save, Filter, Globe, DollarSign, Briefcase, CheckCircle, AlertCircle } from "lucide-react";
 import Navigation from "@/components/Navigation";
 
 // Schema for search configuration
@@ -45,6 +45,7 @@ export default function SearchSettings() {
     const [thoughts, setThoughts] = useState<string[]>([]);
     const [progress, setProgress] = useState<number>(0);
     const [scanStatus, setScanStatus] = useState<"idle" | "running" | "completed" | "failed">("idle");
+    const [scanResult, setScanResult] = useState<string | null>(null);
 
     const form = useForm<SearchFormValues>({
         resolver: zodResolver(searchSchema),
@@ -89,10 +90,12 @@ export default function SearchSettings() {
         if (data.status === "completed") {
             setScanStatus("completed");
             setProgress(100);
+            setScanResult(data.result || "Scan completed successfully");
             toast.success("Market scan completed!");
             setJobId(null); // Stop polling
         } else if (data.status === "failed") {
             setScanStatus("failed");
+            setScanResult(data.result || "Unknown error occurred");
             toast.error("Market scan failed");
             setJobId(null);
         } else {
@@ -353,24 +356,62 @@ export default function SearchSettings() {
                                 </Card>
                             )}
 
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle className="text-lg">Scraping Queue</CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="space-y-4">
-                                        {[1, 2, 3].map(i => (
-                                            <div key={i} className="flex items-center gap-3 p-3 bg-background border rounded-lg text-sm">
-                                                <Loader2 className="w-4 h-4 text-primary animate-spin" />
-                                                <div>
-                                                    <p className="font-medium">BizBuySell - GA/FL</p>
-                                                    <p className="text-xs text-muted-foreground">Processing page {i} of 5...</p>
-                                                </div>
+                            {/* Completion State */}
+                            {scanStatus === "completed" && scanResult && (
+                                <Card className="border-green-500/50">
+                                    <CardHeader>
+                                        <CardTitle className="text-lg flex items-center gap-2 text-green-600">
+                                            <CheckCircle className="w-5 h-5" />
+                                            Scan Complete
+                                        </CardTitle>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="space-y-3">
+                                            <p className="text-sm text-muted-foreground">
+                                                Deep research completed successfully. Results:
+                                            </p>
+                                            <div className="p-3 bg-secondary/50 rounded text-sm font-mono max-h-64 overflow-y-auto">
+                                                {scanResult}
                                             </div>
-                                        ))}
-                                    </div>
-                                </CardContent>
-                            </Card>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            )}
+
+                            {/* Error State */}
+                            {scanStatus === "failed" && scanResult && (
+                                <Card className="border-red-500/50">
+                                    <CardHeader>
+                                        <CardTitle className="text-lg flex items-center gap-2 text-red-600">
+                                            <AlertCircle className="w-5 h-5" />
+                                            Scan Failed
+                                        </CardTitle>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="space-y-3">
+                                            <p className="text-sm text-muted-foreground">
+                                                The deep research task encountered an error:
+                                            </p>
+                                            <div className="p-3 bg-red-50 dark:bg-red-950/20 rounded text-sm text-red-600">
+                                                {scanResult}
+                                            </div>
+                                            <Button 
+                                                onClick={() => {
+                                                    setJobId(null);
+                                                    setScanStatus("idle");
+                                                    setScanResult(null);
+                                                    setThoughts([]);
+                                                    setProgress(0);
+                                                }}
+                                                variant="outline"
+                                                size="sm"
+                                            >
+                                                Try Again
+                                            </Button>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            )}
                         </div>
 
                     </div>

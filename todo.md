@@ -1841,3 +1841,29 @@ The platform is now a cohesive, navigable full-stack application. Ready to proce
 - [ ] Update GEMINI_DEEP_RESEARCH.md with new architecture
 - [ ] Add code examples for thought streaming
 - [ ] Document follow-up scan workflow
+
+
+---
+
+## 🐛 CURRENT DEBUGGING (Market Scan Issues - Dec 12, 2025)
+
+### Critical Bugs
+- [x] Fix 502 errors on market.getScanStatus polling endpoint
+- [x] Investigate why "Scraping Queue" shows BizBuySell pages (was just mock UI)
+- [ ] Verify Gemini Deep Research Agent is actually running (needs API test)
+- [x] Fix polling logic to properly retrieve thoughts/progress from DeepResearchService
+- [x] Add proper error handling for failed polling requests
+
+### UI/UX Issues
+- [x] Optimize navigation UI (overlapping text, spacing issues)
+- [x] Fix "Million Hunter Dashboard" title overlapping with nav links
+- [x] Document expected behavior when scan completes
+- [x] Add completion state UI (show results when scan finishes)
+- [x] Add error state UI (show friendly message when polling fails)
+
+### Testing & Validation
+- [ ] Test end-to-end market scan with real Gemini API
+- [ ] Verify thought streaming displays live updates
+- [ ] Verify progress bar updates correctly (0-100%)
+- [ ] Test what happens when scan completes successfully
+- [ ] Test error recovery when API fails

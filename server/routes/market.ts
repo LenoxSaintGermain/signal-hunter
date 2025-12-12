@@ -196,13 +196,25 @@ export const marketRouter = router({
       jobId: z.string(),
     }))
     .query(async ({ input, ctx }) => {
-      const { deepResearchService } = await import("../services/deepResearch");
-      const status = await deepResearchService.getResearchStatus(input.jobId);
+      try {
+        const { deepResearchService } = await import("../services/deepResearch");
+        const status = await deepResearchService.getResearchStatus(input.jobId);
 
-      return {
-        jobId: input.jobId,
-        ...status
-      };
+        return {
+          jobId: input.jobId,
+          ...status
+        };
+      } catch (error) {
+        console.error("[market.getScanStatus] Error:", error);
+        // Return a graceful error response instead of throwing
+        return {
+          jobId: input.jobId,
+          status: "failed" as const,
+          result: error instanceof Error ? error.message : "Unknown error occurred",
+          thoughts: [],
+          progress: 0
+        };
+      }
     }),
 
   /**

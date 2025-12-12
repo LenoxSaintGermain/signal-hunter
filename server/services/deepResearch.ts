@@ -161,8 +161,13 @@ export class DeepResearchService {
 
         } catch (error) {
             console.error("[DeepResearch] Status check failed:", error);
-            // Don't fail the whole flow on temporary network error
-            return { status: "running" };
+            // Return detailed error info instead of generic "running"
+            return { 
+                status: "failed",
+                result: error instanceof Error ? error.message : "Network error while checking status",
+                thoughts: [],
+                progress: 0
+            };
         }
     }
 
