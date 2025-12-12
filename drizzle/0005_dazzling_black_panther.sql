@@ -1,0 +1,1 @@
+ALTER TABLE `userPreferences` ADD `aiProvider` enum('manus','personal') DEFAULT 'manus';

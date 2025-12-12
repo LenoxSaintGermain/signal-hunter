@@ -36,6 +36,13 @@
       "when": 1765564248590,
       "tag": "0004_next_zaran",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1765570571962,
+      "tag": "0005_dazzling_black_panther",
+      "breakpoints": true
     }
   ]
 }

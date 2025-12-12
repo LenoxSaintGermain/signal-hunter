@@ -1,8 +1,16 @@
 import { z } from "zod";
 import { router, publicProcedure } from "../_core/trpc";
 import { getDb } from "../db";
-import { deals } from "../../drizzle/schema";
+import { deals, userPreferences } from "../../drizzle/schema";
 import { eq } from "drizzle-orm";
+import * as ForgeAPI from "../services/forgeApi";
+import {
+  analyzeWithPerplexityForge,
+  analyzeWithGPT4Forge,
+  analyzeWithGeminiForge,
+  analyzeWithGrokForge,
+  analyzeWithClaudeForge,
+} from "../services/forgeAnalysis";
 
 // AI Analysis Types
 interface AIAnalysisResult {
@@ -205,7 +213,7 @@ Calculate:
   try {
     const { GoogleGenerativeAI } = await import('@google/generative-ai');
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
-    const model = genAI.getGenerativeModel({ model: "gemini-3-pro-preview" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" }); // Stable model
 
     const result = await model.generateContent(prompt);
     const analysis = result.response.text();
@@ -217,7 +225,7 @@ Calculate:
     const recommendation = (recommendationMatch?.[1]?.toLowerCase() as any) || "hold";
 
     return {
-      model: "Google Gemini 3 Pro Preview",
+      model: "Google Gemini 2.5 Flash",
       score,
       confidence: 0.9,
       reasoning: analysis,
@@ -228,7 +236,7 @@ Calculate:
   } catch (error) {
     console.error("Gemini analysis failed:", error);
     return {
-      model: "Google Gemini 3 Pro Preview",
+      model: "Google Gemini 2.5 Flash",
       score: 70,
       confidence: 0.5,
       reasoning: "Analysis unavailable - API error",
@@ -486,16 +494,31 @@ export const analysisRouter = router({
       
       const deal = dealData[0];
       
-      console.log(`🤖 Starting multi-model AI analysis for: ${deal.name}`);
+      // Check user's AI provider preference
+      const prefs = await db.select().from(userPreferences).where(eq(userPreferences.userId, deal.userId || 0)).limit(1);
+      const aiProvider = prefs[0]?.aiProvider || "manus"; // Default to Manus free tokens
+      
+      console.log(`🤖 Starting multi-model AI analysis for: ${deal.name} (provider: ${aiProvider})`);
       
       // Run all 5 AI analyses in parallel (gracefully handle failures)
-      const results = await Promise.allSettled([
-        analyzeWithPerplexity(deal),
-        analyzeWithGPT51(deal),
-        analyzeWithGemini(deal),
-        analyzeWithGrok(deal),
-        analyzeWithClaude(deal),
-      ]);
+      // Use Forge API if provider is "manus", otherwise use direct APIs
+      const results = await Promise.allSettled(
+        aiProvider === "manus" && ForgeAPI.isForgeAPIAvailable()
+          ? [
+              analyzeWithPerplexityForge(deal),
+              analyzeWithGPT4Forge(deal),
+              analyzeWithGeminiForge(deal),
+              analyzeWithGrokForge(deal),
+              analyzeWithClaudeForge(deal),
+            ]
+          : [
+              analyzeWithPerplexity(deal),
+              analyzeWithGPT51(deal),
+              analyzeWithGemini(deal),
+              analyzeWithGrok(deal),
+              analyzeWithClaude(deal),
+            ]
+      );
       
       // Extract successful results or use fallbacks
       const [perplexityResult, gpt51Result, geminiResult, grokResult, claudeResult] = results.map((result, index) => {

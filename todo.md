@@ -1989,3 +1989,67 @@ The platform is now a cohesive, navigable full-stack application. Ready to proce
 - Claude Sonnet 4.5: Due diligence reports
 
 The 3 working models provide strong consensus and are sufficient for production use.
+
+
+---
+
+## 🎁 MANUS FREE TOKENS INTEGRATION (Dec 12, 2024)
+
+### Research & Planning
+- [x] Research Manus 1 Trillion Tokens campaign
+- [x] Verify app eligibility (YES - qualifies!)
+- [x] Document Forge API architecture
+- [x] Design hybrid provider switching system
+
+### Phase 1: Forge API Integration
+- [x] Create `server/services/forgeApi.ts` wrapper service
+- [x] Implement Forge API calls for OpenAI (GPT-4)
+- [x] Implement Forge API calls for Anthropic (Claude)
+- [x] Implement Forge API calls for Google (Gemini)
+- [x] Implement Forge API calls for Perplexity
+- [x] Implement Forge API calls for Grok/xAI
+- [x] Add error handling and fallback logic
+- [ ] Test all 5 models via Forge API (needs end-to-end test)
+
+### Phase 2: Provider Switching UI
+- [x] Add `aiProvider` enum to `userPreferences` table ("manus" | "personal")
+- [x] Create AI Provider Settings section in `/settings/api`
+- [x] Add toggle switch: "Use Manus Free Tokens" vs "Use Personal API Keys"
+- [ ] Show token usage stats (if available from Forge API)
+- [x] Add info banner explaining free tokens campaign
+- [x] Implement provider preference in backend
+
+### Phase 3: Update Analysis Router
+- [x] Modify `analysis.ts` to check user's `aiProvider` preference
+- [x] Route to Forge API when `aiProvider === "manus"`
+- [x] Route to direct APIs when `aiProvider === "personal"`
+- [x] Add automatic fallback (Forge fails → Personal keys)
+- [x] Log provider usage for analytics
+
+### Phase 4: #BuiltwithManus Submission
+- [ ] Add "Powered by Manus" badge to landing page
+- [ ] Create social sharing feature with #BuiltwithManus hashtag
+- [ ] Update README with AI features showcase
+- [ ] Create demo video highlighting AI capabilities
+- [ ] Take high-quality screenshots of key features
+- [ ] Write submission post for social media
+- [ ] Submit for featured use case consideration
+
+### Phase 5: Monitoring & Migration
+- [ ] Add token usage tracking dashboard
+- [ ] Create alert when Forge API fails
+- [ ] Add banner prompting users to add personal keys
+- [ ] Implement graceful degradation strategy
+- [ ] Document post-campaign migration plan
+
+### Benefits of This Approach
+- ✅ **$0 AI costs** during promo (save $10-30/month per user)
+- ✅ **Chance to win 100K Manus credits** via #BuiltwithManus
+- ✅ **Seamless transition** to personal keys post-campaign
+- ✅ **User choice** - let users decide which provider to use
+- ✅ **Graceful fallback** - never breaks if Forge fails
+
+### Cost Savings Estimate
+- **Current cost** (personal keys): $10-30/month for 100 analyses
+- **With Manus tokens**: $0/month (covered by 1T pool)
+- **Potential savings**: $120-360/year per active user

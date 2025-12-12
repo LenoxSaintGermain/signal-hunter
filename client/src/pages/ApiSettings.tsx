@@ -14,6 +14,7 @@ import { Save, Info, Sparkles, Zap } from "lucide-react";
 import Navigation from "@/components/Navigation";
 
 const apiSettingsSchema = z.object({
+  aiProvider: z.enum(["manus", "personal"]),
   geminiApiMode: z.enum(["beta", "ga"]),
   customPromptTemplate: z.string().optional(),
 });
@@ -53,6 +54,7 @@ Format your response as a JSON array of objects with these exact keys:
 ]`;
 
 export default function ApiSettings() {
+  const [useManusTokens, setUseManusTokens] = useState(true);
   const [useBeta, setUseBeta] = useState(true);
 
   const { data: preferences, isLoading } = trpc.preferences.get.useQuery();
@@ -68,6 +70,7 @@ export default function ApiSettings() {
   const form = useForm<ApiSettingsFormValues>({
     resolver: zodResolver(apiSettingsSchema),
     defaultValues: {
+      aiProvider: "manus",
       geminiApiMode: "beta",
       customPromptTemplate: DEFAULT_PROMPT_TEMPLATE,
     },
@@ -76,9 +79,12 @@ export default function ApiSettings() {
   // Load preferences when data arrives
   useEffect(() => {
     if (preferences) {
+      const provider = preferences.aiProvider || "manus";
       const mode = preferences.geminiApiMode || "beta";
+      setUseManusTokens(provider === "manus");
       setUseBeta(mode === "beta");
       form.reset({
+        aiProvider: provider,
         geminiApiMode: mode,
         customPromptTemplate: preferences.customPromptTemplate || DEFAULT_PROMPT_TEMPLATE,
       });
@@ -112,6 +118,80 @@ export default function ApiSettings() {
           </div>
 
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            {/* AI Provider Selection */}
+            <Card className="border-2 border-primary/20">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-primary" />
+                  AI Provider
+                </CardTitle>
+                <CardDescription>
+                  Choose between Manus free tokens (1 Trillion campaign) or your personal API keys
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="flex items-center justify-between p-4 bg-gradient-to-r from-primary/10 to-primary/5 rounded-lg border border-primary/20">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <Label htmlFor="ai-provider" className="text-base font-medium">
+                        Use Manus Free Tokens
+                      </Label>
+                      {useManusTokens && (
+                        <Badge variant="default" className="text-xs">
+                          <Zap className="w-3 h-3 mr-1" />
+                          Free
+                        </Badge>
+                      )}
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      {useManusTokens
+                        ? "Using Manus Forge API - $0 cost during 1 Trillion Tokens campaign 🎉"
+                        : "Using your personal API keys - charges apply from each provider"}
+                    </p>
+                  </div>
+                  <Switch
+                    id="ai-provider"
+                    checked={useManusTokens}
+                    onCheckedChange={(checked) => {
+                      setUseManusTokens(checked);
+                      form.setValue("aiProvider", checked ? "manus" : "personal");
+                    }}
+                  />
+                </div>
+
+                {/* Manus Free Tokens Info */}
+                {useManusTokens && (
+                  <div className="flex items-start gap-3 p-4 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20 border border-green-200 dark:border-green-800 rounded-lg">
+                    <Info className="w-5 h-5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                    <div className="text-sm text-green-900 dark:text-green-100">
+                      <p className="font-medium mb-1">🎁 1 Trillion Free Tokens Campaign</p>
+                      <p className="mb-2">
+                        Your app qualifies for Manus's free AI tokens! All analysis features use the Forge API at no cost.
+                        Save $10-30/month per user during the campaign.
+                      </p>
+                      <p className="text-xs opacity-80">
+                        Supported models: GPT-4, Claude Sonnet 4.5, Gemini 2.5 Flash, Perplexity Sonar Pro, Grok Beta
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Personal Keys Info */}
+                {!useManusTokens && (
+                  <div className="flex items-start gap-3 p-4 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-lg">
+                    <Info className="w-5 h-5 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
+                    <div className="text-sm text-amber-900 dark:text-amber-100">
+                      <p className="font-medium mb-1">Using Personal API Keys</p>
+                      <p>
+                        Analysis will use your configured API keys (OPENAI_API_KEY, ANTHROPIC_API_KEY, GEMINI_API_KEY, etc.).
+                        Charges apply from each provider based on usage.
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
             {/* API Mode Selection */}
             <Card>
               <CardHeader>

@@ -6,7 +6,8 @@ import { eq } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 
 const updatePreferencesSchema = z.object({
-  geminiApiMode: z.enum(["beta", "ga"]),
+  aiProvider: z.enum(["manus", "personal"]).optional(),
+  geminiApiMode: z.enum(["beta", "ga"]).optional(),
   customPromptTemplate: z.string().optional(),
 });
 
@@ -32,6 +33,7 @@ export const preferencesRouter = router({
     // Create default preferences
     await db.insert(userPreferences).values({
       userId: ctx.user.id,
+      aiProvider: "manus", // Default to Manus free tokens
       geminiApiMode: "beta",
       customPromptTemplate: null,
       createdAt: new Date(),
