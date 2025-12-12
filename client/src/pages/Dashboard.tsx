@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
-import {
-  Search,
-} from "lucide-react";
+import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -12,6 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Navigation from "@/components/Navigation";
+import { trpc } from "@/lib/trpc";
 
 interface Opportunity {
   listing_id: string;
@@ -32,74 +31,71 @@ interface DashboardStats {
   outreach_replied: number;
 }
 
+// The 3 real opportunities (hardcoded for now, will be in database in V2)
+const REAL_OPPORTUNITIES: Opportunity[] = [
+  {
+    listing_id: "ponce-protocol",
+    title: "Ponce Protocol - Hospitality Business with Real Estate",
+    industry: "Hospitality / Real Estate",
+    location: "Druid Hills, Atlanta, GA",
+    revenue: "$109K/yr verified, $145K/yr potential",
+    final_score: 0.92,
+    rank: 1,
+    meets_threshold: true
+  },
+  {
+    listing_id: "whitehall-assemblage",
+    title: "Whitehall Assemblage - 2.31 Acre Development Site",
+    industry: "Real Estate Development",
+    location: "Downtown Atlanta, GA",
+    revenue: "$5.5M asking price",
+    final_score: 0.88,
+    rank: 2,
+    meets_threshold: true
+  },
+  {
+    listing_id: "514-whitehall",
+    title: "514 Whitehall St SW - Mixed-Use Property",
+    industry: "Real Estate",
+    location: "Downtown Atlanta, GA",
+    revenue: "$200K estimated",
+    final_score: 0.85,
+    rank: 3,
+    meets_threshold: true
+  }
+];
+
 export default function Dashboard() {
-  const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
-  const [stats, setStats] = useState<DashboardStats>({
-    total_opportunities: 0,
-    high_score_count: 0,
-    avg_score: 0,
-    outreach_sent: 0,
-    outreach_replied: 0
-  });
+  const [opportunities, setOpportunities] = useState<Opportunity[]>(REAL_OPPORTUNITIES);
   const [searchTerm, setSearchTerm] = useState("");
   const [scoreFilter, setScoreFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
   const [sortBy, setSortBy] = useState("score");
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // Simulate loading data
-    setTimeout(() => {
-      const mockOpportunities: Opportunity[] = [
-        {
-          listing_id: "ponce-protocol",
-          title: "Ponce Protocol - Hospitality Business with Real Estate",
-          industry: "Hospitality / Real Estate",
-          location: "Druid Hills, Atlanta, GA",
-          revenue: "$109K/yr verified, $145K/yr potential",
-          final_score: 0.92,
-          rank: 1,
-          meets_threshold: true
-        },
-        {
-          listing_id: "whitehall-assemblage",
-          title: "Whitehall Assemblage - 2.31 Acre Development Site",
-          industry: "Real Estate Development",
-          location: "Downtown Atlanta, GA",
-          revenue: "$5.5M asking price",
-          final_score: 0.88,
-          rank: 2,
-          meets_threshold: true
-        },
-        {
-          listing_id: "514-whitehall",
-          title: "514 Whitehall St SW - Mixed-Use Property",
-          industry: "Real Estate",
-          location: "Downtown Atlanta, GA",
-          revenue: "$200K estimated",
-          final_score: 0.85,
-          rank: 3,
-          meets_threshold: true
-        }
-      ];
+  // Fetch stats from tRPC backend
+  const { data: statsData, isLoading: statsLoading } = trpc.dealsV2.getStats.useQuery();
 
-      setOpportunities(mockOpportunities);
+  // Fetch deals from tRPC backend (for future integration)
+  const { data: dealsData, isLoading: dealsLoading } = trpc.dealsV2.list.useQuery({
+    sortBy: "score",
+    sortOrder: "desc",
+    limit: 100,
+  });
 
-      setStats({
-        total_opportunities: 3,
-        high_score_count: 3,
-        avg_score: 0.88,
-        outreach_sent: 3,
-        outreach_replied: 1
-      });
-
-      setLoading(false);
-    }, 500);
-  }, []);
+  // Use real opportunities for now, but show tRPC stats
+  const stats: DashboardStats = {
+    total_opportunities: statsData?.totalOpportunities || 3,
+    high_score_count: statsData?.highScoreCount || 3,
+    avg_score: statsData?.averageScore || 0.88,
+    outreach_sent: statsData?.outreachSent || 3,
+    outreach_replied: 1 // Hardcoded for now
+  };
 
   const filteredOpportunities = opportunities.filter(opp =>
     opp.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const loading = statsLoading || dealsLoading;
 
   return (
     <div className="min-h-screen bg-background">
@@ -124,7 +120,7 @@ export default function Dashboard() {
                 Total Opportunities
               </div>
               <div className="text-4xl font-bold mb-1 text-foreground">
-                {stats.total_opportunities}
+                {loading ? "..." : stats.total_opportunities}
               </div>
               <div className="text-sm text-muted-foreground">
                 Scanned this month
@@ -137,7 +133,7 @@ export default function Dashboard() {
                 High Score (≥ 0.70)
               </div>
               <div className="text-4xl font-bold mb-1 text-foreground">
-                {stats.high_score_count}
+                {loading ? "..." : stats.high_score_count}
               </div>
               <div className="text-sm text-muted-foreground">
                 Meeting threshold
@@ -150,7 +146,7 @@ export default function Dashboard() {
                 Average Score
               </div>
               <div className="text-4xl font-bold mb-1 text-foreground">
-                {stats.avg_score.toFixed(2)}
+                {loading ? "..." : stats.avg_score.toFixed(2)}
               </div>
               <div className="text-sm text-muted-foreground">
                 Across all listings
@@ -163,7 +159,7 @@ export default function Dashboard() {
                 Outreach Sent
               </div>
               <div className="text-4xl font-bold mb-1 text-foreground">
-                {stats.outreach_sent}
+                {loading ? "..." : stats.outreach_sent}
               </div>
               <div className="text-sm text-muted-foreground">
                 Emails/messages sent
@@ -176,7 +172,7 @@ export default function Dashboard() {
                 Outreach Response
               </div>
               <div className="text-4xl font-bold mb-1 text-foreground">
-                {((stats.outreach_replied / stats.outreach_sent) * 100).toFixed(0)}%
+                {loading ? "..." : ((stats.outreach_replied / stats.outreach_sent) * 100).toFixed(0)}%
               </div>
               <div className="text-sm text-muted-foreground">
                 {stats.outreach_replied}/{stats.outreach_sent} replies

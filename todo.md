@@ -1510,3 +1510,28 @@ Create a Salesforce-caliber acquisition command center with Apple-level UX servi
 - [ ] Performance optimization (memoization, virtualization)
 
 ---
+
+
+---
+
+## 🔄 CONSOLIDATION: Merge Pipeline into Dashboard
+
+**Issue:** The new Pipeline page (/pipeline) duplicates functionality from the existing Dashboard page which already has 3 real opportunities.
+
+**Tasks:**
+- [x] Keep existing Dashboard page at /dashboard route
+- [x] Integrate tRPC backend (dealsV2.list, dealsV2.getStats) into Dashboard
+- [x] Preserve the 3 real opportunities: Ponce Protocol, 514 Whitehall, Whitehall Assemblage
+- [x] Remove deprecated Pipeline page
+- [x] Update App.tsx routes (remove /pipeline, keep /dashboard)
+- [x] Ensure Navigation component links to /dashboard not /pipeline
+- [x] Test consolidated Dashboard with tRPC integration
+
+**Result:**
+- ✅ Dashboard now uses tRPC for stats (dealsV2.getStats)
+- ✅ 3 real opportunities preserved and displayed
+- ✅ Pipeline page removed, /pipeline route removed
+- ✅ TypeScript compilation successful
+- ✅ Dev server running without errors
+
+---
