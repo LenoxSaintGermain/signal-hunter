@@ -1867,3 +1867,40 @@ The platform is now a cohesive, navigable full-stack application. Ready to proce
 - [ ] Verify progress bar updates correctly (0-100%)
 - [ ] Test what happens when scan completes successfully
 - [ ] Test error recovery when API fails
+
+
+---
+
+## 🚀 NEW FEATURES (Dec 12, 2025 - Navigation & API Config)
+
+### Dynamic Navigation
+- [x] Replace hardcoded property links with dropdown menus
+- [x] Add "Active Deals" dropdown that fetches deals from database (stage != draft)
+- [x] Add "Deal Backlog" dropdown for draft deals (stage = draft)
+- [x] Implement hover/click dropdown with deal cards showing name, price, score
+- [ ] Add search within dropdown for large deal lists (future enhancement)
+
+### API Configuration Settings
+- [x] Create /settings/api page for Gemini configuration
+- [x] Add toggle switch: "Use Beta Interactions API" vs "Use GA Stable API"
+- [x] Add custom prompt template editor for GA mode
+- [x] Add prompt variables documentation ({{sectors}}, {{states}}, {{priceRange}})
+- [x] Save configuration to database (user preferences table)
+- [ ] Update DeepResearchService to respect user's API choice (needs testing)
+
+### Scan History Database
+- [x] Create market_scans table migration (id, user_id, job_id, filters, status, result, listings_count, created_at)
+- [x] Add tRPC router for scan history (list, getById, delete)
+- [x] Save scan metadata when starting market.scan
+- [x] Update scan record when completed/failed
+- [ ] Create Scan History page at /settings/search/history
+- [ ] Show table with: date, filters, status, listings found, actions (view/delete)
+
+### Results Parser & Import
+- [ ] Create parseGeminiResponse() function to extract JSON from Gemini output
+- [ ] Handle both structured JSON and markdown-formatted responses
+- [ ] Create "Import Listings" button on scan completion card
+- [ ] Show preview modal with parsed listings (name, price, revenue, location)
+- [ ] Add checkboxes to select which listings to import
+- [ ] Create deals in database with source = "market_scan"
+- [ ] Link imported deals to original scan record

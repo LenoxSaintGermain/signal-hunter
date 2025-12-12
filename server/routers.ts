@@ -12,6 +12,7 @@ import { capitalStackRouter } from "./routes/capitalStack";
 import { projectionsRouter } from "./routes/projections";
 import { commentsRouter } from "./routes/comments";
 import { marketRouter } from "./routes/market";
+import { preferencesRouter } from "./routes/preferences";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -179,6 +180,7 @@ Provide detailed, actionable advice. If asked to validate information, explain h
   projections: projectionsRouter,
   comments: commentsRouter,
   market: marketRouter,
+  preferences: preferencesRouter,
 
   // V1 Basic Deals Router (kept for backwards compatibility)
   deals: router({

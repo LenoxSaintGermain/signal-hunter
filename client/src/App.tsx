@@ -16,6 +16,7 @@ import CapitalStack from "./pages/CapitalStack";
 
 import Projections from "./pages/Projections";
 import SearchSettings from "./pages/SearchSettings";
+import ApiSettings from "./pages/ApiSettings";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -26,6 +27,7 @@ function Router() {
       <Route path={"/capital-stack"} component={CapitalStack} />
       <Route path={"/projections"} component={Projections} />
       <Route path={"/settings/search"} component={SearchSettings} />
+      <Route path={"/settings/api"} component={ApiSettings} />
       <Route path={"/dashboard"} component={Dashboard} />
       <Route path={"opportunity/:id"} component={OpportunityDetail} />
       <Route path="/property/514-whitehall" component={Property514Whitehall} />

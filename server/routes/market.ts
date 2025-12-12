@@ -1,6 +1,9 @@
 import { z } from "zod";
 import { router, protectedProcedure } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
+import { getDb } from "../db";
+import { marketScans } from "../../drizzle/schema";
+import { desc, eq } from "drizzle-orm";
 
 /**
  * Market Data Router for business listings management
@@ -14,6 +17,24 @@ import { TRPCError } from "@trpc/server";
  * Note: This is a simplified implementation for Phase 2.
  * Full scraper integration and database storage will be implemented in V2.
  */
+
+/**
+ * Helper function to parse listings count from Gemini response
+ */
+function parseListingsCount(result: string | undefined): number {
+  if (!result) return 0;
+  try {
+    // Try to parse JSON array
+    const parsed = JSON.parse(result);
+    if (Array.isArray(parsed)) return parsed.length;
+    if (parsed.listings && Array.isArray(parsed.listings)) return parsed.listings.length;
+  } catch {
+    // If not JSON, count occurrences of common listing markers
+    const matches = result.match(/\d+\./g); // Match numbered lists like "1.", "2.", etc.
+    return matches ? matches.length : 0;
+  }
+  return 0;
+}
 
 const createListingSchema = z.object({
   source: z.string(), // "BizBuySell", "Manual", "CSV Import", etc.
@@ -180,6 +201,19 @@ export const marketRouter = router({
       // Start the async research task
       const { id, status } = await deepResearchService.startResearch(prompt);
 
+      // Save scan record to database
+      const db = await getDb();
+      if (db) {
+        await db.insert(marketScans).values({
+          userId: ctx.user.id,
+          jobId: id,
+          filters: JSON.stringify(input.filters || {}),
+          status: "running",
+          apiMode: "beta", // TODO: Get from user preferences
+          createdAt: new Date(),
+        });
+      }
+
       return {
         success: true,
         jobId: id,
@@ -199,6 +233,20 @@ export const marketRouter = router({
       try {
         const { deepResearchService } = await import("../services/deepResearch");
         const status = await deepResearchService.getResearchStatus(input.jobId);
+
+        // Update database record if completed or failed
+        const db = await getDb();
+        if (db && (status.status === "completed" || status.status === "failed")) {
+          await db
+            .update(marketScans)
+            .set({
+              status: status.status,
+              result: status.result || null,
+              listingsCount: status.status === "completed" ? parseListingsCount(status.result) : 0,
+              completedAt: new Date(),
+            })
+            .where(eq(marketScans.jobId, input.jobId));
+        }
 
         return {
           jobId: input.jobId,
@@ -251,5 +299,69 @@ export const marketRouter = router({
         sourceBreakdown: {},
         message: "Market data statistics will be implemented in V2.",
       };
+    }),
+
+  /**
+   * Get scan history for current user
+   */
+  getScanHistory: protectedProcedure
+    .input(z.object({
+      limit: z.number().min(1).max(100).default(20),
+      offset: z.number().min(0).default(0),
+    }))
+    .query(async ({ input, ctx }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database not available" });
+
+      const scans = await db
+        .select()
+        .from(marketScans)
+        .where(eq(marketScans.userId, ctx.user.id))
+        .orderBy(desc(marketScans.createdAt))
+        .limit(input.limit)
+        .offset(input.offset);
+
+      return {
+        scans,
+        total: scans.length, // TODO: Add proper count query
+      };
+    }),
+
+  /**
+   * Get single scan by ID
+   */
+  getScanById: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .query(async ({ input, ctx }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database not available" });
+
+      const scan = await db
+        .select()
+        .from(marketScans)
+        .where(eq(marketScans.id, input.id))
+        .limit(1);
+
+      if (!scan || scan.length === 0) {
+        throw new TRPCError({ code: "NOT_FOUND", message: "Scan not found" });
+      }
+
+      return scan[0];
+    }),
+
+  /**
+   * Delete scan record
+   */
+  deleteScan: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ input, ctx }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database not available" });
+
+      await db
+        .delete(marketScans)
+        .where(eq(marketScans.id, input.id));
+
+      return { success: true };
     }),
 });

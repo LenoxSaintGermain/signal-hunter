@@ -9,7 +9,9 @@ import { TRPCError } from "@trpc/server";
 const dealFilterSchema = z.object({
   search: z.string().optional(),
   minScore: z.number().min(0).max(100).optional(),
-  stage: z.enum(["lead", "initial_review", "due_diligence", "negotiation", "offer_submitted", "closing"]).optional(),
+  stage: z.enum(["draft", "lead", "initial_review", "due_diligence", "negotiation", "offer_submitted", "closing"]).optional(),
+  excludeDrafts: z.boolean().optional(), // Exclude draft stage deals
+  draftsOnly: z.boolean().optional(), // Only show draft stage deals
   sortBy: z.enum(["score", "created_at", "price", "revenue"]).default("score"),
   sortOrder: z.enum(["asc", "desc"]).default("desc"),
   limit: z.number().min(1).max(100).default(20),
@@ -20,7 +22,7 @@ const createDealSchema = z.object({
   name: z.string().min(1),
   description: z.string().optional(),
   price: z.number().positive(),
-  stage: z.enum(["lead", "initial_review", "due_diligence", "negotiation", "offer_submitted", "closing"]),
+  stage: z.enum(["draft", "lead", "initial_review", "due_diligence", "negotiation", "offer_submitted", "closing"]),
   score: z.number().min(0).max(100).optional(),
   contactName: z.string().optional(),
   contactType: z.string().optional(),
@@ -40,7 +42,7 @@ const updateDealSchema = z.object({
   name: z.string().min(1).optional(),
   description: z.string().optional(),
   price: z.number().positive().optional(),
-  stage: z.enum(["lead", "initial_review", "due_diligence", "negotiation", "offer_submitted", "closing"]).optional(),
+  stage: z.enum(["draft", "lead", "initial_review", "due_diligence", "negotiation", "offer_submitted", "closing"]).optional(),
   score: z.number().min(0).max(100).optional(),
   contactName: z.string().optional(),
   contactType: z.string().optional(),
@@ -67,7 +69,7 @@ export const dealsRouter = router({
       const db = await getDb();
       if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database not available" });
 
-      const { search, minScore, stage, sortBy, sortOrder, limit, offset } = input;
+      const { search, minScore, stage, excludeDrafts, draftsOnly, sortBy, sortOrder, limit, offset } = input;
 
       // Build WHERE conditions
       const conditions = [];
@@ -88,6 +90,14 @@ export const dealsRouter = router({
 
       if (stage) {
         conditions.push(eq(deals.stage, stage));
+      }
+
+      // Handle draft filters
+      if (excludeDrafts) {
+        conditions.push(sql`${deals.stage} != 'draft'`);
+      }
+      if (draftsOnly) {
+        conditions.push(eq(deals.stage, 'draft'));
       }
 
       // Build ORDER BY

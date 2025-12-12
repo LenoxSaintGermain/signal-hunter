@@ -1,0 +1,1 @@
+ALTER TABLE `deals` MODIFY COLUMN `stage` enum('draft','lead','initial_review','due_diligence','negotiation','offer_submitted','closing') NOT NULL;

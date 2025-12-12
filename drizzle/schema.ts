@@ -44,7 +44,7 @@ export const deals = mysqlTable("deals", {
   name: varchar("name", { length: 255 }).notNull(),
   description: text("description"),
   price: int("price").notNull(), // in dollars
-  stage: mysqlEnum("stage", ["lead", "initial_review", "due_diligence", "negotiation", "offer_submitted", "closing"]).notNull(),
+  stage: mysqlEnum("stage", ["draft", "lead", "initial_review", "due_diligence", "negotiation", "offer_submitted", "closing"]).notNull(),
   score: int("score"), // 0-100 overall score
   contactName: varchar("contactName", { length: 255 }),
   contactType: varchar("contactType", { length: 50 }), // Broker, Owner, etc
@@ -66,3 +66,32 @@ export const deals = mysqlTable("deals", {
 
 export type Deal = typeof deals.$inferSelect;
 export type InsertDeal = typeof deals.$inferInsert;
+// Market Scans History
+export const marketScans = mysqlTable("marketScans", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  jobId: varchar("jobId", { length: 255 }), // Gemini interaction ID
+  filters: text("filters"), // JSON string of search filters
+  status: mysqlEnum("status", ["running", "completed", "failed"]).notNull(),
+  result: text("result"), // Full Gemini response
+  listingsCount: int("listingsCount").default(0), // Number of listings found
+  apiMode: mysqlEnum("apiMode", ["beta", "ga"]).default("beta"), // Which API was used
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  completedAt: timestamp("completedAt"),
+});
+
+export type MarketScan = typeof marketScans.$inferSelect;
+export type InsertMarketScan = typeof marketScans.$inferInsert;
+
+// User Preferences for API Configuration
+export const userPreferences = mysqlTable("userPreferences", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  geminiApiMode: mysqlEnum("geminiApiMode", ["beta", "ga"]).default("beta"),
+  customPromptTemplate: text("customPromptTemplate"), // For GA mode
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type UserPreference = typeof userPreferences.$inferSelect;
+export type InsertUserPreference = typeof userPreferences.$inferInsert;
