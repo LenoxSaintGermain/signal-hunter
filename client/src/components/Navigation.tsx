@@ -22,6 +22,7 @@ export default function Navigation({ currentPage }: NavigationProps) {
 
   const navItems = [
     { href: "/dashboard", label: "Pipeline" },
+    { href: "/settings/search", label: "Discovery" },
     { href: "/capital-stack", label: "Capital Stack" },
     { href: "/projections", label: "Projections" },
     { href: "/property/ponce-protocol", label: "Ponce Protocol" },

@@ -19,24 +19,24 @@ const createListingSchema = z.object({
   source: z.string(), // "BizBuySell", "Manual", "CSV Import", etc.
   sourceUrl: z.string().url().optional(),
   sourceId: z.string().optional(),
-  
+
   // Business details
   businessName: z.string().min(1),
   description: z.string().optional(),
   industry: z.string().optional(),
-  
+
   // Financials
   askingPrice: z.number().positive().optional(),
   revenue: z.number().positive().optional(),
   profit: z.number().optional(),
   cashFlow: z.number().optional(),
   ebitda: z.number().optional(),
-  
+
   // Location
   city: z.string().optional(),
   state: z.string().optional(),
   country: z.string().default("USA"),
-  
+
   // Contact
   contactName: z.string().optional(),
   contactType: z.string().optional(), // "Broker", "Owner", etc.
@@ -101,7 +101,7 @@ export const marketRouter = router({
     .mutation(async ({ input, ctx }) => {
       // TODO: Implement database storage in V2
       // TODO: Run normalization and deduplication
-      
+
       return {
         success: true,
         listingId: Date.now(), // Temporary ID
@@ -118,11 +118,11 @@ export const marketRouter = router({
       // TODO: Implement database storage in V2
       // TODO: Run normalization and deduplication
       // TODO: Match with existing deals
-      
+
       const imported = input.listings.length;
       const duplicates = 0; // TODO: Implement deduplication
       const matched = 0; // TODO: Implement deal matching
-      
+
       return {
         success: true,
         imported,
@@ -135,6 +135,9 @@ export const marketRouter = router({
   /**
    * Trigger market data scraper
    */
+  /**
+   * Trigger market data scraper (Deep Research Agent)
+   */
   scan: protectedProcedure
     .input(z.object({
       source: z.enum(["bizbuysell", "all"]),
@@ -143,17 +146,62 @@ export const marketRouter = router({
         maxPrice: z.number().positive().optional(),
         industries: z.array(z.string()).optional(),
         states: z.array(z.string()).optional(),
+        keywords: z.string().optional(),
       }).optional(),
     }))
     .mutation(async ({ input, ctx }) => {
-      // TODO: Implement scraper integration in V2
-      // TODO: Use job queue for background processing
-      // TODO: Store results in marketData table
-      
+      // Import the service dynamically to avoid issues if not fully set up
+      const { deepResearchService } = await import("../services/deepResearch");
+
+      // Construct a steerable prompt for the Deep Research Agent
+      const sectors = input.filters?.industries?.join(", ") || "general small businesses";
+      const states = input.filters?.states?.join(", ") || "United States";
+      const keywords = input.filters?.keywords ? `Focus on: ${input.filters.keywords}` : "";
+      const priceRange = `Price range: $${input.filters?.minPrice || 0} - $${input.filters?.maxPrice || "Any"}`;
+
+      const prompt = `
+        Conduct deep market research for business acquisition opportunities.
+        TARGET SECTORS: ${sectors}
+        LOCATION: ${states}
+        FINANCIALS: ${priceRange}
+        ${keywords}
+        
+        TASK:
+        1. Scan major marketplaces (BizBuySell, BizQuest) and broker listings.
+        2. Identify 10-20 specific active listings that match the criteria.
+        3. For each listing, extract: Title, Asking Price, Cash Flow/SDE, Revenue, Location, and Broker.
+        4. Analyze market trends for these sectors in these locations.
+        
+        OUTPUT FORMAT:
+        Return a JSON object with a "listings" array containing the found opportunities, and a "market_summary" text field.
+        Ensure "asking_price", "revenue", and "cash_flow" are numbers.
+      `;
+
+      // Start the async research task
+      const { id, status } = await deepResearchService.startResearch(prompt);
+
       return {
         success: true,
-        jobId: `scan_${Date.now()}`,
-        message: "Market scanning will be implemented in V2 with proper job queuing and scraper integration.",
+        jobId: id,
+        status,
+        message: "Deep Research Agent started. This process uses advanced reasoning and may take 2-5 minutes.",
+      };
+    }),
+
+  /**
+   * Poll for Deep Research status
+   */
+  getScanStatus: protectedProcedure
+    .input(z.object({
+      jobId: z.string(),
+    }))
+    .query(async ({ input, ctx }) => {
+      const { deepResearchService } = await import("../services/deepResearch");
+      const status = await deepResearchService.getResearchStatus(input.jobId);
+
+      return {
+        jobId: input.jobId,
+        ...status
       };
     }),
 
@@ -169,7 +217,7 @@ export const marketRouter = router({
       // TODO: Implement in V2
       // TODO: Copy data from marketData to deals table
       // TODO: Mark listing as processed
-      
+
       return {
         success: true,
         dealId: Date.now(),

@@ -1,137 +1,127 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRoute, Link } from "wouter";
-import { ArrowLeft, Download, Mail, ExternalLink, Lightbulb, AlertTriangle, TrendingUp, Shield } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowLeft, Download, Mail, ExternalLink, Lightbulb, AlertTriangle, TrendingUp, Shield, Sparkles, Loader2, BrainCircuit } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-
-interface OpportunityData {
-  listing_id: string;
-  title: string;
-  final_score: number;
-  rank: number;
-  sector: string;
-  location: string;
-  revenue: string;
-  cash_flow: string;
-  asking_price: string;
-  components: {
-    sde_margin: number;
-    revenue_growth: number;
-    cash_flow_quality: number;
-    ai_potential: number;
-    cert_advantage: number;
-    seller_financing: number;
-    seller_motivation: number;
-  };
-  red_flags: {
-    flags: string[];
-    penalty: number;
-    has_red_flags: boolean;
-  };
-}
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Tooltip } from "recharts";
+import { trpc } from "@/lib/trpc";
+import { toast } from "sonner";
+import Navigation from "@/components/Navigation";
 
 export default function OpportunityDetail() {
   const [, params] = useRoute("/opportunity/:id");
-  const [opportunity, setOpportunity] = useState<OpportunityData | null>(null);
-  const [loading, setLoading] = useState(true);
+  const dealId = params?.id ? parseInt(params.id) : 0;
 
-  useEffect(() => {
-    // Simulate loading opportunity data
-    setTimeout(() => {
-      const mockData: OpportunityData = {
-        listing_id: params?.id || "1",
-        title: "HVAC Service Company - Atlanta Metro",
-        final_score: 0.89,
-        rank: 1,
-        sector: "HVAC",
-        location: "Atlanta, GA",
-        revenue: "$2,500,000",
-        cash_flow: "$750,000",
-        asking_price: "$2,250,000",
-        components: {
-          sde_margin: 0.18,
-          revenue_growth: 0.09,
-          cash_flow_quality: 0.14,
-          ai_potential: 0.22,
-          cert_advantage: 0.13,
-          seller_financing: 0.09,
-          seller_motivation: 0.04
-        },
-        red_flags: {
-          flags: [],
-          penalty: 0,
-          has_red_flags: false
-        }
-      };
-      
-      setOpportunity(mockData);
-      setLoading(false);
-    }, 300);
-  }, [params?.id]);
+  const [analysisResult, setAnalysisResult] = useState<any>(null);
 
-  if (loading) {
+  // Fetch deal data
+  const { data: deal, isLoading, error } = trpc.dealsV2.getById.useQuery(
+    { id: dealId },
+    { enabled: !!dealId }
+  );
+
+  // Analysis mutation
+  const analyzeMutation = trpc.analysis.trigger.useMutation({
+    onSuccess: (data) => {
+      setAnalysisResult(data);
+      toast.success(`Analysis Complete! Score: ${data.overallScore}/100`);
+    },
+    onError: (err) => {
+      toast.error(`Analysis failed: ${err.message}`);
+    },
+  });
+
+  const handleRunAnalysis = () => {
+    toast.info("Initializing Top Grader Agents (GPT-5, Claude, Gemini)...");
+    analyzeMutation.mutate({ dealId });
+  };
+
+  if (isLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-muted-foreground">Loading opportunity...</div>
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center">
+        <Loader2 className="w-12 h-12 text-primary animate-spin mb-4" />
+        <div className="text-muted-foreground">Loading opportunity data...</div>
       </div>
     );
   }
 
-  if (!opportunity) {
+  if (error || !deal) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-foreground mb-2">Opportunity Not Found</h2>
+          <p className="text-muted-foreground mb-4">The requested deal could not be loaded.</p>
           <Link href="/dashboard">
-            <a className="text-primary hover:underline">Return to Dashboard</a>
+            <Button variant="default">Return to Dashboard</Button>
           </Link>
         </div>
       </div>
     );
   }
 
+  // Calculate generic metrics if not present
+  const multiples = {
+    revenue: deal.revenue && deal.price ? (deal.price / deal.revenue).toFixed(2) + 'x' : 'N/A',
+    cashFlow: deal.cashFlow && deal.price ? (deal.price / deal.cashFlow).toFixed(2) + 'x' : 'N/A',
+  };
+
+  // Prepare Chart Data
+  const radarData = analysisResult ? [
+    { subject: 'Financials', A: deal.score || 75, fullMark: 100 },
+    { subject: 'Growth', A: deal.aiPotential || 50, fullMark: 100 },
+    { subject: 'Market', A: 85, fullMark: 100 }, // Mock market score
+    { subject: 'Risk', A: 100 - (analysisResult.topRisks?.length * 10 || 20), fullMark: 100 },
+    { subject: 'Synergy', A: deal.certAdvantage || 60, fullMark: 100 },
+    { subject: 'Terms', A: 70, fullMark: 100 },
+  ] : [];
+
   return (
     <div className="min-h-screen bg-background">
+      <Navigation currentPage="/dashboard" />
+
       {/* Header */}
-      <div className="border-b border-border bg-card">
-        <div className="container py-6">
+      <div className="pt-20 border-b border-border bg-card">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 py-6">
           <Link href="/dashboard">
-            <a className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-4">
+            <a className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-4 transition-colors">
               <ArrowLeft className="w-4 h-4" />
               Back to Dashboard
             </a>
           </Link>
-          
-          <div className="flex items-start justify-between">
+
+          <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
             <div>
               <div className="flex items-center gap-3 mb-2">
-                <h1 className="text-3xl font-bold text-foreground">{opportunity.title}</h1>
-                <Badge variant="default" className="bg-green-500">
-                  Score: {(opportunity.final_score * 100).toFixed(0)}
+                <h1 className="text-3xl font-bold text-foreground tracking-tight">{deal.name}</h1>
+                <Badge variant={deal.score && deal.score >= 80 ? "default" : "secondary"} className="text-sm px-3 py-1">
+                  Score: {deal.score || 'N/A'}
                 </Badge>
               </div>
-              <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                <span>Rank #{opportunity.rank}</span>
+              <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+                <span className="flex items-center gap-1"><Badge variant="outline">{deal.status || "New"}</Badge></span>
                 <span>•</span>
-                <span>{opportunity.sector}</span>
+                <span>{deal.industry || "Unknown Industry"}</span>
                 <span>•</span>
-                <span>{opportunity.location}</span>
+                <span>{deal.location || "Unknown Location"}</span>
+                <span>•</span>
+                <span>Added {new Date(deal.createdAt).toLocaleDateString()}</span>
               </div>
             </div>
-            
+
             <div className="flex gap-2">
-              <Button variant="outline">
+              <Button variant="outline" size="sm">
                 <Mail className="w-4 h-4 mr-2" />
-                Contact Broker
+                Contact
               </Button>
-              <Button variant="outline">
+              <Button variant="outline" size="sm">
                 <Download className="w-4 h-4 mr-2" />
-                Export Report
+                Export
               </Button>
-              <Button>
+              <Button size="sm">
                 <ExternalLink className="w-4 h-4 mr-2" />
-                View Listing
+                Source
               </Button>
             </div>
           </div>
@@ -139,380 +129,231 @@ export default function OpportunityDetail() {
       </div>
 
       {/* Content */}
-      <div className="container py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Main Content */}
-          <div className="lg:col-span-2 space-y-6">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+          {/* Main Column */}
+          <div className="lg:col-span-2 space-y-8">
+
             {/* Financial Overview */}
             <Card>
               <CardHeader>
                 <CardTitle>Financial Overview</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-3 gap-6">
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-1">Annual Revenue</p>
-                    <p className="text-2xl font-bold text-foreground">{opportunity.revenue}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-1">Cash Flow (SDE)</p>
-                    <p className="text-2xl font-bold text-foreground">{opportunity.cash_flow}</p>
-                  </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                   <div>
                     <p className="text-sm text-muted-foreground mb-1">Asking Price</p>
-                    <p className="text-2xl font-bold text-foreground">{opportunity.asking_price}</p>
+                    <p className="text-2xl font-bold text-foreground">${deal.price?.toLocaleString() || 'N/A'}</p>
+                    <p className="text-xs text-muted-foreground mt-1">{multiples.revenue} Rev</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-1">Annual Revenue</p>
+                    <p className="text-2xl font-bold text-foreground">${deal.revenue?.toLocaleString() || 'N/A'}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-1">Cash Flow</p>
+                    <p className="text-2xl font-bold text-foreground">${deal.cashFlow?.toLocaleString() || 'N/A'}</p>
+                    <p className="text-xs text-muted-foreground mt-1">{multiples.cashFlow} CF</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-1">SDE Margin</p>
+                    <p className="text-2xl font-bold text-foreground">{deal.sdeMargin ? (deal.sdeMargin * 100).toFixed(1) : 'N/A'}%</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Score Breakdown */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Score Components</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {Object.entries(opportunity.components).map(([key, value]) => (
-                    <div key={key}>
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm font-medium text-foreground capitalize">
-                          {key.replace(/_/g, ' ')}
-                        </span>
-                        <span className="text-sm font-bold text-foreground">
-                          {(value * 100).toFixed(1)}
-                        </span>
-                      </div>
-                      <div className="h-2 bg-muted rounded-full overflow-hidden">
-                        <div 
-                          className="h-full bg-green-500 rounded-full transition-all"
-                          style={{ width: `${value * 100}%` }}
-                        />
-                      </div>
+            {/* AI Deep Dive Section */}
+            {!analysisResult ? (
+              <Card className="border-primary/20 bg-primary/5">
+                <CardContent className="py-12 flex flex-col items-center text-center">
+                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+                    <BrainCircuit className="w-8 h-8 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-bold mb-2">Unlock Deep Intelligence</h3>
+                  <p className="text-muted-foreground max-w-md mb-6">
+                    Activate our Multi-Model AI Engine (GPT-5, Claude, Gemini) to generate a comprehensive thesis, risk analysis, and strategic roadmap.
+                  </p>
+                  <Button size="lg" onClick={handleRunAnalysis} disabled={analyzeMutation.isPending} className="gap-2">
+                    {analyzeMutation.isPending ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        Analyzing across 5 models...
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="w-5 h-5" />
+                        Generate Deep Analysis
+                      </>
+                    )}
+                  </Button>
+                </CardContent>
+              </Card>
+            ) : (
+              <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+
+                {/* Consensus Banner */}
+                <div className={`p-4 rounded-lg border flex items-center justify-between ${analysisResult.consensus === 'strong_buy' ? 'bg-green-500/10 border-green-500/20' :
+                    analysisResult.consensus === 'pass' ? 'bg-red-500/10 border-red-500/20' :
+                      'bg-yellow-500/10 border-yellow-500/20'
+                  }`}>
+                  <div className="flex items-center gap-3">
+                    <Sparkles className="w-5 h-5 text-foreground" />
+                    <div>
+                      <h4 className="font-bold text-lg">AI Consensus: {analysisResult.consensus.toUpperCase().replace('_', ' ')}</h4>
+                      <p className="text-sm text-muted-foreground">Confidence: {(analysisResult.confidence * 100).toFixed(0)}% • Based on {analysisResult.models.length} Models</p>
                     </div>
+                  </div>
+                  <div className="text-2xl font-black">{analysisResult.overallScore}/100</div>
+                </div>
+
+                {/* Investment Thesis */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Lightbulb className="w-5 h-5 text-yellow-500" />
+                      Investment Thesis
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <p className="text-sm leading-relaxed text-muted-foreground">
+                      {analysisResult.summary}
+                    </p>
+                    <div>
+                      <h4 className="font-semibold mb-2 text-sm">Key Strengths</h4>
+                      <ul className="space-y-1">
+                        {analysisResult.topStrengths.map((strength: string, i: number) => (
+                          <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                            <Shield className="w-3 h-3 text-green-500 mt-1 flex-shrink-0" />
+                            {strength}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Risk Analysis */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <AlertTriangle className="w-5 h-5 text-orange-500" />
+                      Risk Assessment
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-2">
+                      {analysisResult.topRisks.map((risk: string, i: number) => (
+                        <li key={i} className="p-3 bg-secondary/30 rounded-md border border-border text-sm flex items-start gap-2">
+                          <AlertTriangle className="w-4 h-4 text-orange-500 flex-shrink-0 mt-0.5" />
+                          <span>{risk}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+
+                {/* Model Breakdown Tabs */}
+                <Tabs defaultValue="gpt">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-lg font-semibold">Model Perspectives</h3>
+                    <TabsList>
+                      <TabsTrigger value="gpt">GPT-5.1</TabsTrigger>
+                      <TabsTrigger value="claude">Claude</TabsTrigger>
+                      <TabsTrigger value="perplexity">Perplexity</TabsTrigger>
+                    </TabsList>
+                  </div>
+                  {analysisResult.models.map((model: any, i: number) => (
+                    <TabsContent key={i} value={model.model.toLowerCase().includes('gpt') ? 'gpt' : model.model.toLowerCase().includes('claude') ? 'claude' : 'perplexity'}>
+                      <Card>
+                        <CardHeader className="py-3">
+                          <CardTitle className="text-base flex justify-between">
+                            {model.model}
+                            <span className={model.recommendation === 'buy' ? 'text-green-500' : 'text-yellow-500'}>
+                              {model.recommendation.toUpperCase()}
+                            </span>
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent className="text-sm text-muted-foreground">
+                          {model.reasoning.substring(0, 500)}...
+                        </CardContent>
+                      </Card>
+                    </TabsContent>
                   ))}
-                </div>
-              </CardContent>
-            </Card>
+                </Tabs>
 
-            {/* Investment Thesis */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Investment Thesis</CardTitle>
-              </CardHeader>
-              <CardContent className="prose prose-invert max-w-none">
-                <h3 className="text-foreground">Strategic Rationale</h3>
-                <p className="text-muted-foreground">
-                  This HVAC service company represents a compelling acquisition opportunity with strong fundamentals 
-                  and significant AI-driven growth potential. The business operates in a high-demand sector with 
-                  recurring revenue streams and opportunities for government contract expansion.
-                </p>
-                
-                <h3 className="text-foreground mt-6">Value Creation Opportunities</h3>
-                <ul className="text-muted-foreground">
-                  <li>AI-powered lead generation and customer acquisition (20-40% revenue increase)</li>
-                  <li>Process automation and operational efficiency (10-25% cost reduction)</li>
-                  <li>Government contract expansion via SDVOSB certification</li>
-                  <li>Geographic expansion into adjacent markets</li>
-                </ul>
+              </div>
+            )}
 
-                <h3 className="text-foreground mt-6">Risk Factors</h3>
-                <ul className="text-muted-foreground">
-                  <li>Market competition and pricing pressure</li>
-                  <li>Key person dependency during transition</li>
-                  <li>Economic sensitivity to construction cycles</li>
-                </ul>
-              </CardContent>
-            </Card>
-
-            {/* AI Strategic Recommendations */}
-            <Card className="border-blue-500/20 bg-blue-500/5">
-              <CardHeader>
-                <div className="flex items-center gap-2">
-                  <Lightbulb className="w-5 h-5 text-blue-500" />
-                  <CardTitle>AI Strategic Recommendations</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-3">
-                  <div className="flex gap-3">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-500 font-bold text-sm">
-                      1
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-foreground mb-1">Immediate: Secure Government Contracts</h4>
-                      <p className="text-sm text-muted-foreground">
-                        Leverage SDVOSB certification to pursue federal HVAC maintenance contracts. Target military bases 
-                        and federal buildings in the Atlanta metro area. Estimated contract value: $500K-$1M annually.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-3">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-500 font-bold text-sm">
-                      2
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-foreground mb-1">Month 1-3: Deploy AI-Powered CRM</h4>
-                      <p className="text-sm text-muted-foreground">
-                        Implement automated lead capture and routing system. Use predictive analytics to identify 
-                        high-value maintenance contracts. Expected ROI: 3-5x within first year.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-3">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-500 font-bold text-sm">
-                      3
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-foreground mb-1">Month 4-6: Optimize Pricing Strategy</h4>
-                      <p className="text-sm text-muted-foreground">
-                        Implement dynamic pricing algorithms based on demand, seasonality, and customer lifetime value. 
-                        Target 5-10% margin improvement without customer loss.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-3">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-500 font-bold text-sm">
-                      4
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-foreground mb-1">Month 7-12: Geographic Expansion</h4>
-                      <p className="text-sm text-muted-foreground">
-                        Expand into adjacent counties leveraging World Cup 2026 construction boom. Focus on commercial 
-                        HVAC for new hotels, venues, and infrastructure projects.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-3">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-500 font-bold text-sm">
-                      5
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-foreground mb-1">Year 2: Add Preventive Maintenance Contracts</h4>
-                      <p className="text-sm text-muted-foreground">
-                        Launch IoT-enabled predictive maintenance service. Use sensors to monitor HVAC systems and 
-                        prevent failures. Target 30% of customer base for recurring contracts.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="pt-4 border-t border-border">
-                  <div className="flex items-center gap-2 text-sm">
-                    <TrendingUp className="w-4 h-4 text-green-500" />
-                    <span className="text-muted-foreground">
-                      <span className="font-semibold text-green-500">Expected Impact:</span> 35-50% revenue increase, 
-                      20-30% margin expansion within 24 months
-                    </span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Potential Risks Analysis */}
-            <Card className="border-orange-500/20 bg-orange-500/5">
-              <CardHeader>
-                <div className="flex items-center gap-2">
-                  <AlertTriangle className="w-5 h-5 text-orange-500" />
-                  <CardTitle>Potential Risks & Mitigation</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-4">
-                  <div className="p-4 rounded-lg border border-orange-500/20 bg-background">
-                    <div className="flex items-start justify-between mb-2">
-                      <h4 className="font-semibold text-foreground">Key Person Dependency</h4>
-                      <Badge variant="destructive" className="bg-orange-500">High Risk</Badge>
-                    </div>
-                    <p className="text-sm text-muted-foreground mb-3">
-                      Current owner handles major client relationships and technical oversight. Loss of owner 
-                      knowledge could impact service quality and customer retention.
-                    </p>
-                    <div className="space-y-2">
-                      <div className="flex items-start gap-2">
-                        <Shield className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                        <p className="text-sm text-muted-foreground">
-                          <span className="font-medium text-foreground">Mitigation:</span> Negotiate 12-month 
-                          transition period with owner as consultant. Document all processes and client relationships. 
-                          Hire experienced HVAC operations manager before closing.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-4 rounded-lg border border-orange-500/20 bg-background">
-                    <div className="flex items-start justify-between mb-2">
-                      <h4 className="font-semibold text-foreground">Market Competition</h4>
-                      <Badge variant="outline" className="border-yellow-500 text-yellow-500">Medium Risk</Badge>
-                    </div>
-                    <p className="text-sm text-muted-foreground mb-3">
-                      Atlanta HVAC market is competitive with national chains and local operators. Price pressure 
-                      could erode margins if not differentiated.
-                    </p>
-                    <div className="space-y-2">
-                      <div className="flex items-start gap-2">
-                        <Shield className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                        <p className="text-sm text-muted-foreground">
-                          <span className="font-medium text-foreground">Mitigation:</span> Focus on government 
-                          contracts where SDVOSB certification provides competitive advantage. Differentiate with 
-                          AI-powered predictive maintenance. Build premium service brand.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-4 rounded-lg border border-orange-500/20 bg-background">
-                    <div className="flex items-start justify-between mb-2">
-                      <h4 className="font-semibold text-foreground">Economic Sensitivity</h4>
-                      <Badge variant="outline" className="border-yellow-500 text-yellow-500">Medium Risk</Badge>
-                    </div>
-                    <p className="text-sm text-muted-foreground mb-3">
-                      HVAC services tied to construction and real estate cycles. Economic downturn could reduce 
-                      new installation revenue.
-                    </p>
-                    <div className="space-y-2">
-                      <div className="flex items-start gap-2">
-                        <Shield className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                        <p className="text-sm text-muted-foreground">
-                          <span className="font-medium text-foreground">Mitigation:</span> Shift revenue mix toward 
-                          recurring maintenance contracts (60%+ of revenue). Government contracts provide stable base. 
-                          Maintenance and repair services are counter-cyclical.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-4 rounded-lg border border-orange-500/20 bg-background">
-                    <div className="flex items-start justify-between mb-2">
-                      <h4 className="font-semibold text-foreground">Technology Integration</h4>
-                      <Badge variant="outline" className="border-blue-500 text-blue-500">Low Risk</Badge>
-                    </div>
-                    <p className="text-sm text-muted-foreground mb-3">
-                      AI and automation implementation may face resistance from existing technicians. Integration 
-                      costs and learning curve could delay ROI.
-                    </p>
-                    <div className="space-y-2">
-                      <div className="flex items-start gap-2">
-                        <Shield className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                        <p className="text-sm text-muted-foreground">
-                          <span className="font-medium text-foreground">Mitigation:</span> Phase AI implementation 
-                          over 18 months. Start with back-office automation (scheduling, invoicing) before field 
-                          operations. Provide training and incentives for technology adoption.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-4 rounded-lg border border-orange-500/20 bg-background">
-                    <div className="flex items-start justify-between mb-2">
-                      <h4 className="font-semibold text-foreground">Regulatory Compliance</h4>
-                      <Badge variant="outline" className="border-blue-500 text-blue-500">Low Risk</Badge>
-                    </div>
-                    <p className="text-sm text-muted-foreground mb-3">
-                      HVAC industry subject to licensing, EPA refrigerant regulations, and safety standards. 
-                      Non-compliance could result in fines or license suspension.
-                    </p>
-                    <div className="space-y-2">
-                      <div className="flex items-start gap-2">
-                        <Shield className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                        <p className="text-sm text-muted-foreground">
-                          <span className="font-medium text-foreground">Mitigation:</span> Conduct thorough 
-                          compliance audit during due diligence. Ensure all technicians properly licensed. 
-                          Implement compliance management system. Maintain insurance coverage.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="pt-4 border-t border-border">
-                  <div className="flex items-center gap-2 text-sm">
-                    <Shield className="w-4 h-4 text-green-500" />
-                    <span className="text-muted-foreground">
-                      <span className="font-semibold text-green-500">Overall Risk Assessment:</span> Moderate risk 
-                      profile with clear mitigation strategies. Risks are manageable with proper planning.
-                    </span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
           </div>
 
-          {/* Sidebar */}
+          {/* Right Sidebar */}
           <div className="space-y-6">
-            {/* Quick Actions */}
+
+            {/* Score Visualization */}
             <Card>
               <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
+                <CardTitle>Scoring Profile</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-2">
-                <Button className="w-full" variant="default">
-                  Schedule Call
-                </Button>
-                <Button className="w-full" variant="outline">
-                  Request Info
-                </Button>
-                <Button className="w-full" variant="outline">
-                  Add to Watch List
-                </Button>
+              <CardContent>
+                <div className="h-[250px] w-full">
+                  {analysisResult ? (
+                    <ResponsiveContainer width="100%" height="100%">
+                      <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
+                        <PolarGrid />
+                        <PolarAngleAxis dataKey="subject" tick={{ fontSize: 12 }} />
+                        <PolarRadiusAxis angle={30} domain={[0, 100]} />
+                        <Radar name="Deal" dataKey="A" stroke="#2563eb" fill="#3b82f6" fillOpacity={0.6} />
+                        <Tooltip />
+                      </RadarChart>
+                    </ResponsiveContainer>
+                  ) : (
+                    <div className="h-full flex items-center justify-center text-muted-foreground text-sm bg-secondary/20 rounded-lg">
+                      Run analysis to see radar chart
+                    </div>
+                  )}
+                </div>
               </CardContent>
             </Card>
 
-            {/* Red Flags */}
+            {/* Strategic Tags */}
             <Card>
               <CardHeader>
-                <CardTitle>Risk Assessment</CardTitle>
+                <CardTitle>Strategy</CardTitle>
               </CardHeader>
-              <CardContent>
-                {opportunity.red_flags.has_red_flags ? (
-                  <div className="space-y-2">
-                    {opportunity.red_flags.flags.map((flag, index) => (
-                      <Badge key={index} variant="destructive" className="mr-2">
-                        {flag.replace(/_/g, ' ')}
-                      </Badge>
-                    ))}
-                    <p className="text-sm text-muted-foreground mt-4">
-                      Score penalty: {(opportunity.red_flags.penalty * 100).toFixed(0)}%
-                    </p>
+              <CardContent className="space-y-4">
+                <div>
+                  <div className="text-xs uppercase text-muted-foreground font-semibold mb-2">AI Leverage</div>
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="w-4 h-4 text-purple-500" />
+                    <div className="h-2 flex-1 bg-secondary rounded-full overflow-hidden">
+                      <div className="h-full bg-purple-500" style={{ width: `${deal.aiPotential || 50}%` }}></div>
+                    </div>
+                    <span className="text-sm font-bold">{deal.aiPotential || 50}%</span>
                   </div>
-                ) : (
-                  <div className="text-center py-4">
-                    <div className="text-4xl mb-2">✓</div>
-                    <p className="text-sm text-green-500 font-medium">No Red Flags Detected</p>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      Clean due diligence profile
-                    </p>
+                </div>
+
+                <div>
+                  <div className="text-xs uppercase text-muted-foreground font-semibold mb-2">Gov Cert Advantage</div>
+                  <div className="flex items-center gap-2">
+                    <Shield className="w-4 h-4 text-blue-500" />
+                    <div className="h-2 flex-1 bg-secondary rounded-full overflow-hidden">
+                      <div className="h-full bg-blue-500" style={{ width: `${deal.certAdvantage || 50}%` }}></div>
+                    </div>
+                    <span className="text-sm font-bold">{deal.certAdvantage || 50}%</span>
+                  </div>
+                </div>
+
+                {deal.opportunityZone && (
+                  <div className="p-3 bg-green-500/10 border border-green-500/20 rounded-md flex items-center gap-2">
+                    <TrendingUp className="w-4 h-4 text-green-600" />
+                    <span className="text-sm font-medium text-green-700">Opportunity Zone Eligible</span>
                   </div>
                 )}
               </CardContent>
             </Card>
 
-            {/* AI Optimization Potential */}
-            <Card>
-              <CardHeader>
-                <CardTitle>AI Optimization</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-1">Efficiency Gains</p>
-                    <p className="text-lg font-bold text-foreground">15-30%</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-1">Cost Reduction</p>
-                    <p className="text-lg font-bold text-foreground">10-25%</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-1">Revenue Increase</p>
-                    <p className="text-lg font-bold text-foreground">20-40%</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
           </div>
         </div>
       </div>

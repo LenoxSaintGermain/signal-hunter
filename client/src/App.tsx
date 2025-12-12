@@ -13,7 +13,9 @@ import PropertyComparison from "@/pages/PropertyComparison";
 import Property514Whitehall from "./pages/Property514Whitehall";
 import PonceProtocol from "./pages/PonceProtocol";
 import CapitalStack from "./pages/CapitalStack";
+
 import Projections from "./pages/Projections";
+import SearchSettings from "./pages/SearchSettings";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -23,6 +25,7 @@ function Router() {
 
       <Route path={"/capital-stack"} component={CapitalStack} />
       <Route path={"/projections"} component={Projections} />
+      <Route path={"/settings/search"} component={SearchSettings} />
       <Route path={"/dashboard"} component={Dashboard} />
       <Route path={"opportunity/:id"} component={OpportunityDetail} />
       <Route path="/property/514-whitehall" component={Property514Whitehall} />
