@@ -81,8 +81,8 @@ export default function ApiConfiguration() {
             const mode = preferences.geminiApiMode || "beta";
             setUseBeta(mode === "beta");
             form.reset({
-                aiProvider: preferences.aiProvider || "manus",
-                geminiApiMode: mode,
+                aiProvider: (preferences.aiProvider || "manus") as "manus" | "personal",
+                geminiApiMode: mode as "beta" | "ga",
                 customPromptTemplate: preferences.customPromptTemplate || DEFAULT_PROMPT_TEMPLATE,
             });
         }

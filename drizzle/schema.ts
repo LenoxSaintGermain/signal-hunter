@@ -88,7 +88,7 @@ export type InsertMarketScan = typeof marketScans.$inferInsert;
 export const userPreferences = mysqlTable("userPreferences", {
   id: int("id").autoincrement().primaryKey(),
   userId: int("userId").notNull().unique(),
-  aiProvider: text("ai_provider").default("manus"), // "manus" or "personal"
+  aiProvider: varchar("ai_provider", { length: 20 }).default("manus"), // "manus" or "personal"
   geminiApiMode: mysqlEnum("geminiApiMode", ["beta", "ga"]).default("beta"),
   customPromptTemplate: text("custom_prompt_template"),
   createdAt: timestamp("created_at").defaultNow(),

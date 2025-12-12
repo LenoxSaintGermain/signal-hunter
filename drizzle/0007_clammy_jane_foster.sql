@@ -1,0 +1,1 @@
+ALTER TABLE `userPreferences` MODIFY COLUMN `ai_provider` varchar(20) DEFAULT 'manus';

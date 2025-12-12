@@ -1,0 +1,9 @@
+{
+  "query": "ALTER TABLE `userPreferences` \nADD COLUMN `ai_provider` varchar(20) DEFAULT 'manus',\nADD COLUMN `custom_prompt_template` text,\nADD COLUMN `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,\nADD COLUMN `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3v1wvYFABP51Dvh.3f4911c04924 --database boxxx2H9MLTMPZtbmRJTvV --execute ALTER TABLE `userPreferences` \nADD COLUMN `ai_provider` varchar(20) DEFAULT 'manus',\nADD COLUMN `custom_prompt_template` text,\nADD COLUMN `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,\nADD COLUMN `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1414
+}

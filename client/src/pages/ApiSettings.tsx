@@ -84,8 +84,8 @@ export default function ApiSettings() {
       setUseManusTokens(provider === "manus");
       setUseBeta(mode === "beta");
       form.reset({
-        aiProvider: provider,
-        geminiApiMode: mode,
+        aiProvider: provider as "manus" | "personal",
+        geminiApiMode: mode as "beta" | "ga",
         customPromptTemplate: preferences.customPromptTemplate || DEFAULT_PROMPT_TEMPLATE,
       });
     }
