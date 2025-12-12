@@ -255,10 +255,10 @@ export default function Dashboard() {
                 {filteredOpportunities.map((opp) => (
                   <Link key={opp.listing_id} href={`/property/${opp.listing_id}`}>
                     <div className="opportunity-card bg-white border border-border hover:border-primary/50 transition-all rounded-xl overflow-hidden group shadow-sm hover:shadow-md">
-                      <div className="flex flex-col md:flex-row md:items-center p-6 gap-6 relative">
+                      <div className="flex flex-col md:flex-row md:items-center p-4 md:p-6 gap-4 md:gap-6 relative">
 
                         {/* Mobile Rank Badge (visible only on mobile) */}
-                        <div className="md:hidden absolute top-6 right-6 text-4xl font-black text-secondary/30 pointer-events-none">
+                        <div className="md:hidden absolute top-4 right-4 text-4xl font-black text-secondary/30 pointer-events-none">
                           #{opp.rank}
                         </div>
 
@@ -309,8 +309,8 @@ export default function Dashboard() {
                         {/* Desktop Score Pill (hidden on mobile) */}
                         <div className="hidden md:flex flex-col items-center justify-center">
                           <div className={`w-16 h-16 rounded-full flex items-center justify-center text-lg font-bold shadow-sm ${opp.final_score >= 0.8
-                              ? 'bg-green-100 text-green-700 border-2 border-green-200'
-                              : 'bg-yellow-100 text-yellow-700 border-2 border-yellow-200'
+                            ? 'bg-green-100 text-green-700 border-2 border-green-200'
+                            : 'bg-yellow-100 text-yellow-700 border-2 border-yellow-200'
                             }`}>
                             {(opp.final_score * 100).toFixed(0)}
                           </div>
