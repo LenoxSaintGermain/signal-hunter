@@ -102,7 +102,7 @@ async function testGemini() {
   try {
     const { GoogleGenerativeAI } = await import('@google/generative-ai');
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
+    const model = genAI.getGenerativeModel({ model: "gemini-3-pro-preview" });
 
     const result = await model.generateContent("Say 'test successful'");
     const response = await result.response;
