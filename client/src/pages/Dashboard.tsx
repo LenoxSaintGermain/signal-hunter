@@ -251,57 +251,78 @@ export default function Dashboard() {
                 Loading opportunities...
               </div>
             ) : (
-              <div className="space-y-4">
+              <div className="space-y-6">
                 {filteredOpportunities.map((opp) => (
                   <Link key={opp.listing_id} href={`/property/${opp.listing_id}`}>
-                    <div className="opportunity-card bg-white border border-border hover:border-primary/50 transition-colors">
-                      <div className="flex items-center justify-between">
-                        {/* Left: Rank + Title */}
-                        <div className="flex items-center gap-4 flex-1">
-                          <div className="text-3xl font-bold text-muted-foreground/30">
-                            #{opp.rank}
+                    <div className="opportunity-card bg-white border border-border hover:border-primary/50 transition-all rounded-xl overflow-hidden group shadow-sm hover:shadow-md">
+                      <div className="flex flex-col md:flex-row md:items-center p-6 gap-6 relative">
+
+                        {/* Mobile Rank Badge (visible only on mobile) */}
+                        <div className="md:hidden absolute top-6 right-6 text-4xl font-black text-secondary/30 pointer-events-none">
+                          #{opp.rank}
+                        </div>
+
+                        {/* Rank + Title Section */}
+                        <div className="flex items-start gap-4 flex-1">
+                          {/* Desktop Rank (hidden on mobile) */}
+                          <div className="hidden md:flex flex-col items-center justify-center w-12 pt-1">
+                            <span className="text-3xl font-bold text-muted-foreground/20">#{opp.rank}</span>
                           </div>
-                          <div className="flex-1">
-                            <h4 className="font-semibold text-lg mb-1 text-foreground">
+
+                          <div className="flex-1 pr-12 md:pr-0">
+                            <h4 className="font-bold text-xl md:text-2xl mb-2 text-foreground group-hover:text-primary transition-colors leading-tight">
                               {opp.title}
                             </h4>
-                            <p className="text-sm text-muted-foreground">
-                              Click to view full analysis
-                            </p>
+                            <div className="flex flex-wrap gap-2 mb-3">
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700">
+                                {opp.industry}
+                              </span>
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary text-secondary-foreground">
+                                {opp.location}
+                              </span>
+                            </div>
                           </div>
                         </div>
 
-                        {/* Middle: Key Stats */}
-                        <div className="flex items-center gap-8 mr-8">
-                          <div>
-                            <div className="text-xs uppercase tracking-wide mb-1 text-muted-foreground">
-                              Industry
-                            </div>
-                            <div className="text-sm font-medium text-foreground">
-                              {opp.industry}
-                            </div>
-                          </div>
-                          <div>
-                            <div className="text-xs uppercase tracking-wide mb-1 text-muted-foreground">
-                              Location
-                            </div>
-                            <div className="text-sm font-medium text-foreground">
-                              {opp.location}
-                            </div>
-                          </div>
-                          <div>
-                            <div className="text-xs uppercase tracking-wide mb-1 text-muted-foreground">
+                        {/* Key Stats Grid - Stack on mobile, Row on desktop */}
+                        <div className="grid grid-cols-2 md:flex md:items-center gap-6 md:gap-12 md:mr-8 border-t md:border-t-0 border-border pt-4 md:pt-0">
+                          <div className="flex flex-col">
+                            <span className="text-xs uppercase tracking-wider text-muted-foreground mb-1 font-semibold">
                               Revenue
-                            </div>
-                            <div className="text-sm font-medium text-foreground">
+                            </span>
+                            <span className="text-base md:text-sm font-semibold text-foreground">
                               {opp.revenue}
-                            </div>
+                            </span>
+                          </div>
+
+                          {/* Mobile Score Display (hidden on desktop) */}
+                          <div className="flex flex-col md:hidden">
+                            <span className="text-xs uppercase tracking-wider text-muted-foreground mb-1 font-semibold">
+                              AI Score
+                            </span>
+                            <span className={`text-base font-bold ${opp.final_score >= 0.8 ? 'text-green-600' : 'text-yellow-600'}`}>
+                              {(opp.final_score * 100).toFixed(0)}/100
+                            </span>
                           </div>
                         </div>
 
-                        {/* Right: Score Pill */}
-                        <div className={opp.final_score >= 0.8 ? 'score-pill bg-primary text-primary-foreground' : 'score-pill bg-secondary text-secondary-foreground'}>
-                          Score {(opp.final_score * 100).toFixed(0)}
+                        {/* Desktop Score Pill (hidden on mobile) */}
+                        <div className="hidden md:flex flex-col items-center justify-center">
+                          <div className={`w-16 h-16 rounded-full flex items-center justify-center text-lg font-bold shadow-sm ${opp.final_score >= 0.8
+                              ? 'bg-green-100 text-green-700 border-2 border-green-200'
+                              : 'bg-yellow-100 text-yellow-700 border-2 border-yellow-200'
+                            }`}>
+                            {(opp.final_score * 100).toFixed(0)}
+                          </div>
+                        </div>
+
+                      </div>
+
+                      {/* Mobile CTA Footer */}
+                      <div className="md:hidden bg-secondary/30 px-6 py-3 border-t border-border flex items-center justify-between text-sm">
+                        <span className="text-muted-foreground font-medium">View Analysis</span>
+                        <div className="w-8 h-8 rounded-full bg-white border border-border flex items-center justify-center group-hover:border-primary/50 transition-colors">
+                          →
                         </div>
                       </div>
                     </div>
