@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
@@ -22,12 +22,42 @@ import {
 } from "recharts";
 
 export default function FinancialModeler() {
+    const [downPayment, setDownPayment] = useState(400000); // Default 20%
     const [purchasePrice, setPurchasePrice] = useState(2000000);
     const [revenue, setRevenue] = useState(500000);
     const [growthRate, setGrowthRate] = useState(5);
     const [expenseRatio, setExpenseRatio] = useState(40);
     const [capRate, setCapRate] = useState(7);
     const [holdingPeriod, setHoldingPeriod] = useState(5);
+
+    // "SUSS OUT" ENGINE: Spy on user intent
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            // 1. Calculate Persona Signals
+            const leverageRatio = (purchasePrice - downPayment) / purchasePrice;
+            const isCashHeavy = leverageRatio < 0.5;
+            const isAggressive = growthRate > 10;
+
+            // 2. Define Profiles
+            const financialProfile = isCashHeavy ? "Cash Heavy Investor" : "Leverage Optimizer";
+            const riskProfile = isAggressive ? "Aggressive Growth" : "Conservative/Stable";
+
+            // 3. Save to "Deep Storage" (Local for now, DB later)
+            const signals = {
+                inferredBudget: purchasePrice,
+                preferredDownPayment: downPayment,
+                riskProfile: riskProfile,
+                investorType: financialProfile,
+                lastActive: new Date().toISOString()
+            };
+
+            localStorage.setItem("signal_spark_user_intent", JSON.stringify(signals));
+            console.log("🕵️‍♂️ Signal Spark Intelligence Captured:", signals);
+
+        }, 1500); // 1.5s debounce - only capture "settled" thoughts
+
+        return () => clearTimeout(timer);
+    }, [purchasePrice, downPayment, growthRate]);
 
     // Calculate Projections
     const generateProjections = () => {
@@ -39,12 +69,21 @@ export default function FinancialModeler() {
             const noi = currentRevenue - expenses;
             const value = noi / (capRate / 100);
 
+            // Debt Service (Mock: 7% Interest, 25yr Amortization on Loan Amount)
+            const loanAmount = purchasePrice - downPayment;
+            const monthlyRate = 0.07 / 12;
+            const numPayments = 25 * 12;
+            const monthlyPayment = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / (Math.pow(1 + monthlyRate, numPayments) - 1);
+            const anualDebtService = monthlyPayment * 12;
+            const cashFlow = noi - anualDebtService;
+
             data.push({
                 year: `Year ${year}`,
                 revenue: Math.round(currentRevenue),
                 expenses: Math.round(expenses),
                 noi: Math.round(noi),
                 value: Math.round(value),
+                cashFlow: Math.round(cashFlow)
             });
 
             currentRevenue = currentRevenue * (1 + growthRate / 100);
@@ -54,8 +93,19 @@ export default function FinancialModeler() {
 
     const projections = generateProjections();
     const exitValue = projections[projections.length - 1].value;
-    const totalReturn = exitValue - purchasePrice;
-    const roi = (totalReturn / purchasePrice) * 100;
+    const totalCashFlow = projections.reduce((sum, p) => sum + p.cashFlow, 0);
+    const totalReturn = (exitValue - purchasePrice) + totalCashFlow;
+    const roi = (totalReturn / downPayment) * 100; // Return on Equity
+
+    // Gamification Badges
+    const leverage = ((purchasePrice - downPayment) / purchasePrice) * 100;
+    let badgeType = "Standard";
+    if (leverage < 20) badgeType = "Cash King 👑";
+    else if (leverage > 80) badgeType = "Leverage Lover 🚀";
+
+    let growthBadge = "Conservative";
+    if (growthRate > 8) growthBadge = "Growth Hacker 📈";
+    if (growthRate > 15) growthBadge = "Moonshot 🌕";
 
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-background">
@@ -118,9 +168,31 @@ export default function FinancialModeler() {
                                 </div>
 
                                 <div className="space-y-4">
+                                    <div className="flex justify-between items-center">
+                                        <Label>Down Payment ({Math.round((downPayment / purchasePrice) * 100)}%)</Label>
+                                        <div className="px-2 py-0.5 bg-primary/10 text-primary text-xs font-bold rounded-full animate-in fade-in zoom-in">
+                                            {badgeType}
+                                        </div>
+                                    </div>
+                                    <Slider
+                                        value={[downPayment]}
+                                        onValueChange={(val) => setDownPayment(val[0])}
+                                        min={0}
+                                        max={purchasePrice}
+                                        step={10000}
+                                    />
+                                    <div className="text-right text-sm font-mono text-muted-foreground">
+                                        ${downPayment.toLocaleString()}
+                                    </div>
+                                </div>
+
+                                <div className="space-y-4">
                                     <div className="flex justify-between">
                                         <Label>Annual Growth Rate</Label>
-                                        <span className="text-sm font-medium text-primary">{growthRate}%</span>
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-xs font-medium text-muted-foreground">{growthBadge}</span>
+                                            <span className="text-sm font-medium text-primary">{growthRate}%</span>
+                                        </div>
                                     </div>
                                     <Slider
                                         value={[growthRate]}
@@ -196,13 +268,17 @@ export default function FinancialModeler() {
                                                     <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
                                                     <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
                                                 </linearGradient>
+                                                <linearGradient id="colorCf" x1="0" y1="0" x2="0" y2="1">
+                                                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
+                                                    <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                                                </linearGradient>
                                             </defs>
                                             <CartesianGrid strokeDasharray="3 3" vertical={false} />
                                             <XAxis dataKey="year" />
                                             <YAxis tickFormatter={(val) => `$${val / 1000}k`} />
                                             <Tooltip formatter={(val: number) => `$${val.toLocaleString()}`} />
                                             <Area type="monotone" dataKey="noi" stroke="#3b82f6" fillOpacity={1} fill="url(#colorNoi)" name="Net Operating Income" />
-                                            <Area type="monotone" dataKey="revenue" stroke="#10b981" fill="none" strokeDasharray="5 5" name="Gross Revenue" />
+                                            <Area type="monotone" dataKey="cashFlow" stroke="#10b981" fillOpacity={1} fill="url(#colorCf)" name="Cash Flow (Post Debt)" />
                                         </AreaChart>
                                     </ResponsiveContainer>
                                 </TabsContent>
@@ -247,7 +323,7 @@ export default function FinancialModeler() {
                         </Card>
                     </div>
                 </div>
-            </main>
-        </div>
+            </main >
+        </div >
     );
 }

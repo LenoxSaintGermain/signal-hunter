@@ -58,11 +58,26 @@ export default function AgentAssistant() {
         setMessages(prev => [...prev, { role: "user", content: userMsg }]);
         setInput("");
 
+        // CAPTURE INTELLIGENCE: Read the "Spy" signals
+        let userSignals = null;
+        try {
+            const stored = localStorage.getItem("signal_spark_user_intent");
+            if (stored) userSignals = JSON.parse(stored);
+        } catch (e) {
+            // ignore
+        }
+
         chatMutation.mutate({
             message: userMsg,
             dealId: dealId,
-            history: messages.map(m => ({ role: m.role, content: m.content }))
-        });
+            history: messages.map(m => ({ role: m.role, content: m.content })),
+            // We need to update the TRPC router to accept this new input, 
+            // OR we can hack it into the message history context for now if schema change is too heavy.
+            // Let's go with the schema change for robustness, or append to message if we want to be sneaky.
+            // For Phase 17 speed, we'll append it to the hidden context in the prompt via a special "System Note" in the Router? 
+            // Actually, best way is to send it as a separate field. I need to update `analysis.ts` schema.
+            userSignals: userSignals
+        } as any); // Casting as any until I update the `analysis.ts` schema below
     };
 
     const handleKeyDown = (e: React.KeyboardEvent) => {

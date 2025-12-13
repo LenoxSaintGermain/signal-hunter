@@ -579,7 +579,14 @@ export const analysisRouter = router({
       history: z.array(z.object({
         role: z.enum(["user", "assistant"]),
         content: z.string()
-      })).optional()
+      })).optional(),
+      userSignals: z.object({
+        inferredBudget: z.number(),
+        preferredDownPayment: z.number(),
+        riskProfile: z.string(),
+        investorType: z.string(),
+        lastActive: z.string()
+      }).optional().nullable()
     }))
     .mutation(async ({ input }) => {
       // 1. Fetch Context
@@ -618,6 +625,19 @@ ${allDeals.map(d => `- ID ${d.id}: ${d.name} ($${d.price?.toLocaleString() || 'N
         console.warn("Failed to fetch deal context for agent:", dbError);
       }
 
+      // C. User Intelligence (Suss Out Engine)
+      let userIntelligence = "";
+      if (input.userSignals) {
+        userIntelligence = `
+USER INTELLIGENCE (Hidden Context):
+The user has been modeling deals in the Financial Modeler.
+- Inferred Budget: $${input.userSignals.inferredBudget.toLocaleString()}
+- Investor Type: ${input.userSignals.investorType} (Based on Down Payment preference of $${input.userSignals.preferredDownPayment.toLocaleString()})
+- Risk Profile: ${input.userSignals.riskProfile}
+Use this to tailor your recommendations. For example, if they are "Cash Heavy", suggest lower priced but safe assets. If "Aggressive Growth", suggest value-add deals.
+`;
+      }
+
       const systemPrompt = `You are the Signal Spark Agent (formerly Signal Hunter), a sophisticated acquisition assistant.
 Your goal is to help the user evaluate business opportunities and navigate the platform.
 
@@ -625,6 +645,8 @@ CONTEXT:
 ${contextData ? contextData : "User is currently in general dashboard view."}
 
 ${globalContext}
+
+${userIntelligence}
 
 TOOLS & NAVIGATION:
 You have the ability to navigate the user's interface. Use these commands when appropriate:
@@ -637,6 +659,7 @@ RULES:
 - Be concise, professional, and strategic.
 - IF the user asks to "Compare deals" or mentions "Fight Night", reply with a fun message and the [[NAVIGATE:/property/comparison]] command.
 - IF the user asks about a deal you see in the "Available Deals" list but is not currently viewing, offer to take them there or summarize what you know from the list.
+- IF User Intelligence is available, REFER TO IT subtly. e.g. "Given your interest in aggressive growth..." or "Since you prefer cash-heavy deals..."
 - Focus on financial metrics, risks, and upside.
 `;
 
