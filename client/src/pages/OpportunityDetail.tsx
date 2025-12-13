@@ -357,6 +357,32 @@ export default function OpportunityDetail() {
               </CardContent>
             </Card>
 
+            {/* Property Visuals - Regression Fix */}
+            <Card className="overflow-hidden border-primary/20 shadow-lg shadow-blue-500/5 group cursor-pointer hover:border-primary/50 transition-colors">
+              <div className="relative h-48 bg-gray-100 dark:bg-gray-800">
+                {/* Fallback Image / Placeholder */}
+                <img
+                  src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&q=80&w=800"
+                  alt="Property"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4 text-white">
+                  <h3 className="font-bold text-lg flex items-center gap-2">
+                    <ExternalLink className="w-4 h-4" />
+                    Property Photos
+                  </h3>
+                  <p className="text-xs text-white/80">View full album on Google Photos</p>
+                </div>
+              </div>
+              <CardContent className="p-0">
+                <Button variant="ghost" className="w-full rounded-none h-12 gap-2 hover:bg-primary/5">
+                  Open Google Photo Algorithm
+                  <ArrowLeft className="w-4 h-4 rotate-180" />
+                </Button>
+              </CardContent>
+            </Card>
+
           </div>
         </div>
       </div>
