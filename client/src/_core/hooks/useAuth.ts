@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useLocation } from "wouter";
-import { trpc } from "../trpc";
+import { trpc } from "@/lib/trpc";
 import { atom, useAtom } from "jotai";
 
 // Global auth state
 const authAtom = atom<{
-  user: { id: number; openId: string; name: string; email: string } | null;
+  user: { id: number; openId: string; name: string | null; email: string | null } | null;
   loading: boolean;
   error: string | null;
   isAuthenticated: boolean;

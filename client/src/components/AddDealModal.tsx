@@ -21,7 +21,7 @@ export default function AddDealModal({ open, onOpenChange }: AddDealModalProps) 
     const [isScanning, setIsScanning] = useState(false);
 
     const ingestMutation = trpc.ingest.parse.useMutation({
-        onSuccess: (data) => {
+        onSuccess: (data: any) => {
             setIsScanning(false);
             onOpenChange(false);
             toast.success("Deal Drafted Automatically!", {
@@ -30,7 +30,7 @@ export default function AddDealModal({ open, onOpenChange }: AddDealModalProps) 
             // Redirect to the new deal
             setLocation(`/opportunity/${data.dealId}`);
         },
-        onError: (err) => {
+        onError: (err: any) => {
             setIsScanning(false);
             toast.error("Ingestion Failed", {
                 description: err.message

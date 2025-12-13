@@ -88,7 +88,6 @@ export const ingestRouter = router({
                 stage: "draft",
                 // Defaults
                 score: 50,
-                stage: "draft",
                 createdAt: new Date(),
                 updatedAt: new Date(),
                 opportunityZone: false,
