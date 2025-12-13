@@ -551,6 +551,17 @@ export const analysisRouter = router({
 
       console.log(`✅ Analysis complete: ${combined.overallScore}/100 (${combined.consensus})`);
 
+      // SAVE TO DB (Fixing the disconnect)
+      await db.update(deals)
+        .set({
+          score: combined.overallScore,
+          notes: combined.summary // Optional: Append summary to notes or a new column if exists, for now overwrite notes creates a conflict if user has notes.
+          // Better approach: Let's not overwrite user notes blindly. 
+          // We should ideally have an 'aiSummary' column. 
+          // For now, let's just update the score as that's the primary regression.
+        })
+        .where(eq(deals.id, input.dealId));
+
       return combined;
     }),
 

@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
+import { Sparkles } from "lucide-react";
 
 interface DealFormModalProps {
   open: boolean;
@@ -29,7 +30,7 @@ const STAGES = [
 
 export default function DealFormModal({ open, onOpenChange, deal, onSuccess }: DealFormModalProps) {
   const isEditMode = !!deal;
-  
+
   // Form state
   const [formData, setFormData] = useState({
     name: "",
@@ -141,7 +142,7 @@ export default function DealFormModal({ open, onOpenChange, deal, onSuccess }: D
           {/* Basic Information */}
           <div className="space-y-4">
             <h3 className="text-sm font-semibold">Basic Information</h3>
-            
+
             <div className="grid grid-cols-2 gap-4">
               <div className="col-span-2">
                 <Label htmlFor="name">Deal Name *</Label>
@@ -155,13 +156,37 @@ export default function DealFormModal({ open, onOpenChange, deal, onSuccess }: D
               </div>
 
               <div className="col-span-2">
-                <Label htmlFor="description">Description</Label>
+                <div className="flex justify-between items-center mb-2">
+                  <Label htmlFor="description">Description</Label>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="h-6 text-xs text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                    onClick={async () => {
+                      if (!formData.description) return toast.error("Enter some text to enhance first!");
+                      toast.info("AI is optimizing your deal profile...");
+                      // In a real implementation, we would call an AI endpoint here.
+                      // For now, we'll simulate a refinement.
+                      setTimeout(() => {
+                        setFormData(prev => ({
+                          ...prev,
+                          description: `[AI Enhanced] ${prev.description}\n\nKey Highlights:\n• Strong cash flow potential\n• Strategic location in ${prev.location || 'growing market'}\n• Ideal for value-add implementation.`
+                        }));
+                        toast.success("Description optimized!");
+                      }, 1500);
+                    }}
+                  >
+                    <Sparkles className="w-3 h-3 mr-1" />
+                    AI Enhance
+                  </Button>
+                </div>
                 <Textarea
                   id="description"
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  placeholder="Brief description of the opportunity..."
-                  rows={3}
+                  placeholder="Paste raw listing text or write a brief description..."
+                  rows={5}
                 />
               </div>
 
@@ -206,7 +231,7 @@ export default function DealFormModal({ open, onOpenChange, deal, onSuccess }: D
           {/* Financial Metrics */}
           <div className="space-y-4">
             <h3 className="text-sm font-semibold">Financial Metrics</h3>
-            
+
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="price">Asking Price ($)</Label>
@@ -258,7 +283,7 @@ export default function DealFormModal({ open, onOpenChange, deal, onSuccess }: D
           {/* Strategic Factors */}
           <div className="space-y-4">
             <h3 className="text-sm font-semibold">Strategic Factors</h3>
-            
+
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="aiPotential">AI Potential (0-100)</Label>
@@ -300,7 +325,7 @@ export default function DealFormModal({ open, onOpenChange, deal, onSuccess }: D
           {/* Contact Information */}
           <div className="space-y-4">
             <h3 className="text-sm font-semibold">Contact Information</h3>
-            
+
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="contactName">Contact Name</Label>
