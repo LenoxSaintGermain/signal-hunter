@@ -21,7 +21,7 @@ export default function AgentAssistant() {
         { role: "assistant", content: "Hello, I'm your Signal Hunter AI. How can I assist with your deal analysis today?" }
     ]);
     const scrollRef = useRef<HTMLDivElement>(null);
-    const [location] = useLocation();
+    const [location, setLocation] = useLocation();
 
     // Determine context from URL (e.g. /opportunity/123)
     const dealId = location.match(/\/opportunity\/(\d+)/)?.[1]
@@ -30,10 +30,24 @@ export default function AgentAssistant() {
 
     const chatMutation = trpc.analysis.chat.useMutation({
         onSuccess: (data) => {
+            // Check for navigation commands
+            if (data.response.includes("[[NAVIGATE:")) {
+                const navMatch = data.response.match(/\[\[NAVIGATE:(.*?)\]\]/);
+                if (navMatch && navMatch[1]) {
+                    const url = navMatch[1];
+                    setLocation(url); // wouter hook
+                    // Remove the command from the visible message
+                    const cleanResponse = data.response.replace(/\[\[NAVIGATE:.*?\]\]/g, "").trim();
+                    if (cleanResponse) {
+                        setMessages(prev => [...prev, { role: "assistant", content: cleanResponse }]);
+                    }
+                    return;
+                }
+            }
             setMessages(prev => [...prev, { role: "assistant", content: data.response }]);
         },
         onError: (error) => {
-            setMessages(prev => [...prev, { role: "assistant", content: "Sorry, I encountered an error. Please try again." }]);
+            setMessages(prev => [...prev, { role: "assistant", content: "Sorry, I encountered an error connecting to the neural network." }]);
         }
     });
 
@@ -106,8 +120,8 @@ export default function AgentAssistant() {
                                     >
                                         <div
                                             className={`max-w-[85%] rounded-2xl px-4 py-2 text-sm ${msg.role === "user"
-                                                    ? "bg-primary text-primary-foreground rounded-br-none"
-                                                    : "bg-secondary text-secondary-foreground rounded-bl-none"
+                                                ? "bg-primary text-primary-foreground rounded-br-none"
+                                                : "bg-secondary text-secondary-foreground rounded-bl-none"
                                                 }`}
                                         >
                                             {msg.role === "assistant" ? (

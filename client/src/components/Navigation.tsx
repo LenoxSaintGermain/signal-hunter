@@ -163,6 +163,17 @@ export default function Navigation({ currentPage }: NavigationProps) {
                 )}
               </DropdownMenuContent>
             </DropdownMenu>
+            {/* Fight Night Easter Egg */}
+            <Link href="/property/comparison">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-muted-foreground hover:text-red-500 hover:bg-red-500/10 transition-colors"
+                title="Deal Fight Night"
+              >
+                <span className="font-bold font-mono text-lg">VS</span>
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu - Show on medium screens too */}

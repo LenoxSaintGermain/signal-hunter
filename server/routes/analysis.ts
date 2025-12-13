@@ -582,17 +582,20 @@ export const analysisRouter = router({
       })).optional()
     }))
     .mutation(async ({ input }) => {
-      // 1. Fetch Context (Deal Data) if available
+      // 1. Fetch Context
       let contextData = "";
-      if (input.dealId) {
-        try {
-          const db = await getDb();
-          if (db) {
+      let globalContext = "";
+
+      try {
+        const db = await getDb();
+        if (db) {
+          // A. Specific Deal Context
+          if (input.dealId) {
             const dealData = await db.select().from(deals).where(eq(deals.id, input.dealId)).limit(1);
             if (dealData.length > 0) {
               const d = dealData[0];
               contextData = `
-Current Deal Context:
+Current Deal Analysis Focus:
 Name: ${d.name}
 Industry: ${d.industry}
 Location: ${d.location}
@@ -603,20 +606,38 @@ AI Score: ${d.score || 'N/A'}/100
 `;
             }
           }
-        } catch (dbError) {
-          console.warn("Failed to fetch deal context for agent:", dbError);
+
+          // B. Global Deal Awareness (for navigation/comparisons)
+          const allDeals = await db.select({ id: deals.id, name: deals.name, price: deals.price }).from(deals).limit(20);
+          globalContext = `
+Available Deals in Database:
+${allDeals.map(d => `- ID ${d.id}: ${d.name} ($${d.price?.toLocaleString() || 'N/A'})`).join('\n')}
+`;
         }
+      } catch (dbError) {
+        console.warn("Failed to fetch deal context for agent:", dbError);
       }
 
-      const systemPrompt = `You are the Signal Hunter AI Agent, a sophisticated acquisition assistant. 
-Your goal is to help the user evaluate business opportunities.
-${contextData ? contextData : "The user is currently browsing the dashboard."}
+      const systemPrompt = `You are the Signal Spark Agent (formerly Signal Hunter), a sophisticated acquisition assistant.
+Your goal is to help the user evaluate business opportunities and navigate the platform.
 
-Rules:
+CONTEXT:
+${contextData ? contextData : "User is currently in general dashboard view."}
+
+${globalContext}
+
+TOOLS & NAVIGATION:
+You have the ability to navigate the user's interface. Use these commands when appropriate:
+- To go to the Dashboard: Output "[[NAVIGATE:/dashboard]]"
+- To compare deals (Fight Night): Output "[[NAVIGATE:/property/comparison]]"
+- To see Financial Models: Output "[[NAVIGATE:/financial-modeler]]"
+- To view a specific deal: Output "[[NAVIGATE:/opportunity/{ID}]]" (e.g., [[NAVIGATE:/opportunity/1]])
+
+RULES:
 - Be concise, professional, and strategic.
+- IF the user asks to "Compare deals" or mentions "Fight Night", reply with a fun message and the [[NAVIGATE:/property/comparison]] command.
+- IF the user asks about a deal you see in the "Available Deals" list but is not currently viewing, offer to take them there or summarize what you know from the list.
 - Focus on financial metrics, risks, and upside.
-- If asking about the current deal, refer to the data provided above.
-- If the user asks to "Analyze" or "Run Report", tell them to click the "Analyze" button on the UI.
 `;
 
       try {

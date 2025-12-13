@@ -16,7 +16,7 @@ export default function OpportunityDetail() {
   // Try both routes
   const [matchOpportunity, paramsOpportunity] = useRoute("/opportunity/:id");
   const [matchDeal, paramsDeal] = useRoute("/deal/:id");
-  
+
   const params = matchOpportunity ? paramsOpportunity : paramsDeal;
   const dealId = params?.id ? parseInt(params.id) : 0;
 
@@ -87,24 +87,24 @@ export default function OpportunityDetail() {
     <div className="min-h-screen bg-background">
       <Navigation currentPage="/dashboard" />
 
-      {/* Header */}
-      <div className="pt-20 border-b border-border bg-card">
+      {/* Header with Signal Spark Glassmorphism */}
+      <div className="pt-20 border-b border-primary/10 bg-gradient-to-b from-background/95 to-background/50 backdrop-blur-xl sticky top-0 z-40 supports-[backdrop-filter]:bg-background/60">
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-6">
-          <Link href="/dashboard" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-4 transition-colors">
-            <ArrowLeft className="w-4 h-4" />
+          <Link href="/dashboard" className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary mb-4 transition-colors group">
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
             Back to Dashboard
           </Link>
 
           <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
             <div>
               <div className="flex items-center gap-3 mb-2">
-                <h1 className="text-3xl font-bold text-foreground tracking-tight">{deal.name}</h1>
-                <Badge variant={deal.score && deal.score >= 80 ? "default" : "secondary"} className="text-sm px-3 py-1">
+                <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-foreground to-primary/80 tracking-tight">{deal.name}</h1>
+                <Badge variant={deal.score && deal.score >= 80 ? "default" : "secondary"} className="text-sm px-3 py-1 shadow-sm shadow-primary/20">
                   Score: {deal.score || 'N/A'}
                 </Badge>
               </div>
               <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                <span className="flex items-center gap-1"><Badge variant="outline">{deal.stage || "lead"}</Badge></span>
+                <span className="flex items-center gap-1"><Badge variant="outline" className="border-primary/20 bg-primary/5 text-primary">{deal.stage || "lead"}</Badge></span>
                 <span>•</span>
                 <span>{deal.industry || "Unknown Industry"}</span>
                 <span>•</span>
@@ -115,15 +115,15 @@ export default function OpportunityDetail() {
             </div>
 
             <div className="flex gap-2">
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" className="hover:bg-primary/10 hover:text-primary transition-colors">
                 <Mail className="w-4 h-4 mr-2" />
                 Contact
               </Button>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" className="hover:bg-primary/10 hover:text-primary transition-colors">
                 <Download className="w-4 h-4 mr-2" />
                 Export
               </Button>
-              <Button size="sm">
+              <Button size="sm" className="shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-shadow">
                 <ExternalLink className="w-4 h-4 mr-2" />
                 Source
               </Button>
@@ -140,29 +140,29 @@ export default function OpportunityDetail() {
           <div className="lg:col-span-2 space-y-8">
 
             {/* Financial Overview */}
-            <Card>
+            <Card className="border-primary/5 shadow-xl shadow-primary/5 bg-gradient-to-br from-card to-card/50">
               <CardHeader>
-                <CardTitle>Financial Overview</CardTitle>
+                <CardTitle className="text-primary/90">Financial Overview</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                   <div>
-                    <p className="text-sm text-muted-foreground mb-1">Asking Price</p>
-                    <p className="text-2xl font-bold text-foreground">${deal.price?.toLocaleString() || 'N/A'}</p>
-                    <p className="text-xs text-muted-foreground mt-1">{multiples.revenue} Rev</p>
+                    <p className="text-sm text-muted-foreground mb-1 uppercase tracking-wider font-medium">Asking Price</p>
+                    <p className="text-2xl font-bold text-foreground font-mono tracking-tight">${deal.price?.toLocaleString() || 'N/A'}</p>
+                    <p className="text-xs text-primary/80 mt-1 font-medium">{multiples.revenue} Rev</p>
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground mb-1">Annual Revenue</p>
-                    <p className="text-2xl font-bold text-foreground">${deal.revenue?.toLocaleString() || 'N/A'}</p>
+                    <p className="text-sm text-muted-foreground mb-1 uppercase tracking-wider font-medium">Annual Revenue</p>
+                    <p className="text-2xl font-bold text-foreground font-mono tracking-tight">${deal.revenue?.toLocaleString() || 'N/A'}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground mb-1">Cash Flow</p>
-                    <p className="text-2xl font-bold text-foreground">${deal.cashFlow?.toLocaleString() || 'N/A'}</p>
-                    <p className="text-xs text-muted-foreground mt-1">{multiples.cashFlow} CF</p>
+                    <p className="text-sm text-muted-foreground mb-1 uppercase tracking-wider font-medium">Cash Flow</p>
+                    <p className="text-2xl font-bold text-foreground font-mono tracking-tight">${deal.cashFlow?.toLocaleString() || 'N/A'}</p>
+                    <p className="text-xs text-primary/80 mt-1 font-medium">{multiples.cashFlow} CF</p>
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground mb-1">SDE Margin</p>
-                    <p className="text-2xl font-bold text-foreground">{deal.sdeMargin ? (deal.sdeMargin * 100).toFixed(1) : 'N/A'}%</p>
+                    <p className="text-sm text-muted-foreground mb-1 uppercase tracking-wider font-medium">SDE Margin</p>
+                    <p className="text-2xl font-bold text-foreground font-mono tracking-tight">{deal.sdeMargin ? (deal.sdeMargin * 100).toFixed(1) : 'N/A'}%</p>
                   </div>
                 </div>
               </CardContent>
@@ -170,16 +170,17 @@ export default function OpportunityDetail() {
 
             {/* AI Deep Dive Section */}
             {!analysisResult ? (
-              <Card className="border-primary/20 bg-primary/5">
-                <CardContent className="py-12 flex flex-col items-center text-center">
-                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+              <Card className="border-primary/20 bg-primary/5 overflow-hidden relative group">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+                <CardContent className="py-12 flex flex-col items-center text-center relative z-10">
+                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                     <BrainCircuit className="w-8 h-8 text-primary" />
                   </div>
                   <h3 className="text-xl font-bold mb-2">Unlock Deep Intelligence</h3>
                   <p className="text-muted-foreground max-w-md mb-6">
                     Activate our Multi-Model AI Engine (GPT-5, Claude, Gemini) to generate a comprehensive thesis, risk analysis, and strategic roadmap.
                   </p>
-                  <Button size="lg" onClick={handleRunAnalysis} disabled={analyzeMutation.isPending} className="gap-2">
+                  <Button size="lg" onClick={handleRunAnalysis} disabled={analyzeMutation.isPending} className="gap-2 shadow-lg shadow-primary/25">
                     {analyzeMutation.isPending ? (
                       <>
                         <Loader2 className="w-5 h-5 animate-spin" />
@@ -208,7 +209,7 @@ export default function OpportunityDetail() {
                 />
 
                 {/* Investment Thesis */}
-                <Card>
+                <Card className="border-l-4 border-l-yellow-500/50">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Lightbulb className="w-5 h-5 text-yellow-500" />
@@ -234,7 +235,7 @@ export default function OpportunityDetail() {
                 </Card>
 
                 {/* Risk Analysis */}
-                <Card>
+                <Card className="border-l-4 border-l-orange-500/50">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <AlertTriangle className="w-5 h-5 text-orange-500" />
@@ -291,7 +292,7 @@ export default function OpportunityDetail() {
           <div className="space-y-6">
 
             {/* Score Visualization */}
-            <Card>
+            <Card className="border-primary/10 shadow-lg shadow-teal-500/5">
               <CardHeader>
                 <CardTitle>Scoring Profile</CardTitle>
               </CardHeader>
@@ -300,11 +301,14 @@ export default function OpportunityDetail() {
                   {analysisResult ? (
                     <ResponsiveContainer width="100%" height="100%">
                       <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
-                        <PolarGrid />
-                        <PolarAngleAxis dataKey="subject" tick={{ fontSize: 12 }} />
-                        <PolarRadiusAxis angle={30} domain={[0, 100]} />
-                        <Radar name="Deal" dataKey="A" stroke="#2563eb" fill="#3b82f6" fillOpacity={0.6} />
-                        <Tooltip />
+                        <PolarGrid stroke="hsl(var(--muted-foreground))" strokeOpacity={0.2} />
+                        <PolarAngleAxis dataKey="subject" tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }} />
+                        <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
+                        <Radar name="Deal" dataKey="A" stroke="#06b6d4" fill="#06b6d4" fillOpacity={0.5} />
+                        <Tooltip
+                          contentStyle={{ backgroundColor: 'hsl(var(--popover))', borderColor: 'hsl(var(--border))', color: 'hsl(var(--popover-foreground))' }}
+                          itemStyle={{ color: '#06b6d4' }}
+                        />
                       </RadarChart>
                     </ResponsiveContainer>
                   ) : (
