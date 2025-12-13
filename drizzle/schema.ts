@@ -60,6 +60,10 @@ export const deals = mysqlTable("deals", {
   notes: text("notes"), // Internal notes
   industry: varchar("industry", { length: 100 }),
   location: varchar("location", { length: 255 }),
+  // Phase 19: AI Ingestion & Visual Narratives
+  visualsContext: text("visualsContext"), // JSON: { heroImage, gallery, architectureStyle }
+  narrativeTemplate: mysqlEnum("narrativeTemplate", ["default", "property_value_add", "business_cash_flow", "development_play"]).default("default"),
+  originalSourceUrl: text("originalSourceUrl"),
   userId: int("userId"), // owner of the deal
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),

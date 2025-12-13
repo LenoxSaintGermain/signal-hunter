@@ -15,7 +15,7 @@ import { marketRouter } from "./routes/market";
 import { preferencesRouter } from "./routes/preferences";
 
 export const appRouter = router({
-    // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
+  // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
   system: systemRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
@@ -100,7 +100,7 @@ Provide detailed, actionable advice. If asked to validate information, explain h
 
         const data = await response.json();
         console.log("[AI Chat] Gemini response:", JSON.stringify(data, null, 2));
-        
+
         const aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
         if (!aiResponse) {
@@ -109,7 +109,7 @@ Provide detailed, actionable advice. If asked to validate information, explain h
         }
 
         console.log("[AI Chat] Success, response length:", aiResponse.length);
-        
+
         // Save both user message and AI response to database
         try {
           const db = await getDb();
@@ -181,6 +181,7 @@ Provide detailed, actionable advice. If asked to validate information, explain h
   comments: commentsRouter,
   market: marketRouter,
   preferences: preferencesRouter,
+  ingest: ingestRouter, // Phase 19: AI Ingestion
 
   // V1 Basic Deals Router (kept for backwards compatibility)
   deals: router({
@@ -289,7 +290,7 @@ Respond ONLY with valid JSON, no markdown formatting.`;
         try {
           const response = await fetch(
             "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=" +
-              apiKey,
+            apiKey,
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },
