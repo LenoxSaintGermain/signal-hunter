@@ -1,0 +1,253 @@
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Slider } from "@/components/ui/slider";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import Navigation from "../components/Navigation";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ArrowLeft, Calculator, Download, TrendingUp } from "lucide-react";
+import { Link } from "wouter";
+import {
+    Area,
+    AreaChart,
+    CartesianGrid,
+    ResponsiveContainer,
+    Tooltip,
+    XAxis,
+    YAxis,
+    BarChart,
+    Bar,
+    Legend
+} from "recharts";
+
+export default function FinancialModeler() {
+    const [purchasePrice, setPurchasePrice] = useState(2000000);
+    const [revenue, setRevenue] = useState(500000);
+    const [growthRate, setGrowthRate] = useState(5);
+    const [expenseRatio, setExpenseRatio] = useState(40);
+    const [capRate, setCapRate] = useState(7);
+    const [holdingPeriod, setHoldingPeriod] = useState(5);
+
+    // Calculate Projections
+    const generateProjections = () => {
+        const data = [];
+        let currentRevenue = revenue;
+
+        for (let year = 1; year <= holdingPeriod; year++) {
+            const expenses = currentRevenue * (expenseRatio / 100);
+            const noi = currentRevenue - expenses;
+            const value = noi / (capRate / 100);
+
+            data.push({
+                year: `Year ${year}`,
+                revenue: Math.round(currentRevenue),
+                expenses: Math.round(expenses),
+                noi: Math.round(noi),
+                value: Math.round(value),
+            });
+
+            currentRevenue = currentRevenue * (1 + growthRate / 100);
+        }
+        return data;
+    };
+
+    const projections = generateProjections();
+    const exitValue = projections[projections.length - 1].value;
+    const totalReturn = exitValue - purchasePrice;
+    const roi = (totalReturn / purchasePrice) * 100;
+
+    return (
+        <div className="min-h-screen bg-gray-50 dark:bg-background">
+            <Navigation currentPage="/financial-modeler" />
+
+            <main className="container mx-auto px-4 pt-24 pb-12">
+                <div className="flex items-center justify-between mb-8">
+                    <div>
+                        <Link href="/dashboard">
+                            <Button variant="ghost" size="sm" className="mb-2 -ml-2 text-muted-foreground">
+                                <ArrowLeft className="w-4 h-4 mr-1" />
+                                Back to Dashboard
+                            </Button>
+                        </Link>
+                        <h1 className="text-3xl font-bold flex items-center gap-3">
+                            <Calculator className="w-8 h-8 text-primary" />
+                            Advanced Financial Modeler
+                        </h1>
+                        <p className="text-muted-foreground mt-1">
+                            Construct distinct 5-year pro formas and stress test your assumptions.
+                        </p>
+                    </div>
+                    <Button>
+                        <Download className="w-4 h-4 mr-2" />
+                        Export PDF Report
+                    </Button>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    {/* Controls Panel */}
+                    <Card className="p-6 h-fit lg:col-span-1 space-y-8">
+                        <div>
+                            <h3 className="font-semibold mb-4">Deal Assumptions</h3>
+
+                            <div className="space-y-6">
+                                <div className="space-y-2">
+                                    <Label>Purchase Price</Label>
+                                    <div className="relative">
+                                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
+                                        <Input
+                                            type="number"
+                                            value={purchasePrice}
+                                            onChange={(e) => setPurchasePrice(Number(e.target.value))}
+                                            className="pl-7"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <Label>Year 1 Revenue</Label>
+                                    <div className="relative">
+                                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
+                                        <Input
+                                            type="number"
+                                            value={revenue}
+                                            onChange={(e) => setRevenue(Number(e.target.value))}
+                                            className="pl-7"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="space-y-4">
+                                    <div className="flex justify-between">
+                                        <Label>Annual Growth Rate</Label>
+                                        <span className="text-sm font-medium text-primary">{growthRate}%</span>
+                                    </div>
+                                    <Slider
+                                        value={[growthRate]}
+                                        onValueChange={(val) => setGrowthRate(val[0])}
+                                        min={0}
+                                        max={20}
+                                        step={0.5}
+                                    />
+                                </div>
+
+                                <div className="space-y-4">
+                                    <div className="flex justify-between">
+                                        <Label>Expense Ratio</Label>
+                                        <span className="text-sm font-medium text-destructive">{expenseRatio}%</span>
+                                    </div>
+                                    <Slider
+                                        value={[expenseRatio]}
+                                        onValueChange={(val) => setExpenseRatio(val[0])}
+                                        min={10}
+                                        max={80}
+                                        step={1}
+                                    />
+                                    <p className="text-xs text-muted-foreground">Typical range: 35-50% for commercial assets.</p>
+                                </div>
+
+                                <div className="space-y-4">
+                                    <div className="flex justify-between">
+                                        <Label>Exit Cap Rate</Label>
+                                        <span className="text-sm font-medium text-primary">{capRate}%</span>
+                                    </div>
+                                    <Slider
+                                        value={[capRate]}
+                                        onValueChange={(val) => setCapRate(val[0])}
+                                        min={3}
+                                        max={12}
+                                        step={0.25}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="pt-6 border-t">
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="bg-secondary/30 p-3 rounded-lg">
+                                    <div className="text-xs text-muted-foreground uppercase">Projected ROI</div>
+                                    <div className="text-2xl font-bold text-green-600">+{roi.toFixed(1)}%</div>
+                                </div>
+                                <div className="bg-secondary/30 p-3 rounded-lg">
+                                    <div className="text-xs text-muted-foreground uppercase">Exit Value</div>
+                                    <div className="text-2xl font-bold text-primary">${(exitValue / 1000000).toFixed(1)}M</div>
+                                </div>
+                            </div>
+                        </div>
+                    </Card>
+
+                    {/* Visualization Panel */}
+                    <div className="lg:col-span-2 space-y-6">
+                        <Card className="p-6">
+                            <Tabs defaultValue="cashflow">
+                                <div className="flex items-center justify-between mb-6">
+                                    <h3 className="font-semibold text-lg">Financial Performance</h3>
+                                    <TabsList>
+                                        <TabsTrigger value="cashflow">NOI Growth</TabsTrigger>
+                                        <TabsTrigger value="value">Asset Value</TabsTrigger>
+                                    </TabsList>
+                                </div>
+
+                                <TabsContent value="cashflow" className="h-[400px]">
+                                    <ResponsiveContainer width="100%" height="100%">
+                                        <AreaChart data={projections}>
+                                            <defs>
+                                                <linearGradient id="colorNoi" x1="0" y1="0" x2="0" y2="1">
+                                                    <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
+                                                    <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+                                                </linearGradient>
+                                            </defs>
+                                            <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                                            <XAxis dataKey="year" />
+                                            <YAxis tickFormatter={(val) => `$${val / 1000}k`} />
+                                            <Tooltip formatter={(val: number) => `$${val.toLocaleString()}`} />
+                                            <Area type="monotone" dataKey="noi" stroke="#3b82f6" fillOpacity={1} fill="url(#colorNoi)" name="Net Operating Income" />
+                                            <Area type="monotone" dataKey="revenue" stroke="#10b981" fill="none" strokeDasharray="5 5" name="Gross Revenue" />
+                                        </AreaChart>
+                                    </ResponsiveContainer>
+                                </TabsContent>
+
+                                <TabsContent value="value" className="h-[400px]">
+                                    <ResponsiveContainer width="100%" height="100%">
+                                        <BarChart data={projections}>
+                                            <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                                            <XAxis dataKey="year" />
+                                            <YAxis tickFormatter={(val) => `$${val / 1000000}M`} />
+                                            <Tooltip formatter={(val: number) => `$${val.toLocaleString()}`} />
+                                            <Bar dataKey="value" fill="#8b5cf6" name="Projected Asset Value" radius={[4, 4, 0, 0]} />
+                                        </BarChart>
+                                    </ResponsiveContainer>
+                                </TabsContent>
+                            </Tabs>
+                        </Card>
+
+                        <Card className="p-6">
+                            <h3 className="font-semibold mb-4 text-lg flex items-center gap-2">
+                                <TrendingUp className="w-5 h-5 text-primary" />
+                                Sensitivity Matrix: Exit Value vs Cap Rate
+                            </h3>
+                            <div className="grid grid-cols-5 gap-2 text-center text-sm">
+                                <div className="col-span-1 text-muted-foreground font-medium py-2">Exit Cap</div>
+                                {[capRate - 1, capRate - 0.5, capRate, capRate + 0.5, capRate + 1].map(rate => (
+                                    <div key={rate} className={`font-medium py-2 ${rate === capRate ? 'bg-primary/10 rounded' : ''}`}>
+                                        {rate.toFixed(2)}%
+                                    </div>
+                                ))}
+
+                                <div className="col-span-1 text-muted-foreground font-medium py-2 border-t">Value</div>
+                                {[capRate - 1, capRate - 0.5, capRate, capRate + 0.5, capRate + 1].map(rate => {
+                                    const val = projections[holdingPeriod - 1].noi / (rate / 100);
+                                    return (
+                                        <div key={rate} className={`py-2 border-t ${rate === capRate ? 'bg-primary/10 rounded font-bold text-primary' : ''}`}>
+                                            ${(val / 1000000).toFixed(1)}M
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </Card>
+                    </div>
+                </div>
+            </main>
+        </div>
+    );
+}

@@ -292,6 +292,12 @@ export default function Dashboard() {
               <div className="space-y-6">
                 {filteredOpportunities.map((opp) => {
                   const deal = dealsData?.deals.find(d => DEAL_ID_TO_ROUTE[d.id] === opp.listing_id || `deal-${d.id}` === opp.listing_id);
+                  // Determine correct path: if it's in the special map, use /property/, otherwise use /opportunity/id
+                  const isSpecialDeal = deal && DEAL_ID_TO_ROUTE[deal.id];
+                  const dealLink = isSpecialDeal
+                    ? `/property/${DEAL_ID_TO_ROUTE[deal!.id]}`
+                    : `/opportunity/${deal?.id || opp.listing_id.replace('deal-', '')}`;
+
                   return (
                     <div key={opp.listing_id} className="opportunity-card bg-white border border-border hover:border-primary/50 transition-all rounded-xl overflow-hidden group shadow-sm hover:shadow-md">
                       <div className="flex flex-col md:flex-row md:items-center p-4 md:p-6 gap-4 md:gap-6 relative">
@@ -359,7 +365,7 @@ export default function Dashboard() {
 
                       {/* Action Buttons */}
                       <div className="bg-secondary/30 px-6 py-3 border-t border-border flex items-center justify-between gap-2">
-                        <Link href={`/property/${opp.listing_id}`}>
+                        <Link href={dealLink}>
                           <Button variant="outline" size="sm" className="gap-2">
                             View Details →
                           </Button>

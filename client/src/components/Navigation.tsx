@@ -97,7 +97,7 @@ export default function Navigation({ currentPage }: NavigationProps) {
                 ) : (
                   activeDeals.slice(0, 10).map((deal: any) => (
                     <DropdownMenuItem key={deal.id} asChild>
-                      <Link href={`/deal/${deal.id}`} className="flex flex-col items-start gap-1 cursor-pointer">
+                      <Link href={`/opportunity/${deal.id}`} className="flex flex-col items-start gap-1 cursor-pointer">
                         <span className="font-medium">{deal.name}</span>
                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
                           <span>${(deal.price / 1000000).toFixed(1)}M</span>
@@ -141,7 +141,7 @@ export default function Navigation({ currentPage }: NavigationProps) {
                 ) : (
                   draftDeals.slice(0, 10).map((deal: any) => (
                     <DropdownMenuItem key={deal.id} asChild>
-                      <Link href={`/deal/${deal.id}`} className="flex flex-col items-start gap-1 cursor-pointer">
+                      <Link href={`/opportunity/${deal.id}`} className="flex flex-col items-start gap-1 cursor-pointer">
                         <span className="font-medium">{deal.name}</span>
                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
                           <span>${(deal.price / 1000000).toFixed(1)}M</span>
@@ -201,7 +201,7 @@ export default function Navigation({ currentPage }: NavigationProps) {
                     {activeDeals.slice(0, 5).map((deal: any) => (
                       <Link
                         key={deal.id}
-                        href={`/deal/${deal.id}`}
+                        href={`/opportunity/${deal.id}`}
                         onClick={() => setOpen(false)}
                         className="block py-2 px-2 hover:bg-secondary rounded text-sm"
                       >
@@ -221,7 +221,7 @@ export default function Navigation({ currentPage }: NavigationProps) {
                     {draftDeals.slice(0, 5).map((deal: any) => (
                       <Link
                         key={deal.id}
-                        href={`/deal/${deal.id}`}
+                        href={`/opportunity/${deal.id}`}
                         onClick={() => setOpen(false)}
                         className="block py-2 px-2 hover:bg-secondary rounded text-sm"
                       >

@@ -570,6 +570,99 @@ export const analysisRouter = router({
     }),
 
   /**
+   * Chat with the AI Agent about a specific deal or general questions
+   */
+  chat: publicProcedure
+    .input(z.object({
+      message: z.string(),
+      dealId: z.number().optional(),
+      history: z.array(z.object({
+        role: z.enum(["user", "assistant"]),
+        content: z.string()
+      })).optional()
+    }))
+    .mutation(async ({ input }) => {
+      // 1. Fetch Context (Deal Data) if available
+      let contextData = "";
+      if (input.dealId) {
+        try {
+          const db = await getDb();
+          if (db) {
+            const dealData = await db.select().from(deals).where(eq(deals.id, input.dealId)).limit(1);
+            if (dealData.length > 0) {
+              const d = dealData[0];
+              contextData = `
+Current Deal Context:
+Name: ${d.name}
+Industry: ${d.industry}
+Location: ${d.location}
+Price: $${d.price?.toLocaleString() || 'N/A'}
+Revenue: $${d.revenue?.toLocaleString() || 'N/A'}
+Notes: ${d.notes || 'N/A'}
+AI Score: ${d.score || 'N/A'}/100
+`;
+            }
+          }
+        } catch (dbError) {
+          console.warn("Failed to fetch deal context for agent:", dbError);
+        }
+      }
+
+      const systemPrompt = `You are the Signal Hunter AI Agent, a sophisticated acquisition assistant. 
+Your goal is to help the user evaluate business opportunities.
+${contextData ? contextData : "The user is currently browsing the dashboard."}
+
+Rules:
+- Be concise, professional, and strategic.
+- Focus on financial metrics, risks, and upside.
+- If asking about the current deal, refer to the data provided above.
+- If the user asks to "Analyze" or "Run Report", tell them to click the "Analyze" button on the UI.
+`;
+
+      try {
+        // Use OpenAI/GPT-4 for chat (or Forge if preferred, but easy to wire specific model here)
+        // For the demo sprint, we'll try to use the most available reliable model
+        const { OpenAI } = await import('openai');
+
+        // Check availability (using same logic as analysis tools, prioritizing generic env vars)
+        const apiKey = process.env.OPENAI_API_KEY || process.env.BUILT_IN_FORGE_API_KEY;
+        const baseURL = process.env.OPENAI_API_KEY ? undefined : process.env.BUILT_IN_FORGE_API_URL + '/v1';
+
+        if (!apiKey) {
+          throw new Error("No AI API key available for chat");
+        }
+
+        const openai = new OpenAI({
+          apiKey: apiKey,
+          baseURL: baseURL
+        });
+
+        // Construct messages
+        const messages: any[] = [
+          { role: "system", content: systemPrompt },
+          ...(input.history || []).slice(-10), // Keep last 10 turns for context window
+          { role: "user", content: input.message }
+        ];
+
+        const completion = await openai.chat.completions.create({
+          model: process.env.OPENAI_API_KEY ? "gpt-4o" : "gpt-4-turbo", // Use best reasonable model
+          messages: messages,
+          temperature: 0.7,
+        });
+
+        return {
+          response: completion.choices[0].message.content || "I'm having trouble thinking right now. Please try again."
+        };
+
+      } catch (error: any) {
+        console.error("Agent chat error:", error);
+        return {
+          response: "I encountered an error connecting to my neural core. Please try again in a moment."
+        };
+      }
+    }),
+
+  /**
    * List analysis runs for a deal (placeholder for V2)
    */
   listByDeal: publicProcedure

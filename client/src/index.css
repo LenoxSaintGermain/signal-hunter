@@ -47,47 +47,47 @@
   /* Primary = muted gold accent (used sparingly) */
   --primary: #D4AF37;
   --primary-foreground: #FFFFFF;
-  
+
   /* Backgrounds */
   --background: #FFFFFF;
   --foreground: #1D1D1F;
-  
+
   /* Cards & elevated surfaces */
   --card: #FFFFFF;
   --card-foreground: #1D1D1F;
-  
+
   /* Popovers & dropdowns */
   --popover: #FFFFFF;
   --popover-foreground: #1D1D1F;
-  
+
   /* Secondary surfaces (light gray) */
   --secondary: #F5F5F7;
   --secondary-foreground: #1D1D1F;
-  
+
   /* Muted backgrounds & text */
   --muted: #F5F5F7;
   --muted-foreground: #6E6E73;
-  
+
   /* Accent (gold for highlights) */
   --accent: #D4AF37;
   --accent-foreground: #FFFFFF;
-  
+
   /* Destructive (red for errors) */
   --destructive: #FF3B30;
   --destructive-foreground: #FFFFFF;
-  
+
   /* Borders & dividers */
   --border: #D2D2D7;
   --input: #D2D2D7;
   --ring: #D4AF37;
-  
+
   /* Charts - grayscale with gold accent */
   --chart-1: #1D1D1F;
   --chart-2: #6E6E73;
   --chart-3: #D2D2D7;
   --chart-4: #D4AF37;
   --chart-5: #F5F5F7;
-  
+
   /* Sidebar */
   --sidebar: #FFFFFF;
   --sidebar-foreground: #1D1D1F;
@@ -97,7 +97,7 @@
   --sidebar-accent-foreground: #1D1D1F;
   --sidebar-border: #D2D2D7;
   --sidebar-ring: #D4AF37;
-  
+
   --radius: 12px;
 }
 
@@ -133,20 +133,20 @@
   * {
     @apply border-border outline-ring/50;
   }
-  
+
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
+
   body {
     @apply bg-background text-foreground;
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
     font-feature-settings: 'cv11', 'ss01';
     font-variation-settings: 'opsz' 32;
   }
-  
+
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
   [type="button"]:not(:disabled),
@@ -161,6 +161,7 @@
 }
 
 @layer components {
+
   /**
    * Custom container utility that centers content and adds responsive padding.
    */
@@ -191,7 +192,7 @@
       max-width: 1280px;
     }
   }
-  
+
   /* Apple-inspired typography utilities */
   .text-hero {
     font-size: clamp(3rem, 8vw, 6rem);
@@ -200,7 +201,7 @@
     letter-spacing: -0.02em;
     color: #1D1D1F;
   }
-  
+
   .text-section {
     font-size: clamp(2rem, 5vw, 3.5rem);
     font-weight: 600;
@@ -208,7 +209,7 @@
     letter-spacing: -0.015em;
     color: #1D1D1F;
   }
-  
+
   .text-subsection {
     font-size: clamp(1.5rem, 3vw, 2.5rem);
     font-weight: 600;
@@ -216,7 +217,7 @@
     letter-spacing: -0.01em;
     color: #1D1D1F;
   }
-  
+
   .text-body-large {
     font-size: clamp(1.125rem, 2vw, 1.3125rem);
     font-weight: 400;
@@ -224,14 +225,14 @@
     letter-spacing: -0.005em;
     color: #6E6E73;
   }
-  
+
   .text-body {
     font-size: 1.0625rem;
     font-weight: 400;
     line-height: 1.6;
     color: #1D1D1F;
   }
-  
+
   .text-caption {
     font-size: 0.875rem;
     font-weight: 400;
@@ -239,59 +240,61 @@
     letter-spacing: -0.003em;
     color: #6E6E73;
   }
-  
+
   /* Apple-inspired glass morphism */
   .glass {
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
   }
-  
+
   .dark .glass {
     background: rgba(29, 29, 31, 0.8);
   }
-  
+
   /* Apple-style animations */
   .animate-fade-in {
     animation: fadeIn 0.6s ease-out;
   }
-  
+
   .animate-fade-in-up {
     animation: fadeInUp 0.8s ease-out;
   }
-  
+
   .animation-delay-200 {
     animation-delay: 0.2s;
     opacity: 0;
     animation-fill-mode: forwards;
   }
-  
+
   .animation-delay-400 {
     animation-delay: 0.4s;
     opacity: 0;
     animation-fill-mode: forwards;
   }
-  
+
   @keyframes fadeIn {
     from {
       opacity: 0;
     }
+
     to {
       opacity: 1;
     }
   }
-  
+
   @keyframes fadeInUp {
     from {
       opacity: 0;
       transform: translateY(20px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
     }
   }
-  
+
   /* Apple-style button - primary (black pill) */
   .btn-apple-primary {
     background: #111111;
@@ -303,12 +306,12 @@
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   }
-  
+
   .btn-apple-primary:hover {
     transform: scale(1.02);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
   }
-  
+
   /* Apple-style button - secondary (white bordered pill) */
   .btn-apple-secondary {
     background: #FFFFFF;
@@ -320,22 +323,22 @@
     font-size: 1rem;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  
+
   .btn-apple-secondary:hover {
     background: #F5F5F7;
     transform: scale(1.02);
   }
-  
+
   /* Legacy btn-apple for backward compatibility */
   .btn-apple {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  
+
   .btn-apple:hover {
     transform: translateY(-1px);
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
   }
-  
+
   /* Apple-style metric card */
   .metric-card {
     background: #F5F5F7;
@@ -343,12 +346,12 @@
     padding: 24px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  
+
   .metric-card:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   }
-  
+
   /* Apple-style opportunity card */
   .opportunity-card {
     background: #FFFFFF;
@@ -357,14 +360,14 @@
     padding: 20px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  
+
   .opportunity-card:hover {
     background: #F5F5F7;
     transform: translateY(-2px);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
     cursor: pointer;
   }
-  
+
   /* Score pill */
   .score-pill {
     display: inline-flex;
@@ -376,9 +379,45 @@
     font-weight: 600;
     font-size: 0.875rem;
   }
-  
+
   .score-pill-high {
     background: #D4AF37;
     color: #FFFFFF;
+  }
+
+  /* Markdown Content Styling */
+  .prose {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .prose p {
+    margin-bottom: 0.75em;
+  }
+
+  .prose ul {
+    list-style-type: disc;
+    padding-left: 1.5em;
+    margin-bottom: 0.75em;
+  }
+
+  .prose li {
+    margin-bottom: 0.25em;
+  }
+
+  .prose strong {
+    color: var(--foreground);
+    font-weight: 600;
+  }
+
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4 {
+    color: var(--foreground);
+    font-weight: 600;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
   }
 }

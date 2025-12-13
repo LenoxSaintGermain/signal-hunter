@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRoute, Link } from "wouter";
 import { ArrowLeft, Download, Mail, ExternalLink, Lightbulb, AlertTriangle, TrendingUp, Shield, Sparkles, Loader2, BrainCircuit } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 import AnalysisScoreCard from "@/components/AnalysisScoreCard";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -89,11 +90,9 @@ export default function OpportunityDetail() {
       {/* Header */}
       <div className="pt-20 border-b border-border bg-card">
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-6">
-          <Link href="/dashboard">
-            <a className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-4 transition-colors">
-              <ArrowLeft className="w-4 h-4" />
-              Back to Dashboard
-            </a>
+          <Link href="/dashboard" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-4 transition-colors">
+            <ArrowLeft className="w-4 h-4" />
+            Back to Dashboard
           </Link>
 
           <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
@@ -217,9 +216,9 @@ export default function OpportunityDetail() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <p className="text-sm leading-relaxed text-muted-foreground">
-                      {analysisResult.summary}
-                    </p>
+                    <div className="prose prose-sm max-w-none text-muted-foreground">
+                      <ReactMarkdown>{analysisResult.summary}</ReactMarkdown>
+                    </div>
                     <div>
                       <h4 className="font-semibold mb-2 text-sm">Key Strengths</h4>
                       <ul className="space-y-1">

@@ -13,9 +13,11 @@ import PropertyComparison from "@/pages/PropertyComparison";
 import Property514Whitehall from "./pages/Property514Whitehall";
 import PonceProtocol from "./pages/PonceProtocol";
 import CapitalStack from "./pages/CapitalStack";
+import FinancialModeler from "./pages/FinancialModeler";
 
 import Projections from "./pages/Projections";
 import Settings from "./pages/Settings";
+import AgentAssistant from "./components/AgentAssistant";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -36,8 +38,10 @@ function Router() {
       <Route path={"/deal/:id"} component={OpportunityDetail} />
       <Route path="/property/514-whitehall" component={Property514Whitehall} />
       <Route path="/property/whitehall-assemblage" component={WhitehallAssemblage} />
+      <Route path="/property/whitehall-assemblage" component={WhitehallAssemblage} />
       <Route path="/property/comparison" component={PropertyComparison} />
       <Route path="/property/ponce-protocol" component={PonceProtocol} />
+      <Route path="/financial-modeler" component={FinancialModeler} />
 
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
@@ -60,6 +64,7 @@ function App() {
         <TooltipProvider>
           <Toaster />
           <Router />
+          <AgentAssistant />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>
