@@ -123,7 +123,7 @@ export default function Dashboard() {
     high_score_count: statsData?.highScoreCount || 0,
     avg_score: statsData?.averageScore || 0,
     outreach_sent: statsData?.outreachSent || 0,
-    outreach_replied: 1 // Hardcoded for now
+    outreach_replied: statsData?.outreachReplied || 0,
   };
 
   const filteredOpportunities = opportunities.filter(opp =>

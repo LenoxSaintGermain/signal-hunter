@@ -73,7 +73,7 @@ export const dealsRouter = router({
 
       // Build WHERE conditions
       const conditions = [];
-      
+
       if (search) {
         conditions.push(
           or(
@@ -303,6 +303,7 @@ export const dealsRouter = router({
         highScoreCount: highScore,
         averageScore: avgScore / 100, // Convert to 0-1 scale
         outreachSent: outreach,
+        outreachReplied: responses,
         responseRate: outreach > 0 ? responses / outreach : 0,
       };
     }),
