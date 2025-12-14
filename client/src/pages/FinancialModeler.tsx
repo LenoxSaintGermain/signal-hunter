@@ -8,6 +8,9 @@ import Navigation from "../components/Navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowLeft, Calculator, Download, TrendingUp } from "lucide-react";
 import { Link } from "wouter";
+import { trpc } from "@/lib/trpc";
+import { toast } from "sonner";
+import { Save } from "lucide-react";
 import {
     Area,
     AreaChart,
@@ -107,6 +110,48 @@ export default function FinancialModeler() {
     if (growthRate > 8) growthBadge = "Growth Hacker 📈";
     if (growthRate > 15) growthBadge = "Moonshot 🌕";
 
+    const saveMutation = trpc.projections.save.useMutation({
+        onSuccess: () => {
+            toast.success("Scenario saved to your portfolio!");
+        },
+        onError: (err) => {
+            toast.error("Failed to save scenario: " + err.message);
+        }
+    });
+
+    const handleSave = () => {
+        const results = generateProjections();
+        const lastYear = results[results.length - 1];
+
+        saveMutation.mutate({
+            name: `Scenario ${new Date().toLocaleDateString()} - ${riskProfile}`,
+            assumptions: {
+                dealId: 0, // 0 for scratchpad
+                scenarioType: isAggressive ? "aggressive" : isCashHeavy ? "conservative" : "moderate",
+                currentRevenue: revenue,
+                currentProfit: revenue * (1 - expenseRatio / 100), // Approximate
+                currentCashFlow: revenue * (1 - expenseRatio / 100) * 0.9,
+                currentMargin: 100 - expenseRatio,
+                revenueGrowthRate: growthRate,
+                marginImprovement: 0,
+                fixedCosts: 0,
+                variableCostPercent: expenseRatio,
+                aiAutomationSavings: 0,
+                aiRevenueUplift: 0,
+                opportunityZone: false,
+                effectiveTaxRate: 25
+            },
+            results: results.map((r, i) => ({
+                year: i + 1,
+                revenue: r.revenue,
+                profit: r.noi, // Approximation for this scratchpad view
+                cashFlow: r.cashFlow,
+                margin: r.revenue > 0 ? (r.noi / r.revenue) * 100 : 0,
+                taxSavings: 0
+            }))
+        });
+    };
+
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-background">
             <Navigation currentPage="/financial-modeler" />
@@ -128,10 +173,16 @@ export default function FinancialModeler() {
                             Construct distinct 5-year pro formas and stress test your assumptions.
                         </p>
                     </div>
-                    <Button>
-                        <Download className="w-4 h-4 mr-2" />
-                        Export PDF Report
-                    </Button>
+                    <div className="flex gap-2">
+                        <Button variant="outline" onClick={handleSave} disabled={saveMutation.isPending}>
+                            <Save className="w-4 h-4 mr-2" />
+                            {saveMutation.isPending ? "Saving..." : "Save Scenario"}
+                        </Button>
+                        <Button>
+                            <Download className="w-4 h-4 mr-2" />
+                            Export PDF Report
+                        </Button>
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

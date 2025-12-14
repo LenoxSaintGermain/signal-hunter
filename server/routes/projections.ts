@@ -1,6 +1,9 @@
 import { z } from "zod";
 import { router, protectedProcedure } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
+import { getDb } from "../db";
+import { projections } from "../../drizzle/schema";
+import { eq, desc } from "drizzle-orm";
 
 /**
  * Performance Projections Router for 5-year financial modeling
@@ -14,25 +17,25 @@ import { TRPCError } from "@trpc/server";
 const projectionSchema = z.object({
   dealId: z.number(),
   scenarioType: z.enum(["conservative", "moderate", "aggressive"]),
-  
+
   // Base financials
   currentRevenue: z.number().positive(),
   currentProfit: z.number(),
   currentCashFlow: z.number(),
   currentMargin: z.number().min(0).max(100),
-  
+
   // Growth assumptions
   revenueGrowthRate: z.number().min(-50).max(200), // %
   marginImprovement: z.number().min(-50).max(50).default(0), // basis points per year
-  
+
   // Operating assumptions
   fixedCosts: z.number().default(0),
   variableCostPercent: z.number().min(0).max(100).default(60),
-  
+
   // AI optimization assumptions
   aiAutomationSavings: z.number().min(0).max(100).default(0), // % cost reduction
   aiRevenueUplift: z.number().min(0).max(100).default(0), // % revenue increase
-  
+
   // Tax assumptions
   opportunityZone: z.boolean().default(false),
   effectiveTaxRate: z.number().min(0).max(50).default(25), // %
@@ -77,25 +80,25 @@ function generateProjections(
   taxSavings: number;
 }> {
   const projections = [];
-  
+
   for (let year = 1; year <= 5; year++) {
     // Revenue projection with AI uplift
     const revenue = baseRevenue * Math.pow(1 + (growthRate + aiRevenueUplift) / 100, year);
-    
+
     // Cost structure
     const variableCosts = revenue * (variableCostPercent / 100);
     const adjustedFixedCosts = fixedCosts * (1 - aiAutomationSavings / 100);
     const totalCosts = variableCosts + adjustedFixedCosts;
-    
+
     // Margin improvement
     const margin = Math.min(baseMargin + (marginImprovement * year), 100);
-    
+
     // Profit calculation
     const profit = revenue - totalCosts;
-    
+
     // Cash flow (simplified - profit + depreciation - capex)
     const cashFlow = profit * 0.9; // Assume 90% conversion to cash
-    
+
     // Tax savings from Opportunity Zone
     let taxSavings = 0;
     if (opportunityZone) {
@@ -106,7 +109,7 @@ function generateProjections(
         taxSavings = profit * (effectiveTaxRate / 100) * 0.15; // 15% basis step-up
       }
     }
-    
+
     projections.push({
       year,
       revenue: Math.round(revenue),
@@ -116,7 +119,7 @@ function generateProjections(
       taxSavings: Math.round(taxSavings),
     });
   }
-  
+
   return projections;
 }
 
@@ -132,7 +135,7 @@ export const projectionsRouter = router({
       let marginImprovement = input.marginImprovement;
       let aiSavings = input.aiAutomationSavings;
       let aiUplift = input.aiRevenueUplift;
-      
+
       switch (input.scenarioType) {
         case "conservative":
           growthRate *= 0.5; // 50% of base growth
@@ -150,7 +153,7 @@ export const projectionsRouter = router({
           aiUplift *= 1.2;
           break;
       }
-      
+
       const projections = generateProjections(
         input.currentRevenue,
         input.currentProfit,
@@ -165,17 +168,17 @@ export const projectionsRouter = router({
         input.opportunityZone,
         input.effectiveTaxRate
       );
-      
+
       // Calculate summary metrics
       const totalRevenue = projections.reduce((sum, p) => sum + p.revenue, 0);
       const totalProfit = projections.reduce((sum, p) => sum + p.profit, 0);
       const totalCashFlow = projections.reduce((sum, p) => sum + p.cashFlow, 0);
       const totalTaxSavings = projections.reduce((sum, p) => sum + p.taxSavings, 0);
-      
+
       const avgGrowthRate = projections.length > 1
         ? ((projections[projections.length - 1].revenue / projections[0].revenue) ** (1 / projections.length) - 1) * 100
         : 0;
-      
+
       return {
         success: true,
         scenarioType: input.scenarioType,
@@ -200,18 +203,18 @@ export const projectionsRouter = router({
     .mutation(async ({ input, ctx }) => {
       const scenarios = ["conservative", "moderate", "aggressive"] as const;
       const results: Record<string, any> = {};
-      
+
       // Base growth assumptions
       const baseGrowthRates = {
         conservative: 3,
         moderate: 8,
         aggressive: 15,
       };
-      
+
       for (const scenario of scenarios) {
         const growthRate = baseGrowthRates[scenario];
         const marginImprovement = scenario === "conservative" ? 0.5 : scenario === "moderate" ? 1.0 : 2.0;
-        
+
         const projections = generateProjections(
           input.currentRevenue,
           input.currentProfit,
@@ -226,7 +229,7 @@ export const projectionsRouter = router({
           input.opportunityZone,
           input.effectiveTaxRate
         );
-        
+
         results[scenario] = {
           projections,
           summary: {
@@ -238,11 +241,43 @@ export const projectionsRouter = router({
           },
         };
       }
-      
+
       return {
         success: true,
         scenarios: results,
       };
+    }),
+
+  /**
+   * Save a projection scenario
+   */
+  save: protectedProcedure
+    .input(z.object({
+      dealId: z.number().optional(),
+      name: z.string(),
+      assumptions: projectionSchema, // Reuse the schema as the JSON shape
+      results: z.array(z.object({
+        year: z.number(),
+        revenue: z.number(),
+        profit: z.number(),
+        cashFlow: z.number(),
+        margin: z.number(),
+        taxSavings: z.number(),
+      })),
+    }))
+    .mutation(async ({ input, ctx }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database not available" });
+
+      const result = await db.insert(projections).values({
+        userId: ctx.user.id,
+        dealId: input.dealId,
+        name: input.name,
+        assumptions: JSON.stringify(input.assumptions),
+        results: JSON.stringify(input.results),
+      });
+
+      return { success: true, id: (result as any).insertId };
     }),
 
   /**
@@ -251,10 +286,20 @@ export const projectionsRouter = router({
   listByDeal: protectedProcedure
     .input(z.object({ dealId: z.number() }))
     .query(async ({ input, ctx }) => {
-      // TODO: Implement database storage in V2
-      return {
-        projections: [],
-        message: "Saved projections will be implemented in V2. Use generate/simulate endpoints for real-time calculations.",
-      };
+      const db = await getDb();
+      if (!db) return [];
+
+      const results = await db
+        .select()
+        .from(projections)
+        .where(eq(projections.dealId, input.dealId))
+        .orderBy(desc(projections.createdAt));
+
+      // Parse JSON fields
+      return results.map(p => ({
+        ...p,
+        assumptions: JSON.parse(p.assumptions),
+        results: JSON.parse(p.results || "[]"),
+      }));
     }),
 });

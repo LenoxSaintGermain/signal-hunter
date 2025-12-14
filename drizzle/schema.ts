@@ -104,3 +104,23 @@ export type InsertUserPreference = typeof userPreferences.$inferInsert;
 
 export const insertUserPreferencesSchema = createInsertSchema(userPreferences);
 export const selectUserPreferencesSchema = createSelectSchema(userPreferences);
+
+// Financial Projections / Scenarios
+export const projections = mysqlTable("projections", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  dealId: int("dealId"), // Optional: can be a scratchpad model
+  name: varchar("name", { length: 255 }).notNull(), // e.g. "Conservative Case"
+
+  // Assumptions (Inputs)
+  assumptions: text("assumptions").notNull(), // JSON: { revenue, growthRate, expenseRatio, etc. }
+
+  // Results (Outputs - Cached)
+  results: text("results"), // JSON: Array of year-by-year data
+
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Projection = typeof projections.$inferSelect;
+export type InsertProjection = typeof projections.$inferInsert;
